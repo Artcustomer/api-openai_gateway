@@ -1,0 +1,22 @@
+fos_rest:
+    versioning:
+        enabled: true
+        default_version: v1
+        guessing_order:
+            - media_type
+        resolvers:
+            media_type:
+                enabled: true
+                regex: '/(v|version)=(?P<version>[0-9\.]+)/'
+
+    serializer:
+        serialize_null: true
+
+    view:
+        mime_types:
+            json: ['application/json', 'application/json;version=1.0']
+
+    format_listener:
+        rules:
+            - { path: ^/api, prefer_extension: true, fallback_format: json, priorities: [ json, html ] }
+            - { path: '^/', prefer_extension: true, fallback_format: html, priorities: [ 'html', '*/*'] }

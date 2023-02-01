@@ -1,3 +1,19 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+    prefix: '/api'
+
+main:
+    resource: ../src/Controller/MainController.php
+    type: attribute
+    prefix: '/'
+
+app.swagger_ui:
+    path: /doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+app.swagger:
+    path: /doc.json
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_json }
