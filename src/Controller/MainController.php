@@ -17,22 +17,11 @@ class MainController extends AbstractController {
      * 
      * @return Response
      */
-    public function index(RouterInterface $router): Response {
-        $routes = $router->getRouteCollection()->all();
-        $routeOutput = [];
-
-        array_walk(
-            $routes,
-            function ($item) use (&$routeOutput) {
-                $path = $item->getPath();
-
-                if (0 === strpos($path, '/api')) {
-                    $routeOutput[] = $path;
-                }
-            }
+    public function index(): Response {
+        return $this->render(
+            'home/index.html.twig',
+            []
         );
-
-        return new Response(implode('<br />', $routeOutput));
     }
 
 }
