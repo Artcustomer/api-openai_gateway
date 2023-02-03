@@ -2,8 +2,8 @@
 
 namespace App\ApiConnector\OpenAI\Factory\Decorator;
 
+use Artcustomer\ApiUnit\Http\ApiResponse;
 use App\ApiConnector\OpenAI\Utils\ApiTools;
-use App\Library\Artcustomer\ApiUnit\Http\ApiResponse;
 
 /**
  * @author David

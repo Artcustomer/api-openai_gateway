@@ -2,9 +2,9 @@
 
 namespace App\ApiConnector\OpenAI;
 
-use App\Library\Artcustomer\ApiUnit\Gateway\AbstractApiGateway;
-use App\Library\Artcustomer\ApiUnit\Http\IApiResponse;
-use App\Library\Artcustomer\ApiUnit\Utils\ApiMethodTypes;
+use Artcustomer\ApiUnit\Gateway\AbstractApiGateway;
+use Artcustomer\ApiUnit\Http\IApiResponse;
+use Artcustomer\ApiUnit\Utils\ApiMethodTypes;
 use App\ApiConnector\OpenAI\Client\ApiClient;
 use App\ApiConnector\OpenAI\Http\CompletionRequest;
 use App\ApiConnector\OpenAI\Http\EngineRequest;

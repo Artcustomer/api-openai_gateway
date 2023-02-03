@@ -2,7 +2,7 @@
 
 namespace App\ApiConnector\OpenAI\Client;
 
-use App\Library\Artcustomer\ApiUnit\Client\CurlApiClient;
+use Artcustomer\ApiUnit\Client\CurlApiClient;
 use App\ApiConnector\OpenAI\Utils\ApiInfos;
 use App\ApiConnector\OpenAI\Utils\ApiTools;
 use App\ApiConnector\OpenAI\Http\ApiRequest;

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Library\Artcustomer\ApiUnit\Http\IApiResponse;
+use Artcustomer\ApiUnit\Http\IApiResponse;
 use App\Service\OpenAIService;
 
 /**

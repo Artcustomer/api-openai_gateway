@@ -2,7 +2,7 @@
 
 namespace App\ApiConnector\OpenAI\Http;
 
-use App\Library\Artcustomer\ApiUnit\Http\CurlApiRequest;
+use Artcustomer\ApiUnit\Http\CurlApiRequest;
 
 /**
  * @author David
