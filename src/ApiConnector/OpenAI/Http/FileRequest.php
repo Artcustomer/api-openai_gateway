@@ -26,6 +26,10 @@ class FileRequest extends ApiRequest {
 	 */
 	protected function buildUri(): void {
         $this->uri = sprintf('%s/%s', $this->uriBase, ApiEndpoints::FILES);
+
+        if (!empty($this->endpoint)) {
+            $this->uri = sprintf('%s/%s', $this->uri, $this->endpoint);
+        }
     }
 
     /**

@@ -4,19 +4,36 @@ namespace App\ApiConnector\OpenAI;
 
 use Artcustomer\ApiUnit\Gateway\AbstractApiGateway;
 use Artcustomer\ApiUnit\Http\IApiResponse;
-use Artcustomer\ApiUnit\Utils\ApiMethodTypes;
 use App\ApiConnector\OpenAI\Client\ApiClient;
-use App\ApiConnector\OpenAI\Http\CompletionRequest;
-use App\ApiConnector\OpenAI\Http\EngineRequest;
-use App\ApiConnector\OpenAI\Http\ImageRequest;
-use App\ApiConnector\OpenAI\Http\ModelRequest;
-use App\ApiConnector\OpenAI\Utils\ApiEndpoints;
+use App\ApiConnector\OpenAI\Connector\AudioConnector;
+use App\ApiConnector\OpenAI\Connector\ChatConnector;
+use App\ApiConnector\OpenAI\Connector\CompletionConnector;
+use App\ApiConnector\OpenAI\Connector\EditConnector;
+use App\ApiConnector\OpenAI\Connector\EmbeddingConnector;
+use App\ApiConnector\OpenAI\Connector\EngineConnector;
+use App\ApiConnector\OpenAI\Connector\FileConnector;
+use App\ApiConnector\OpenAI\Connector\FineTuneConnector;
+use App\ApiConnector\OpenAI\Connector\ImageConnector;
+use App\ApiConnector\OpenAI\Connector\ModelConnector;
+use App\ApiConnector\OpenAI\Connector\ModerationConnector;
 use App\ApiConnector\OpenAI\Utils\ApiInfos;
 
 /**
  * @author David
  */
 class OpenAIApiGateway extends AbstractApiGateway {
+
+    private ModelConnector $modelConnector;
+    private CompletionConnector $completionConnector;
+    private ChatConnector $chatConnector;
+    private EditConnector $editConnector;
+    private ImageConnector $imageConnector;
+    private EmbeddingConnector $embeddingConnector;
+    private AudioConnector $audioConnector;
+    private FileConnector $fileConnector;
+    private FineTuneConnector $fineTuneConnector;
+    private ModerationConnector $moderationConnector;
+    private EngineConnector $engineConnector;
 
     private string $apiKey;
     private string $organisation;
@@ -39,6 +56,8 @@ class OpenAIApiGateway extends AbstractApiGateway {
      * @return void
      */
     public function initialize(): void {
+        $this->setupConnectors();
+
         $this->client->initialize();
     }
 
@@ -48,81 +67,101 @@ class OpenAIApiGateway extends AbstractApiGateway {
      * @return IApiResponse
      */
     public function test(): IApiResponse {
-        return $this->getModels();
+        return $this->modelConnector->list();
     }
 
-    public function getModels(): IApiResponse {
-        $data = [
-            'method' => ApiMethodTypes::GET
-        ];
-        $request = $this->client->getRequestFactory()->instantiate(ModelRequest::class, [$data]);
-
-        return $this->client->executeRequest($request);
+    /**
+     * Get ModelConnector instance
+     */
+    public function getModelConnector(): ModelConnector {
+        return $this->modelConnector;
     }
 
-    public function getModel(string $modelId): IApiResponse {
-        $data = [
-            'method' => ApiMethodTypes::GET,
-            'endpoint' => $modelId
-        ];
-        $request = $this->client->getRequestFactory()->instantiate(ModelRequest::class, [$data]);
-
-        return $this->client->executeRequest($request);
+    /**
+     * Get CompletionConnector instance
+     */
+    public function getCompletionConnector(): CompletionConnector {
+        return $this->completionConnector;
     }
 
-    public function getEngines(): IApiResponse {
-        $data = [
-            'method' => ApiMethodTypes::GET
-        ];
-        $request = $this->client->getRequestFactory()->instantiate(EngineRequest::class, [$data]);
-
-        return $this->client->executeRequest($request);
+    /**
+     * Get ChatConnector instance
+     */
+    public function getChatConnector(): ChatConnector {
+        return $this->chatConnector;
     }
 
-    public function getEngine(string $engineId): IApiResponse {
-        $data = [
-            'method' => ApiMethodTypes::GET,
-            'endpoint' => $engineId
-        ];
-        $request = $this->client->getRequestFactory()->instantiate(EngineRequest::class, [$data]);
-
-        return $this->client->executeRequest($request);
+    /**
+     * Get EditConnector instance
+     */
+    public function getEditConnector(): EditConnector {
+        return $this->editConnector;
     }
 
-    public function createCompletion(array $params/*string $model, string|array $prompt, string $suffix = null, int $maxTokens = 16*/): IApiResponse {
-        $body = [
-            'model' => $params['model'],
-            'prompt' => $params['prompt']
-        ];
-        $data = [
-            'method' => ApiMethodTypes::POST,
-            'body' => $body
-        ];
-        $request = $this->client->getRequestFactory()->instantiate(CompletionRequest::class, [$data]);
-
-        return $this->client->executeRequest($request);
+    /**
+     * Get ImageConnector instance
+     */
+    public function getImageConnector(): ImageConnector {
+        return $this->imageConnector;
     }
 
-    public function createImage(string $prompt, int $num = 1, string $size = '1024x1024', string $responseFormat = 'url', string $user = ''): IApiResponse {
-        $body = [
-            'prompt' => $prompt,
-            'n' => $num,
-            'size' => $size,
-            'response_format' => $responseFormat
-        ];
+    /**
+     * Get EmbeddingConnector instance
+     */
+    public function getEmbeddingConnector(): EmbeddingConnector {
+        return $this->embeddingConnector;
+    }
 
-        if (!empty($user)) {
-            $body['user'] = $user;
-        }
+    /**
+     * Get AudioConnector instance
+     */
+    public function getAudioConnector(): AudioConnector {
+        return $this->audioConnector;
+    }
 
-        $data = [
-            'method' => ApiMethodTypes::POST,
-            'endpoint' => ApiEndpoints::GENERATIONS,
-            'body' => $body
-        ];
-        $request = $this->client->getRequestFactory()->instantiate(ImageRequest::class, [$data]);
+    /**
+     * Get FileConnector instance
+     */
+    public function getFileConnector(): FileConnector {
+        return $this->fileConnector;
+    }
 
-        return $this->client->executeRequest($request);
+    /**
+     * Get FineTuneConnector instance
+     */
+    public function getFineTuneConnector(): FineTuneConnector {
+        return $this->fineTuneConnector;
+    }
+
+    /**
+     * Get ModerationConnector instance
+     */
+    public function getModerationConnector(): ModerationConnector {
+        return $this->moderationConnector;
+    }
+
+    /**
+     * Get EngineConnector instance
+     */
+    public function getEngineConnector(): EngineConnector {
+        return $this->engineConnector;
+    }
+
+    /**
+     * Setup connectors
+     */
+    private function setupConnectors(): void {
+        $this->modelConnector = new ModelConnector($this->client);
+        $this->completionConnector = new CompletionConnector($this->client);
+        $this->chatConnector = new ChatConnector($this->client);
+        $this->editConnector = new EditConnector($this->client);
+        $this->imageConnector = new ImageConnector($this->client);
+        $this->embeddingConnector = new EmbeddingConnector($this->client);
+        $this->audioConnector = new AudioConnector($this->client);
+        $this->fileConnector = new FileConnector($this->client);
+        $this->fineTuneConnector = new FineTuneConnector($this->client);
+        $this->moderationConnector = new ModerationConnector($this->client);
+        $this->engineConnector = new EngineConnector($this->client);
     }
 
     /**

@@ -27,13 +27,7 @@ class OpenAIImageController extends AbstractApiController {
             $params = json_decode($content, TRUE);
         }
 
-        $response = $this->openAIService->getApiGateway()->createImage(
-            $params['prompt'] ?? '',
-            $params['n'] ?? 1,
-            $params['size'] ?? '1024x1024',
-            $params['response_format'] ?? 'url',
-            $params['user'] ?? ''
-        );
+        $response = $this->openAIService->getApiGateway()->getImageConnector()->create($params);
 
         return $this->responseProxy($response);
     }
@@ -44,7 +38,14 @@ class OpenAIImageController extends AbstractApiController {
      * @return Response
      */
     public function createEdit(Request $request): Response {
-        $response = $this->openAIService->getApiGateway()->createEdit();
+        $content = $request->getContent();
+        $params = [];
+
+        if (!empty($content)) {
+            $params = json_decode($content, TRUE);
+        }
+
+        $response = $this->openAIService->getApiGateway()->getImageConnector()->createEdit($params);
 
         return $this->responseProxy($response);
     }
@@ -54,8 +55,15 @@ class OpenAIImageController extends AbstractApiController {
      * 
      * @return Response
      */
-    public function createVariation(Request $request): Response {
-        $response = $this->openAIService->getApiGateway()->createVariation();
+    public function createImageVariation(Request $request): Response {
+        $content = $request->getContent();
+        $params = [];
+
+        if (!empty($content)) {
+            $params = json_decode($content, TRUE);
+        }
+        
+        $response = $this->openAIService->getApiGateway()->getImageConnector()->createVariation($params);
 
         return $this->responseProxy($response);
     }

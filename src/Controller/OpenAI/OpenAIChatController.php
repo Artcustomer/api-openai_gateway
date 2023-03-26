@@ -8,18 +8,18 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Controller\AbstractApiController;
 
 /**
- * @Route("/completions")
+ * @Route("/chat")
  * 
  * @author David
  */
-class OpenAICompletionController extends AbstractApiController {
+class OpenAIChatController extends AbstractApiController {
 
     /**
-     * @Route("/create", name="openai_completions_create", methods={"POST"})
+     * @Route("/create_completion", name="openai_chat_createcompletion", methods={"POST"})
      * 
      * @return Response
      */
-    public function create(Request $request): Response {
+    public function createCompletion(Request $request): Response {
         $content = $request->getContent();
         $params = [];
 
@@ -27,7 +27,7 @@ class OpenAICompletionController extends AbstractApiController {
             $params = json_decode($content, TRUE);
         }
 
-        $response = $this->openAIService->getApiGateway()->getCompletionConnector()->create($params);
+        $response = $this->openAIService->getApiGateway()->getChatConnector()->createCompletion($params);
 
         return $this->responseProxy($response);
     }

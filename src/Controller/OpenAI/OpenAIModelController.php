@@ -20,7 +20,7 @@ class OpenAIModelController extends AbstractApiController {
      * @return Response
      */
     public function getAll(Request $request): Response {
-        $response = $this->openAIService->getApiGateway()->getModels();
+        $response = $this->openAIService->getApiGateway()->getModelConnector()->list();
 
         return $this->responseProxy($response);
     }
@@ -31,7 +31,7 @@ class OpenAIModelController extends AbstractApiController {
      * @return Response
      */
     public function getOne(string $modelid, Request $request): Response {
-        $response = $this->openAIService->getApiGateway()->getModel($modelid);
+        $response = $this->openAIService->getApiGateway()->getModelConnector()->get($modelid);
 
         return $this->responseProxy($response);
     }

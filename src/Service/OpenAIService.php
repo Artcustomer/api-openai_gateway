@@ -39,7 +39,7 @@ class OpenAIService {
     /**
      * Get OpenAIApiGateway instance
      * 
-     * @return OpenAIGateway
+     * @return OpenAIApiGateway
      */
     public function getApiGateway(): OpenAIApiGateway {
         return $this->apiGateway;

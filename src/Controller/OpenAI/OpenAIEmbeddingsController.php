@@ -14,4 +14,21 @@ use App\Controller\AbstractApiController;
  */
 class OpenAIEmbeddingsController extends AbstractApiController {
 
+    /**
+     * @Route("/create", name="openai_embeddings_create", methods={"POST"})
+     * 
+     * @return Response
+     */
+    public function create(Request $request): Response {
+        $content = $request->getContent();
+        $params = [];
+
+        if (!empty($content)) {
+            $params = json_decode($content, TRUE);
+        }
+
+        $response = $this->openAIService->getApiGateway()->getEmbeddingConnector()->create($params);
+
+        return $this->responseProxy($response);
+    }
 }

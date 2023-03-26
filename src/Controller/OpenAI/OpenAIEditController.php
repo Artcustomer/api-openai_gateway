@@ -14,4 +14,21 @@ use App\Controller\AbstractApiController;
  */
 class OpenAIEditController extends AbstractApiController {
 
+    /**
+     * @Route("/create", name="openai_edit_create", methods={"POST"})
+     * 
+     * @return Response
+     */
+    public function createCompletion(Request $request): Response {
+        $content = $request->getContent();
+        $params = [];
+
+        if (!empty($content)) {
+            $params = json_decode($content, TRUE);
+        }
+
+        $response = $this->openAIService->getApiGateway()->getEditConnector()->create($params);
+
+        return $this->responseProxy($response);
+    }
 }

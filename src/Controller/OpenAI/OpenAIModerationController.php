@@ -14,4 +14,21 @@ use App\Controller\AbstractApiController;
  */
 class OpenAIModerationController extends AbstractApiController {
 
+    /**
+     * @Route("/create", name="openai_moderations_create", methods={"POST"})
+     * 
+     * @return Response
+     */
+    public function create(Request $request): Response {
+        $content = $request->getContent();
+        $params = [];
+
+        if (!empty($content)) {
+            $params = json_decode($content, TRUE);
+        }
+
+        $response = $this->openAIService->getApiGateway()->getModerationConnector()->create($params);
+
+        return $this->responseProxy($response);
+    }
 }

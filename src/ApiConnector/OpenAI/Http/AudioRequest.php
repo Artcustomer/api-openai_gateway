@@ -7,7 +7,7 @@ use App\ApiConnector\OpenAI\Utils\ApiEndpoints;
 /**
  * @author David
  */
-class FineTunesRequest extends ApiRequest {
+class AudioRequest extends ApiRequest {
 
 
     /**
@@ -25,7 +25,7 @@ class FineTunesRequest extends ApiRequest {
 	 * Build Uri
 	 */
 	protected function buildUri(): void {
-        $this->uri = sprintf('%s/%s', $this->uriBase, ApiEndpoints::FINE_TUNES);
+        $this->uri = sprintf('%s/%s', $this->uriBase, ApiEndpoints::AUDIO);
 
         if (!empty($this->endpoint)) {
             $this->uri = sprintf('%s/%s', $this->uri, $this->endpoint);
