@@ -37,13 +37,15 @@ class OpenAIApiGateway extends AbstractApiGateway {
 
     private string $apiKey;
     private string $organisation;
+    private bool $availability;
 
     /**
      * Constructor
      */
-    public function __construct(string $apiKey, string $organisation) {
+    public function __construct(string $apiKey, string $organisation, bool $availability) {
         $this->apiKey = $apiKey;
         $this->organisation = $organisation;
+        $this->availability = $availability;
 
         $this->defineParams();
 
@@ -177,5 +179,6 @@ class OpenAIApiGateway extends AbstractApiGateway {
         $this->params['version'] = ApiInfos::VERSION;
         $this->params['api_key'] = $this->apiKey;
         $this->params['organisation'] = $this->organisation;
+        $this->params['availability'] = $this->availability;
     }
 }

@@ -1,0 +1,33 @@
+{% extends 'application/base_application.html.twig' %}
+
+{% block title %}Create an image{% endblock %}
+
+{% block applicationPageTitle %}Create an image{% endblock %}
+
+{% block applicationSection %}
+    {% if errorMessage %}
+        <div class="alert alert-dismissible alert-danger">
+            <strong>{{ errorMessage }}</strong>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+
+        {% if imageUrl %}
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <img src="{{ imageUrl }}" class="img-fluid" alt="{{ inputPrompt }}" width="512" height="512" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

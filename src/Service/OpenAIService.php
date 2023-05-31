@@ -15,13 +15,15 @@ class OpenAIService {
 
     private string $apiKey;
     private string $organisation;
+    private bool $availability;
 
     /**
      * Constructor
      */
-    public function __construct(string $apiKey, string $organisation) {
+    public function __construct(string $apiKey, string $organisation, bool $availability) {
         $this->apiKey = $apiKey;
         $this->organisation = $organisation;
+        $this->availability = $availability;
 
         $this->setupApiGateway();
     }
@@ -32,7 +34,7 @@ class OpenAIService {
      * @return void
      */
     private function setupApiGateway(): void {
-        $this->apiGateway = new OpenAIApiGateway($this->apiKey, $this->organisation);
+        $this->apiGateway = new OpenAIApiGateway($this->apiKey, $this->organisation, $this->availability);
         $this->apiGateway->initialize();
     }
 

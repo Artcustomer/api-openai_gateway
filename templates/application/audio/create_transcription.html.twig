@@ -1,0 +1,15 @@
+{% extends 'application/base_application.html.twig' %}
+
+{% block title %}Create an audio transcription{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/application/audio/create_transcription.css') }}">
+{% endblock %}
+
+{% block application_content %}
+    <main>
+        <div>
+            {{ form(form) }}
+        </div>
+    </main>
+{% endblock %}

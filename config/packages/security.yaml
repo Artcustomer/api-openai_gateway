@@ -1,0 +1,46 @@
+security:
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+            algorithm: auto
+            cost: 15
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                provider: all_users
+            logout:
+                path: app_logout
+                target: /
+        api:
+            pattern: ^/api_DISABLED
+            # access_token:
+            #    token_handler: App\Security\AccessTokenHandler
+
+    access_control:
+        - { path: ^/app, roles: ROLE_APP }
+        - { path: ^/api, roles: ROLE_API }
+
+    providers:
+        app_user_provider:
+            id: App\Security\UserProvider
+        backend_users:
+            memory:
+                users:
+                    test: { password: '$2y$15$wV8OMmsJRGBVLEAauSiwteAB1pgpctjtQEaHNYgpIZLdJrWAv5rAK', roles: ['ROLE_APP', 'ROLE_API'] }
+        all_users:
+            chain:
+                providers: ['app_user_provider', 'backend_users']
+
+when@test:
+    security:
+        password_hashers:
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4
+                time_cost: 3
+                memory_cost: 10

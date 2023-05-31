@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ render(controller("App\\Controller\\Application\\Layout\\LayoutController::header")) }}
+    {{ render(controller("App\\Controller\\Application\\Layout\\LayoutController::sidebar")) }}
+
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>{% block applicationPageTitle %}{% endblock %}</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('application_home_index') }}">Home</a></li>
+                </ol>
+            </nav>
+        </div>
+
+        <section class="section">
+            {% block applicationSection %}{% endblock %}
+        </section>
+    </main>
+
+    {{ render(controller("App\\Controller\\Application\\Layout\\LayoutController::footer")) }}
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+{% endblock %}

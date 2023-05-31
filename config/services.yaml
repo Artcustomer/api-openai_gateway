@@ -26,3 +26,7 @@ services:
     App\Service\OpenAIService:
         $apiKey: '%env(OPENAI_API_KEY)%'
         $organisation: '%env(OPENAI_ORGANISATION)%'
+        $availability: '%env(API_AVAILABILITY)%'
+
+    App\EventListener\ResponseListener:
+        tags: [kernel.event_listener]

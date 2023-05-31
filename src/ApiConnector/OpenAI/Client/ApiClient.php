@@ -66,6 +66,13 @@ class ApiClient extends CurlApiClient {
     private function checkParams() {
         $requiredParams = ['protocol', 'host', 'version'];
 
+        if (
+            !isset($this->apiParams['availability']) ||
+            $this->apiParams['availability'] !== true
+        ) {
+            throw new \Exception('API is not available', 500);
+        }
+
         foreach ($requiredParams as $param) {
             if (!isset($this->apiParams[$param])) {
                 $this->isOperational = false;

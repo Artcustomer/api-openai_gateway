@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% set documentation_path = path('app.swagger_ui', [], false) %}
+{% set application_path = path('application_home_index', [], false) %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/main/main.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main>
+        <div class="container">
+            <section class="section min-vh-100 d-flex flex-column align-items-center justify-content-center">
+                <h1 class="display-5 fw-bold">{{ app_name }}</h1>
+                <div class="col-lg-6 mx-auto text-center">
+                    <p class="lead mb-4">{{ app_description }}</p>
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                        <a href="{{ documentation_path }}">
+                            <button type="button" class="btn btn-outline-primary btn-lg px-4 gap-3">API Documentation</button>
+                        </a>
+                        <a href="{{ application_path }}">
+                            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Application</button>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+{% endblock %}
