@@ -7,10 +7,10 @@ namespace App\ApiConnector\OpenAI\Utils;
  */
 class ApiInfos {
 
-    const API_VERSION = '1.0';
-    const API_NAME = 'OpenAI API';
-    const PROTOCOL = 'https://';
-    const HOST = 'api.openai.com';
-    const VERSION = 'v1';
+    public const API_VERSION = '1.0';
+    public const API_NAME = 'OpenAI API';
+    public const PROTOCOL = 'https://';
+    public const HOST = 'api.openai.com';
+    public const VERSION = 'v1';
 
 }

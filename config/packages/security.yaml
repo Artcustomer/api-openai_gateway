@@ -13,6 +13,7 @@ security:
                 login_path: app_login
                 check_path: app_login
                 provider: all_users
+                use_referer: true
             logout:
                 path: app_logout
                 target: /

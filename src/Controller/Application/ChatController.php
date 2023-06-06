@@ -41,20 +41,22 @@ class ChatController extends AbstractController {
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $inputPrompt = $data['prompt'];
-            $inputModel = $data['model'];
 
             $params = [
-                'model' => $inputModel,
+                'model' => $data['model'],
                 'messages' => [
                     [
                         'role' => 'user',
                         'content' => $inputPrompt
                     ]
                 ],
-                'temperature' => 1,
-                'max_tokens' => 250,
-                'top_p' => 1,
-                'n' => 1,
+                'temperature' => $data['temperature'],
+                'top_p' => $data['top_p'],
+                'n' => $data['n'],
+                'max_tokens' => $data['max_tokens'],
+                'presence_penalty' => $data['presence_penalty'],
+                'frequency_penalty' => $data['frequency_penalty'],
+                'user' => $data['user'],
                 'stream' => false
             ];
             $response = $this->openAIService->getApiGateway()->getChatConnector()->createCompletion($params);
