@@ -3,17 +3,17 @@
 namespace App\Factory;
 
 use App\Security\User;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserFactory
 {
 
-    public function create($data): UserInterface
+    public function create($data): User
     {
         $user = new User();
         $user->setPassword('');
 
         if ($data !== null) {
+            $user->setId($data->id);
             $user->setUsername($data->username);
             $user->setPassword($data->password);
             $user->setFirstName($data->firstName);

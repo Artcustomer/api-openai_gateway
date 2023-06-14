@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Factory\UserFactory;
 use App\Security\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -9,6 +10,13 @@ class JsonUserRepository implements IUserRepository
 {
 
     private const FILE = '../data/users.json';
+
+    private UserFactory $userFactory;
+
+    public function __construct(UserFactory $userFactory)
+    {
+        $this->userFactory = $userFactory;
+    }
 
     /**
      * @param $identifier
@@ -20,7 +28,7 @@ class JsonUserRepository implements IUserRepository
         $user = null;
 
         if ($userData !== null) {
-            $user = $this->userFactory($userData);
+            $user = $this->userFactory->create($userData);
         }
 
         return $user;
@@ -31,7 +39,7 @@ class JsonUserRepository implements IUserRepository
      */
     public function createDefaultUser(): UserInterface
     {
-        return $this->userFactory(null);
+        return $this->userFactory->create(null);
     }
 
     /**
@@ -71,27 +79,6 @@ class JsonUserRepository implements IUserRepository
         }
 
         return $content;
-    }
-
-    /**
-     * @param $data
-     * @return User
-     */
-    private function userFactory($data)
-    {
-        $user = new User();
-        $user->setPassword('');
-
-        if ($data !== null) {
-            $user->setUsername($data->username);
-            $user->setPassword($data->password);
-            $user->setFirstName($data->firstName);
-            $user->setLastName($data->lastName);
-            $user->setDescription($data->description);
-            $user->setRoles($data->roles);
-        }
-
-        return $user;
     }
 }
 

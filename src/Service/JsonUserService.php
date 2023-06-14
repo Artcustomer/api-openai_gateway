@@ -23,8 +23,8 @@ class JsonUserService
 
     public function addUser($data): ?UserInterface
     {
-        $fileContent = $this->loadFileContent();
-        $result = null;
+        $fileContent = $this->loadFileContent('id');
+        $user = null;
 
         if ($fileContent !== null) {
             // TODO : validate data
@@ -36,11 +36,11 @@ class JsonUserService
             $data->id = $lastUserId + 1;
             $data->enabled = true;
 
-            $result = $this->userFactory->create($data);
+            $user = $this->userFactory->create($data);
 
-            $hashedPassword = $this->passwordHasher->hashPassword($result, $data->password);
+            $hashedPassword = $this->passwordHasher->hashPassword($user, $data->password);
 
-            $result->setPassword($hashedPassword);
+            $user->setPassword($hashedPassword);
             $data->password = $hashedPassword;
 
             $fileContent[] = $data;
@@ -48,32 +48,40 @@ class JsonUserService
             $this->writeFileContent($fileContent);
         }
 
-        return $result;
+        return $user;
     }
 
     public function removeUser(string $id): bool
     {
-        $user = $this->getUser($id);
+        $fileContent = $this->loadFileContent('id');
+        $user = null;
         $status = false;
 
-        if ($user !== null) {
+        if ($fileContent !== null) {
+            $index = $this->searchByKey($fileContent, 'id', $id);
 
+            if ($index !== null) {
+                unset($fileContent[$index]);
+
+                $this->writeFileContent($fileContent);
+
+                return true;
+            }
         }
 
         return $status;
     }
 
-    public function getUser(string $id): ?UserInterface
+    public function getUser(int $id): ?UserInterface
     {
         $fileContent = $this->loadFileContent();
         $result = null;
 
         if ($fileContent !== null) {
-            foreach ($fileContent as $index => $item) {
-                if ($item->id === (int)$id) {
-                    $result = $this->userFactory->create($item);
-                    break;
-                }
+            $index = $this->searchByKey($fileContent, 'id', $id);
+
+            if ($index !== null) {
+                $result = $this->userFactory->create($fileContent[$index]);
             }
         }
 
@@ -97,8 +105,10 @@ class JsonUserService
         return $result;
     }
 
-    public function hashPassword(string $value): string
+    private function searchByKey($array, $key, $value)
     {
-        return '';
+        $index = array_search($value, array_column($array, $key));
+
+        return $index !== false ? $index : null;
     }
 }
