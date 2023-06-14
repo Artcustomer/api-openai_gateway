@@ -5,7 +5,6 @@ namespace App\Security;
 use App\Repository\IUserRepository;
 use App\Repository\JsonUserRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,6 +15,11 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 
     private IUserRepository $repository;
 
+    /**
+     * Constructor
+     *
+     * @param JsonUserRepository $repository
+     */
     public function __construct(JsonUserRepository $repository)
     {
         $this->repository = $repository;
@@ -28,7 +32,8 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
      * If you're not using these features, you do not need to implement
      * this method.
      *
-     * @throws UserNotFoundException if the user is not found
+     * @param $identifier
+     * @return UserInterface
      */
     public function loadUserByIdentifier($identifier): UserInterface
     {
@@ -42,6 +47,8 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     }
 
     /**
+     * @param $username
+     * @return UserInterface
      * @deprecated since Symfony 5.3, loadUserByIdentifier() is used instead
      */
     public function loadUserByUsername($username): UserInterface
@@ -59,12 +66,12 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
      *
      * If your firewall is "stateless: true" (for a pure API), this
      * method is not called.
+     *
+     * @param UserInterface $user
+     * @return UserInterface
      */
     public function refreshUser(UserInterface $user): UserInterface
     {
-        // Return a User object after making sure its data is "fresh".
-        // Or throw a UsernameNotFoundException if the user no longer exists.
-        
         if (!$user instanceof User) {
             throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
         }
@@ -74,6 +81,9 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 
     /**
      * Tells Symfony to use this provider for this User class.
+     *
+     * @param string $class
+     * @return bool
      */
     public function supportsClass(string $class): bool
     {
@@ -81,7 +91,9 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     }
 
     /**
-     * Upgrades the hashed password of a user, typically for using a better hash algorithm.
+     * @param PasswordAuthenticatedUserInterface $user
+     * @param string $newHashedPassword
+     * @return void
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {

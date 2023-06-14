@@ -2,14 +2,15 @@
 
 namespace App\Service;
 
-use App\ApiConnector\OpenAI\OpenAIApiGateway;
+use Artcustomer\OpenAIClient\OpenAIApiGateway;
 
 /**
  * @author David
- * 
+ *
  * https://beta.openai.com/docs/api-reference/authentication
  */
-class OpenAIService {
+class OpenAIService
+{
 
     private OpenAIApiGateway $apiGateway;
 
@@ -19,8 +20,14 @@ class OpenAIService {
 
     /**
      * Constructor
+     *
+     * @param string $apiKey
+     * @param string $organisation
+     * @param bool $availability
+     * @throws \ReflectionException
      */
-    public function __construct(string $apiKey, string $organisation, bool $availability) {
+    public function __construct(string $apiKey, string $organisation, bool $availability)
+    {
         $this->apiKey = $apiKey;
         $this->organisation = $organisation;
         $this->availability = $availability;
@@ -30,20 +37,23 @@ class OpenAIService {
 
     /**
      * Setup OpenAIApiGateway instance
-     * 
+     *
      * @return void
+     * @throws \ReflectionException
      */
-    private function setupApiGateway(): void {
+    private function setupApiGateway(): void
+    {
         $this->apiGateway = new OpenAIApiGateway($this->apiKey, $this->organisation, $this->availability);
         $this->apiGateway->initialize();
     }
 
     /**
      * Get OpenAIApiGateway instance
-     * 
+     *
      * @return OpenAIApiGateway
      */
-    public function getApiGateway(): OpenAIApiGateway {
+    public function getApiGateway(): OpenAIApiGateway
+    {
         return $this->apiGateway;
     }
 }

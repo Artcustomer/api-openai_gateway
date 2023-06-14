@@ -15,23 +15,29 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author David
  */
-class TextController extends AbstractController {
+class TextController extends AbstractController
+{
 
     protected OpenAIService $openAIService;
 
     /**
      * Constructor
+     *
+     * @param OpenAIService $openAIService
      */
-    public function __construct(OpenAIService $openAIService) {
+    public function __construct(OpenAIService $openAIService)
+    {
         $this->openAIService = $openAIService;
     }
 
     /**
      * @Route("/prompt", name="application_text_prompt", methods={"GET","POST"})
-     * 
+     *
+     * @param Request $request
      * @return Response
      */
-    public function prompt(Request $request): Response {
+    public function prompt(Request $request): Response
+    {
         $form = $this->createForm(TextPromptType::class);
         $form->handleRequest($request);
 
@@ -93,10 +99,12 @@ class TextController extends AbstractController {
 
     /**
      * @Route("/translate", name="application_text_translate", methods={"GET","POST"})
-     * 
+     *
+     * @param Request $request
      * @return Response
      */
-    public function translate(Request $request): Response {
+    public function translate(Request $request): Response
+    {
         $form = $this->createForm(TextTranslateType::class);
         $form->handleRequest($request);
 
@@ -154,5 +162,4 @@ class TextController extends AbstractController {
             ]
         );
     }
-
 }

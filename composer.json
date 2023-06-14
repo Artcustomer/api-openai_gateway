@@ -7,13 +7,17 @@
         {
             "type": "vcs",
             "url": "https://github.com/Artcustomer/apiunit"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/Artcustomer/api-openai_client"
         }
     ],
     "require": {
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "artcustomer/apiunit": "^1.0.0",
+        "artcustomer/openai-api-client": "^1.0.0",
         "doctrine/annotations": "^1.0",
         "friendsofsymfony/rest-bundle": "^3.4",
         "jms/serializer-bundle": "^5.0",

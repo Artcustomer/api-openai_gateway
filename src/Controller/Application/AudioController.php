@@ -14,23 +14,29 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author David
  */
-class AudioController extends AbstractController {
+class AudioController extends AbstractController
+{
 
     protected OpenAIService $openAIService;
 
     /**
      * Constructor
+     *
+     * @param OpenAIService $openAIService
      */
-    public function __construct(OpenAIService $openAIService) {
+    public function __construct(OpenAIService $openAIService)
+    {
         $this->openAIService = $openAIService;
     }
 
     /**
      * @Route("/transcription/create", name="application_audio_create_transcription", methods={"GET","POST"})
-     * 
+     *
+     * @param Request $request
      * @return Response
      */
-    public function createTranscription(Request $request): Response {
+    public function createTranscription(Request $request): Response
+    {
         $form = $this->createForm(AudioCreateTranscriptionType::class);
         $form->handleRequest($request);
 
@@ -74,5 +80,4 @@ class AudioController extends AbstractController {
             ]
         );
     }
-
 }

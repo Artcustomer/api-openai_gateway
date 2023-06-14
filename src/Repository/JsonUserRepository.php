@@ -10,7 +10,12 @@ class JsonUserRepository implements IUserRepository
 
     private const FILE = '../data/users.json';
 
-    public function findOneByIdentifier($identifier) {
+    /**
+     * @param $identifier
+     * @return User|null
+     */
+    public function findOneByIdentifier($identifier)
+    {
         $userData = $this->findUser($identifier);
         $user = null;
 
@@ -21,18 +26,25 @@ class JsonUserRepository implements IUserRepository
         return $user;
     }
 
+    /**
+     * @return UserInterface
+     */
     public function createDefaultUser(): UserInterface
     {
         return $this->userFactory(null);
     }
 
+    /**
+     * @param string $username
+     * @return false|mixed|string|null
+     */
     private function findUser(string $username)
     {
         $fileContent = $this->loadFileContent();
         $result = null;
 
         if ($fileContent !== null) {
-            $results = array_filter($fileContent, function($item) use ($username) {
+            $results = array_filter($fileContent, function ($item) use ($username) {
                 return ($item->username === $username);
             });
 
@@ -44,6 +56,9 @@ class JsonUserRepository implements IUserRepository
         return $result;
     }
 
+    /**
+     * @return false|mixed|string|null
+     */
     private function loadFileContent()
     {
         $content = null;
@@ -58,6 +73,10 @@ class JsonUserRepository implements IUserRepository
         return $content;
     }
 
+    /**
+     * @param $data
+     * @return User
+     */
     private function userFactory($data)
     {
         $user = new User();

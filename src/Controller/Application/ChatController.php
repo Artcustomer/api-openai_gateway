@@ -14,23 +14,29 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author David
  */
-class ChatController extends AbstractController {
+class ChatController extends AbstractController
+{
 
     protected OpenAIService $openAIService;
 
     /**
      * Constructor
+     *
+     * @param OpenAIService $openAIService
      */
-    public function __construct(OpenAIService $openAIService) {
+    public function __construct(OpenAIService $openAIService)
+    {
         $this->openAIService = $openAIService;
     }
 
     /**
      * @Route("/completion/create", name="application_chat_create_completion", methods={"GET","POST"})
-     * 
+     *
+     * @param Request $request
      * @return Response
      */
-    public function createCompletion(Request $request): Response {
+    public function createCompletion(Request $request): Response
+    {
         $form = $this->createForm(ChatCreateCompletionType::class);
         $form->handleRequest($request);
 
@@ -93,18 +99,17 @@ class ChatController extends AbstractController {
 
     /**
      * @Route("/converse", name="application_chat_converse", methods={"GET"})
-     * 
+     *
+     * @param Request $request
      * @return Response
      */
-    public function converse(Request $request): Response {
-
-
+    public function converse(Request $request): Response
+    {
         return $this->render(
             'application/chat/converse.html.twig',
             [
-                
+
             ]
         );
     }
-
 }

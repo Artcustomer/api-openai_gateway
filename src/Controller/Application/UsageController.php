@@ -20,7 +20,8 @@ class UsageController extends AbstractController
      *
      * @param OpenAIService $openAIService
      */
-    public function __construct(OpenAIService $openAIService) {
+    public function __construct(OpenAIService $openAIService)
+    {
         $this->openAIService = $openAIService;
     }
 

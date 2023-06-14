@@ -12,12 +12,16 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class AudioCreateTranscriptionType extends AbstractType
 {
-    
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('prompt', TextType::class)
-            ->add('save', SubmitType::class)
-        ;
+            ->add('save', SubmitType::class);
     }
 }

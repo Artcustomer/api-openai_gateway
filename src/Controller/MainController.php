@@ -9,18 +9,19 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @author David
  */
-class MainController extends AbstractController {
+class MainController extends AbstractController
+{
 
     /**
      * @Route("/", name="main_index", methods={"GET"})
-     * 
+     *
      * @return Response
      */
-    public function index(): Response {
+    public function index(): Response
+    {
         return $this->render(
             'main/index.html.twig',
             []
         );
     }
-
 }

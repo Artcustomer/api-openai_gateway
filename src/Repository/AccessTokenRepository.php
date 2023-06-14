@@ -5,7 +5,12 @@ namespace App\Repository;
 class AccessTokenRepository
 {
 
-    public function findOneByValue(string $accessToken) {
+    /**
+     * @param string $accessToken
+     * @return void
+     */
+    public function findOneByValue(string $accessToken)
+    {
 
     }
 
