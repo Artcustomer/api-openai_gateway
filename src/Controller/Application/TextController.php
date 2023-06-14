@@ -5,7 +5,6 @@ namespace App\Controller\Application;
 use App\Form\Type\TextPromptType;
 use App\Form\Type\TextTranslateType;
 use App\Service\OpenAIService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author David
  */
-class TextController extends AbstractController
+class TextController extends AbstractApplicationController
 {
 
     protected OpenAIService $openAIService;
@@ -38,7 +37,10 @@ class TextController extends AbstractController
      */
     public function prompt(Request $request): Response
     {
-        $form = $this->createForm(TextPromptType::class);
+        $queryParameters = $request->query->all();
+        $formData = $queryParameters;
+
+        $form = $this->createForm(TextPromptType::class, $formData);
         $form->handleRequest($request);
 
         $inputPrompt = '';

@@ -38,6 +38,17 @@ class LayoutController extends AbstractController
      */
     public function sidebar(): Response
     {
+        $navigationData = [
+            'home' => [
+                'title' => 'Home',
+                'icon' => 'bi-grid',
+                'path' => 'application_home_index'
+            ],
+            'chat-nav' => [],
+            'text-nav' => [],
+            'images-nav' => []
+        ];
+
         return $this->render(
             'application/sidebar.html.twig',
             []

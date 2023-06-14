@@ -8,11 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @Route("/usage")
+ * @Route("/tools")
  *
  * @author David
  */
-class UsageController extends AbstractController
+class ToolsController extends AbstractController
 {
 
     protected OpenAIService $openAIService;
@@ -28,14 +28,14 @@ class UsageController extends AbstractController
     }
 
     /**
-     * @Route("/", name="application_usage_index", methods={"GET"})
+     * @Route("/prompts-samples", name="application_tools_promptssamples", methods={"GET"})
      *
      * @return Response
      */
     public function index(): Response
     {
         return $this->render(
-            'application/usage/index.html.twig',
+            'application/tools/prompts_samples.html.twig',
             []
         );
     }
