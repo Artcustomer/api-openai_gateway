@@ -21,22 +21,6 @@ class MainController extends AbstractController
      */
     public function index(JsonUserService $jsonUserService): Response
     {
-        $data = new stdClass();
-        $data->username = 'test';
-        $data->password = 'test';
-        $data->firstName = 'John';
-        $data->lastName = 'Doe';
-        $data->description = 'Test user';
-        $data->roles = ['ROLE_APP'];
-
-        //$result = $jsonUserService->addUser($data);
-        $result = $jsonUserService->removeUser(3);
-        dump($result);
-
-        $all = $jsonUserService->getUsers();
-        dump($all);
-        exit;
-
         return $this->render(
             'main/index.html.twig',
             []
