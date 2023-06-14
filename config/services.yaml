@@ -28,5 +28,8 @@ services:
         $organisation: '%env(OPENAI_ORGANISATION)%'
         $availability: '%env(API_AVAILABILITY)%'
 
+    App\Service\JsonUserService:
+        tags: [app.service]
+
     App\EventListener\ResponseListener:
         tags: [kernel.event_listener]
