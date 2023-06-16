@@ -29,7 +29,7 @@ services:
         $availability: '%env(API_AVAILABILITY)%'
 
     App\Service\JsonUserService:
-        tags: [app.service]
+        $filePath: '%kernel.project_dir%/%env(DATA_USER_JSON_FILE)%'
 
     App\EventListener\ResponseListener:
         tags: [kernel.event_listener]

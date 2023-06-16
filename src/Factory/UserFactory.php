@@ -7,7 +7,11 @@ use App\Security\User;
 class UserFactory
 {
 
-    public function create($data): User
+    /**
+     * @param $data
+     * @return User
+     */
+    public function create(mixed $data): User
     {
         $user = new User();
         $user->setPassword('');

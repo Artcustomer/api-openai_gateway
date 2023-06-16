@@ -9,7 +9,7 @@ interface IUserRepository
      * @param $identifier
      * @return mixed
      */
-    public function findOneByIdentifier($identifier);
+    public function findOneByIdentifier($identifier): mixed;
 
 }
 

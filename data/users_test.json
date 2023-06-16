@@ -1,0 +1,15 @@
+[
+  {
+    "id": 0,
+    "username": "test",
+    "password": "$2y$15$Sas9sJAu30L5R1IAkNSQdeg60lmqNRRcG4qU55iBo5dPBE4..1iPS",
+    "firstName": "John",
+    "lastName": "Doe",
+    "description": "Test user",
+    "roles": [
+      "ROLE_APP",
+      "ROLE_API"
+    ],
+    "enabled": true
+  }
+]

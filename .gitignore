@@ -1,6 +1,8 @@
 /.idea/
 /nbproject/
 
+/data/users_local.json
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php

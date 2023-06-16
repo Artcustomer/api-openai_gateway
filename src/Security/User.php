@@ -25,7 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param int $username
+     * @param int $id
      * @return $this
      */
     public function setId(int $id): self

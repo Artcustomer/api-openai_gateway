@@ -9,6 +9,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            pattern: ^/(app|login|logout)
             form_login:
                 login_path: app_login
                 check_path: app_login
@@ -19,6 +20,7 @@ security:
                 target: /
         api:
             pattern: ^/api_DISABLED
+            security: false
             # access_token:
             #    token_handler: App\Security\AccessTokenHandler
 

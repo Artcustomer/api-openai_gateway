@@ -2,33 +2,36 @@
 
 namespace App\Repository;
 
-use App\Factory\UserFactory;
-use App\Security\User;
+use App\Service\IUserService;
+use App\Service\JsonUserService;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class JsonUserRepository implements IUserRepository
 {
 
-    private const FILE = '../data/users.json';
+    private IUserService $userService;
 
-    private UserFactory $userFactory;
-
-    public function __construct(UserFactory $userFactory)
+    /**
+     * Constructor
+     *
+     * @param JsonUserService $userService
+     */
+    public function __construct(JsonUserService $userService)
     {
-        $this->userFactory = $userFactory;
+        $this->userService = $userService;
     }
 
     /**
      * @param $identifier
-     * @return User|null
+     * @return mixed
      */
-    public function findOneByIdentifier($identifier)
+    public function findOneByIdentifier($identifier): mixed
     {
-        $userData = $this->findUser($identifier);
+        $userData = $this->userService->getUser($identifier, JsonUserService::FIELD_USERNAME);
         $user = null;
 
         if ($userData !== null) {
-            $user = $this->userFactory->create($userData);
+            $user = $this->userService->getFactory()->create($userData);
         }
 
         return $user;
@@ -39,46 +42,7 @@ class JsonUserRepository implements IUserRepository
      */
     public function createDefaultUser(): UserInterface
     {
-        return $this->userFactory->create(null);
-    }
-
-    /**
-     * @param string $username
-     * @return false|mixed|string|null
-     */
-    private function findUser(string $username)
-    {
-        $fileContent = $this->loadFileContent();
-        $result = null;
-
-        if ($fileContent !== null) {
-            $results = array_filter($fileContent, function ($item) use ($username) {
-                return ($item->username === $username);
-            });
-
-            if (!empty($results)) {
-                $result = reset($results);
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * @return false|mixed|string|null
-     */
-    private function loadFileContent()
-    {
-        $content = null;
-
-        try {
-            $content = file_get_contents(self::FILE);
-            $content = json_decode($content);
-        } catch (\Exception $e) {
-
-        }
-
-        return $content;
+        return $this->userService->getFactory()->create(null);
     }
 }
 

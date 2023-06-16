@@ -4,29 +4,47 @@ namespace App\Service;
 
 use App\Factory\UserFactory;
 use App\Trait\JsonUserTrait;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class JsonUserService
+class JsonUserService implements IUserService
 {
 
     use JsonUserTrait;
 
+    public const FIELD_ID = 'id';
+    public const FIELD_USERNAME = 'username';
+
     protected UserFactory $userFactory;
     protected UserPasswordHasherInterface $passwordHasher;
 
-    public function __construct(UserFactory $userFactory, UserPasswordHasherInterface $passwordHasher)
+    /**
+     * Constructor
+     *
+     * @param UserFactory $userFactory
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @param string $filePath
+     */
+    public function __construct(UserFactory $userFactory, UserPasswordHasherInterface $passwordHasher, string $filePath)
     {
         $this->userFactory = $userFactory;
         $this->passwordHasher = $passwordHasher;
+
+        $this->setFilePath($filePath);
     }
 
+    /**
+     * Add user
+     *
+     * @param $data
+     * @return UserInterface|null
+     */
     public function addUser($data): ?UserInterface
     {
         $fileContent = $this->loadFileContent('id');
         $user = null;
 
-        if ($fileContent !== null) {
+        if (!empty($fileContent)) {
             // TODO : validate data
 
             $numUsers = count($fileContent);
@@ -51,13 +69,18 @@ class JsonUserService
         return $user;
     }
 
+    /**
+     * Remove user
+     *
+     * @param string $id
+     * @return bool
+     */
     public function removeUser(string $id): bool
     {
         $fileContent = $this->loadFileContent('id');
-        $user = null;
         $status = false;
 
-        if ($fileContent !== null) {
+        if (!empty($fileContent)) {
             $index = $this->searchByKey($fileContent, 'id', $id);
 
             if ($index !== null) {
@@ -65,35 +88,51 @@ class JsonUserService
 
                 $this->writeFileContent($fileContent);
 
-                return true;
+                $status = true;
             }
         }
 
         return $status;
     }
 
-    public function getUser(int $id): ?UserInterface
+    /**
+     * Get user (id or username)
+     *
+     * @param int|string $value
+     * @param string $field
+     * @return mixed
+     */
+    public function getUser(int|string $value, string $field = self::FIELD_ID): mixed
     {
+        if (!in_array($field, [self::FIELD_ID, self::FIELD_USERNAME])) {
+            return null;
+        }
+
         $fileContent = $this->loadFileContent();
         $result = null;
 
-        if ($fileContent !== null) {
-            $index = $this->searchByKey($fileContent, 'id', $id);
+        if (!empty($fileContent)) {
+            $index = $this->searchByKey($fileContent, $field, $value);
 
             if ($index !== null) {
-                $result = $this->userFactory->create($fileContent[$index]);
+                $result = $fileContent[$index];
             }
         }
 
         return $result;
     }
 
+    /**
+     * Get users
+     *
+     * @return array
+     */
     public function getUsers(): array
     {
         $fileContent = $this->loadFileContent();
         $result = [];
 
-        if ($fileContent !== null) {
+        if (!empty($fileContent)) {
             $result = array_map(
                 function ($item) {
                     return $this->userFactory->create($item);
@@ -105,6 +144,20 @@ class JsonUserService
         return $result;
     }
 
+    /**
+     * @return UserFactory
+     */
+    public function getFactory(): UserFactory
+    {
+        return $this->userFactory;
+    }
+
+    /**
+     * @param $array
+     * @param $key
+     * @param $value
+     * @return int|string|null
+     */
     private function searchByKey($array, $key, $value)
     {
         $index = array_search($value, array_column($array, $key));

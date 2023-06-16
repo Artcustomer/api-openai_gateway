@@ -5,9 +5,15 @@ namespace App\Trait;
 trait JsonUserTrait
 {
 
+    private string $filePath = '';
+
+    /**
+     * @param string|null $sort
+     * @return array|null
+     */
     protected function loadFileContent(string $sort = null): array
     {
-        $content = null;
+        $content = [];
 
         try {
             $content = file_get_contents($this->getFilePath());
@@ -16,7 +22,7 @@ trait JsonUserTrait
             if ($sort !== null) {
                 usort(
                     $content,
-                    function($a, $b) use ($sort) {
+                    function ($a, $b) use ($sort) {
                         if ($a->$sort > $b->$sort) {
                             return 1;
                         } elseif ($a->$sort < $b->$sort) {
@@ -28,12 +34,16 @@ trait JsonUserTrait
                 );
             }
         } catch (\Exception $e) {
-
+            // Log error
         }
 
         return $content;
     }
 
+    /**
+     * @param $content
+     * @return bool
+     */
     protected function writeFileContent($content): bool
     {
         $status = false;
@@ -49,8 +59,20 @@ trait JsonUserTrait
         return $status;
     }
 
+    /**
+     * @param string $filePath
+     * @return void
+     */
+    public function setFilePath(string $filePath): void
+    {
+        $this->filePath = $filePath;
+    }
+
+    /**
+     * @return string
+     */
     private function getFilePath(): string
     {
-        return '../data/users.json';
+        return $this->filePath;
     }
 }
