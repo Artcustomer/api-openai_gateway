@@ -2,13 +2,14 @@
 
 namespace App\Factory;
 
+use App\Security\IApiUser;
 use App\Security\User;
 
 class UserFactory
 {
 
     /**
-     * @param $data
+     * @param mixed $data
      * @return User
      */
     public function create(mixed $data): User
@@ -25,6 +26,13 @@ class UserFactory
             $user->setDescription($data->description);
             $user->setRoles($data->roles);
             $user->setEnabled($data->enabled);
+
+            if (
+                $user instanceof IApiUser &&
+                isset($data->apiToken)
+            ) {
+                $user->setApiToken($data->apiToken);
+            }
         }
 
         return $user;

@@ -19,17 +19,20 @@ security:
                 path: app_logout
                 target: /
         api:
-            pattern: ^/api_DISABLED
-            security: false
-            # access_token:
-            #    token_handler: App\Security\AccessTokenHandler
+            pattern: ^/api
+            security: true
+            provider: base_user_provider
+            access_token:
+                token_handler: App\Security\AccessTokenHandler
+                token_extractors:
+                    - 'header'
 
     access_control:
         - { path: ^/app, roles: ROLE_APP }
         - { path: ^/api, roles: ROLE_API }
 
     providers:
-        app_user_provider:
+        base_user_provider:
             id: App\Security\UserProvider
         backend_users:
             memory:
@@ -37,7 +40,7 @@ security:
                     test: { password: '$2y$15$wV8OMmsJRGBVLEAauSiwteAB1pgpctjtQEaHNYgpIZLdJrWAv5rAK', roles: ['ROLE_APP', 'ROLE_API'] }
         all_users:
             chain:
-                providers: ['app_user_provider', 'backend_users']
+                providers: ['base_user_provider', 'backend_users']
 
 when@test:
     security:

@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Repository\AccessTokenRepository;
+use App\Repository\JsonAccessTokenRepository;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
@@ -10,15 +10,16 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 class AccessTokenHandler implements AccessTokenHandlerInterface
 {
 
-    private AccessTokenRepository $repository;
+    private JsonAccessTokenRepository $repository;
 
     /**
      * Constructor
      *
-     * @param AccessTokenRepository $repository
+     * @param JsonAccessTokenRepository $repository
      */
-    public function __construct(AccessTokenRepository $repository)
+    public function __construct(JsonAccessTokenRepository $repository)
     {
+        $this->repository = $repository;
     }
 
     /**
@@ -27,12 +28,12 @@ class AccessTokenHandler implements AccessTokenHandlerInterface
      */
     public function getUserBadgeFrom(string $accessToken): UserBadge
     {
-        $accessToken = $this->repository->findOneByValue($accessToken);
+        $user = $this->repository->findOneByIdentifier($accessToken);
 
-        if (null === $accessToken || !$accessToken->isValid()) {
+        if (null === $user || !$user->getEnabled()) {
             throw new BadCredentialsException('Invalid credentials.');
         }
 
-        return new UserBadge($accessToken->getUserId());
+        return new UserBadge($user->getUsername());
     }
 }

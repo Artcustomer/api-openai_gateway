@@ -2,11 +2,15 @@
 
 namespace App\Security;
 
+use App\Trait\ApiUserTrait;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, IApiUser
 {
+
+    use ApiUserTrait;
+
     private int $id;
     private string $username;
     private string $password;

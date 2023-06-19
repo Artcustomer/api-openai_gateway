@@ -3,17 +3,18 @@
 namespace App\Service;
 
 use App\Factory\UserFactory;
-use App\Trait\JsonUserTrait;
+use App\Trait\JsonUserStorageTrait;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class JsonUserService implements IUserService
 {
 
-    use JsonUserTrait;
+    use JsonUserStorageTrait;
 
     public const FIELD_ID = 'id';
     public const FIELD_USERNAME = 'username';
+    public const FIELD_API_TOKEN = 'apiToken';
 
     protected UserFactory $userFactory;
     protected UserPasswordHasherInterface $passwordHasher;
@@ -96,7 +97,7 @@ class JsonUserService implements IUserService
     }
 
     /**
-     * Get user (id or username)
+     * Get user (id, username, apiToken)
      *
      * @param int|string $value
      * @param string $field
@@ -104,7 +105,7 @@ class JsonUserService implements IUserService
      */
     public function getUser(int|string $value, string $field = self::FIELD_ID): mixed
     {
-        if (!in_array($field, [self::FIELD_ID, self::FIELD_USERNAME])) {
+        if (!in_array($field, [self::FIELD_ID, self::FIELD_USERNAME, self::FIELD_API_TOKEN])) {
             return null;
         }
 

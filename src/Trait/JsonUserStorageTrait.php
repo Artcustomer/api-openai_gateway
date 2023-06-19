@@ -2,14 +2,14 @@
 
 namespace App\Trait;
 
-trait JsonUserTrait
+trait JsonUserStorageTrait
 {
 
     private string $filePath = '';
 
     /**
      * @param string|null $sort
-     * @return array|null
+     * @return array
      */
     protected function loadFileContent(string $sort = null): array
     {
