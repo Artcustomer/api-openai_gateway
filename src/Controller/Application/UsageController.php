@@ -3,7 +3,6 @@
 namespace App\Controller\Application;
 
 use App\Service\OpenAIService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author David
  */
-class UsageController extends AbstractController
+class UsageController extends AbstractApplicationController
 {
 
     protected OpenAIService $openAIService;

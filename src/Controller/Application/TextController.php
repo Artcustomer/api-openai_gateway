@@ -37,10 +37,10 @@ class TextController extends AbstractApplicationController
      */
     public function prompt(Request $request): Response
     {
-        $queryParameters = $request->query->all();
-        $formData = $queryParameters;
+        $formData = $this->cleanQueryParameters($request, TextPromptType::FIELD_NAMES);
+        $options = ['data' => $formData];
 
-        $form = $this->createForm(TextPromptType::class, $formData);
+        $form = $this->createForm(TextPromptType::class, null, $options);
         $form->handleRequest($request);
 
         $inputPrompt = '';
@@ -107,7 +107,10 @@ class TextController extends AbstractApplicationController
      */
     public function translate(Request $request): Response
     {
-        $form = $this->createForm(TextTranslateType::class);
+        $formData = $this->cleanQueryParameters($request, TextTranslateType::FIELD_NAMES);
+        $options = ['data' => $formData];
+
+        $form = $this->createForm(TextTranslateType::class, null, $options);
         $form->handleRequest($request);
 
         $inputPrompt = '';

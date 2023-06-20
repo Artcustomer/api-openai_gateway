@@ -3,7 +3,7 @@
 namespace App\Form\Type;
 
 use Artcustomer\OpenAIClient\Enum\Model;
-use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -16,232 +16,272 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * @author David
  */
-class TextPromptType extends AbstractType
+class TextPromptType extends AbstractExtendedType
 {
+
+    public const FIELD_PROMPT = 'prompt';
+    public const FIELD_MODEL = 'model';
+    public const FIELD_SUFFIX = 'suffix';
+    public const FIELD_MAX_TOKENS = 'max_tokens';
+    public const FIELD_TEMPERATURE = 'temperature';
+    public const FIELD_TOP_P = 'top_p';
+    public const FIELD_N = 'n';
+    public const FIELD_ECHO = 'echo';
+    public const FIELD_PRESENCE_PENALTY = 'presence_penalty';
+    public const FIELD_FREQUENCY_PENALTY = 'frequency_penalty';
+    public const FIELD_BEST_OF = 'best_of';
+    public const FIELD_USER = 'user';
+
+    public const FIELD_NAMES = [
+        self::FIELD_PROMPT,
+        self::FIELD_MODEL,
+        self::FIELD_SUFFIX,
+        self::FIELD_MAX_TOKENS,
+        self::FIELD_TEMPERATURE,
+        self::FIELD_TOP_P,
+        self::FIELD_N,
+        self::FIELD_ECHO,
+        self::FIELD_PRESENCE_PENALTY,
+        self::FIELD_FREQUENCY_PENALTY,
+        self::FIELD_BEST_OF,
+        self::FIELD_USER
+    ];
 
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
-     * @return void
+     * @return array
      */
+    protected function buildFields(FormBuilderInterface $builder, array $options): array
+    {
+        $fields = [];
+        $fields[self::FIELD_PROMPT] = [
+            'type' => TextareaType::class,
+            'options' => [
+                'label' => 'Prompt',
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ]
+            ],
+        ];
+        $fields[self::FIELD_MODEL] = [
+            'type' => ChoiceType::class,
+            'options' => [
+                'label' => 'Model',
+                'choices' => [
+                    'Ada 001' => Model::TEXT_ADA_001,
+                    'Babbage 001' => Model::TEXT_BABBAGE_001,
+                    'Curie 001' => Model::TEXT_CURIE_001,
+                    'Davinci 002' => Model::TEXT_DAVINCI_002,
+                    'Davinci 003' => Model::TEXT_DAVINCI_003
+                ],
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+            ],
+        ];
+        $fields[self::FIELD_SUFFIX] = [
+            'type' => TextType::class,
+            'options' => [
+                'label' => 'Suffix',
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'required' => false
+            ],
+        ];
+        $fields[self::FIELD_MAX_TOKENS] = [
+            'type' => IntegerType::class,
+            'options' => [
+                'label' => 'Maximum number of tokens',
+                'attr' => [
+                    'class' => 'form-control mt-1',
+                    'min' => 1,
+                    'max' => 1024,
+                    'step' => 1,
+                    'pattern' => "\d*"
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => 256
+            ],
+        ];
+        $fields[self::FIELD_TEMPERATURE] = [
+            'type' => NumberType::class,
+            'options' => [
+                'label' => 'Sampling temperature',
+                'attr' => [
+                    'class' => 'form-control mt-1',
+                    'min' => 0,
+                    'max' => 2,
+                    'step' => 0.1,
+                    'pattern' => "\d*"
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => 1
+            ]
+        ];
+        $fields[self::FIELD_TOP_P] = [
+            'type' => NumberType::class,
+            'options' => [
+                'label' => 'Nucleus sampling',
+                'attr' => [
+                    'class' => 'form-control mt-1',
+                    'min' => 0,
+                    'max' => 2,
+                    'step' => 0.1,
+                    'pattern' => "\d*"
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => 1
+            ]
+        ];
+        $fields[self::FIELD_N] = [
+            'type' => IntegerType::class,
+            'options' => [
+                'label' => 'Number of completions',
+                'attr' => [
+                    'class' => 'form-control mt-1',
+                    'min' => 1,
+                    'max' => 100,
+                    'step' => 1,
+                    'pattern' => "\d*"
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => 1
+            ]
+        ];
+        $fields[self::FIELD_ECHO] = [
+            'type' => CheckboxType::class,
+            'options' => [
+                'label' => 'Echo back',
+                'attr' => [
+                    'class' => 'form-check-input mt-1'
+                ],
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+                'row_attr' => [
+                    'class' => 'form-check mb-3'
+                ],
+                'required' => false
+            ]
+        ];
+        $fields[self::FIELD_PRESENCE_PENALTY] = [
+            'type' => NumberType::class,
+            'options' => [
+                'label' => 'Presence penalty',
+                'attr' => [
+                    'class' => 'form-control mt-1',
+                    'min' => -2,
+                    'max' => 2,
+                    'step' => 0.1,
+                    'pattern' => "\d*"
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => 0
+            ]
+        ];
+        $fields[self::FIELD_FREQUENCY_PENALTY] = [
+            'type' => NumberType::class,
+            'options' => [
+                'label' => 'Frequency penalty',
+                'attr' => [
+                    'class' => 'form-control mt-1',
+                    'min' => -2,
+                    'max' => 2,
+                    'step' => 0.1,
+                    'pattern' => "\d*"
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => 0
+            ]
+        ];
+        $fields[self::FIELD_BEST_OF] = [
+            'type' => IntegerType::class,
+            'options' => [
+                'label' => 'Best of completions',
+                'attr' => [
+                    'class' => 'form-control mt-1',
+                    'min' => 1,
+                    'max' => 100,
+                    'step' => 1,
+                    'pattern' => "\d*"
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => 1
+            ]
+        ];
+        $fields[self::FIELD_USER] = [
+            'type' => TextType::class,
+            'options' => [
+                'label' => 'User',
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => '',
+                'empty_data' => '',
+                'required' => false
+            ]
+        ];
+        $fields[self::FIELD_SAVE] = [
+            'type' => SubmitType::class,
+            'options' => [
+                'label' => 'Submit',
+                'attr' => [
+                    'class' => 'btn btn-outline-primary'
+                ]
+            ]
+        ];
+
+        return $fields;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add(
-                'prompt',
-                TextareaType::class,
-                [
-                    'label' => 'Prompt',
-                    'attr' => [
-                        'class' => 'form-control mt-1'
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ]
-                ]
+        parent::buildForm($builder, $options);
+
+        $builder->get(self::FIELD_ECHO)->addModelTransformer(
+            new CallbackTransformer(
+                function ($data) {
+                    if (
+                        is_string($data) &&
+                        in_array($data, ['1', 'true'])
+                    ) {
+                        return true;
+                    }
+
+                    return false;
+                },
+                function ($data) {
+                    return $data;
+                }
             )
-            ->add(
-                'model',
-                ChoiceType::class,
-                [
-                    'label' => 'Model',
-                    'choices' => [
-                        'Ada 001' => Model::TEXT_ADA_001,
-                        'Babbage 001' => Model::TEXT_BABBAGE_001,
-                        'Curie 001' => Model::TEXT_CURIE_001,
-                        'Davinci 002' => Model::TEXT_DAVINCI_002,
-                        'Davinci 003' => Model::TEXT_DAVINCI_003
-                    ],
-                    'attr' => [
-                        'class' => 'form-control mt-1'
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ],
-                ]
-            )
-            ->add(
-                'suffix',
-                TextType::class,
-                [
-                    'label' => 'Suffix',
-                    'attr' => [
-                        'class' => 'form-control mt-1'
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ],
-                    'required' => false
-                ]
-            )
-            ->add(
-                'max_tokens',
-                IntegerType::class,
-                [
-                    'label' => 'Maximum number of tokens',
-                    'attr' => [
-                        'class' => 'form-control mt-1',
-                        'min' => 1,
-                        'max' => 1024,
-                        'step' => 1,
-                        'pattern' => "\d*"
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ],
-                    'data' => 256
-                ]
-            )
-            ->add(
-                'temperature',
-                NumberType::class,
-                [
-                    'label' => 'Sampling temperature',
-                    'attr' => [
-                        'class' => 'form-control mt-1',
-                        'min' => 0,
-                        'max' => 2,
-                        'step' => 0.1,
-                        'pattern' => "\d*"
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ],
-                    'data' => 1
-                ]
-            )
-            ->add(
-                'top_p',
-                NumberType::class,
-                [
-                    'label' => 'Nucleus sampling',
-                    'attr' => [
-                        'class' => 'form-control mt-1',
-                        'min' => 0,
-                        'max' => 2,
-                        'step' => 0.1,
-                        'pattern' => "\d*"
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ],
-                    'data' => 1
-                ]
-            )
-            ->add(
-                'n',
-                IntegerType::class,
-                [
-                    'label' => 'Number of completions',
-                    'attr' => [
-                        'class' => 'form-control mt-1',
-                        'min' => 1,
-                        'max' => 100,
-                        'step' => 1,
-                        'pattern' => "\d*"
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ],
-                    'data' => 1
-                ]
-            )
-            ->add(
-                'echo',
-                CheckboxType::class,
-                [
-                    'label' => 'Echo back',
-                    'attr' => [
-                        'class' => 'form-check-input mt-1'
-                    ],
-                    'label_attr' => [
-                        'class' => 'form-check-label'
-                    ],
-                    'row_attr' => [
-                        'class' => 'form-check mb-3'
-                    ],
-                    'required' => false
-                ]
-            )
-            ->add(
-                'presence_penalty',
-                NumberType::class,
-                [
-                    'label' => 'Presence penalty',
-                    'attr' => [
-                        'class' => 'form-control mt-1',
-                        'min' => -2,
-                        'max' => 2,
-                        'step' => 0.1,
-                        'pattern' => "\d*"
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ],
-                    'data' => 0
-                ]
-            )
-            ->add(
-                'frequency_penalty',
-                NumberType::class,
-                [
-                    'label' => 'Frequency penalty',
-                    'attr' => [
-                        'class' => 'form-control mt-1',
-                        'min' => -2,
-                        'max' => 2,
-                        'step' => 0.1,
-                        'pattern' => "\d*"
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ],
-                    'data' => 0
-                ]
-            )
-            ->add(
-                'best_of',
-                IntegerType::class,
-                [
-                    'label' => 'Best of completions',
-                    'attr' => [
-                        'class' => 'form-control mt-1',
-                        'min' => 1,
-                        'max' => 100,
-                        'step' => 1,
-                        'pattern' => "\d*"
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ],
-                    'data' => 1
-                ]
-            )
-            ->add(
-                'user',
-                TextType::class,
-                [
-                    'label' => 'User',
-                    'attr' => [
-                        'class' => 'form-control mt-1'
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ],
-                    'data' => '',
-                    'empty_data' => '',
-                    'required' => false
-                ]
-            )
-            ->add(
-                'save',
-                SubmitType::class,
-                [
-                    'label' => 'Submit',
-                    'attr' => [
-                        'class' => 'btn btn-outline-primary'
-                    ]
-                ]
-            );
+        );
     }
 }

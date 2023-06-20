@@ -4,7 +4,6 @@ namespace App\Controller\Application;
 
 use App\Form\Type\AudioCreateTranscriptionType;
 use App\Service\OpenAIService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author David
  */
-class AudioController extends AbstractController
+class AudioController extends AbstractApplicationController
 {
 
     protected OpenAIService $openAIService;
@@ -37,7 +36,10 @@ class AudioController extends AbstractController
      */
     public function createTranscription(Request $request): Response
     {
-        $form = $this->createForm(AudioCreateTranscriptionType::class);
+        $formData = $this->cleanQueryParameters($request, AudioCreateTranscriptionType::FIELD_NAMES);
+        $options = ['data' => $formData];
+
+        $form = $this->createForm(AudioCreateTranscriptionType::class, null, $options);
         $form->handleRequest($request);
 
         $errorMessage = '';

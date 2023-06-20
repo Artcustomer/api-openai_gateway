@@ -3,7 +3,6 @@
 namespace App\Form\Type;
 
 use Artcustomer\OpenAIClient\Enum\ImageSize;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -13,78 +12,85 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * @author David
  */
-class ImageCreateType extends AbstractType
+class ImageCreateType extends AbstractExtendedType
 {
+
+    public const FIELD_PROMPT = 'prompt';
+    public const FIELD_SIZE = 'size';
+    public const FIELD_NUMBER = 'number';
+
+    public const FIELD_NAMES = [
+        self::FIELD_PROMPT,
+        self::FIELD_SIZE,
+        self::FIELD_NUMBER
+    ];
+
+    public const IMAGE_SIZES = [
+        ImageSize::SQUARE_256 => ImageSize::SQUARE_256,
+        ImageSize::SQUARE_512 => ImageSize::SQUARE_512,
+        ImageSize::SQUARE_1024 => ImageSize::SQUARE_1024
+    ];
 
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
-     * @return void
+     * @return array
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    protected function buildFields(FormBuilderInterface $builder, array $options): array
     {
-        $imageSizes = [
-            ImageSize::SQUARE_256 => ImageSize::SQUARE_256,
-            ImageSize::SQUARE_512 => ImageSize::SQUARE_512,
-            ImageSize::SQUARE_1024 => ImageSize::SQUARE_1024
+        $fields = [];
+        $fields[self::FIELD_PROMPT] = [
+            'type' => TextType::class,
+            'options' => [
+                'label' => 'Prompt',
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ]
+            ]
+        ];
+        $fields[self::FIELD_SIZE] = [
+            'type' => ChoiceType::class,
+            'options' => [
+                'label' => 'Size',
+                'choices' => self::IMAGE_SIZES,
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ]
+            ]
+        ];
+        $fields[self::FIELD_NUMBER] = [
+            'type' => IntegerType::class,
+            'options' => [
+                'label' => 'Number of images',
+                'attr' => [
+                    'class' => 'form-control mt-1',
+                    'min' => 1,
+                    'max' => 10,
+                    'step' => 1,
+                    'pattern' => "\d*"
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => 1
+            ]
+        ];
+        $fields[self::FIELD_SAVE] = [
+            'type' => SubmitType::class,
+            'options' => [
+                'label' => 'Submit',
+                'attr' => [
+                    'class' => 'btn btn-outline-primary'
+                ]
+            ]
         ];
 
-        $builder
-            ->add(
-                'prompt',
-                TextType::class,
-                [
-                    'label' => 'Prompt',
-                    'attr' => [
-                        'class' => 'form-control mt-1'
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ]
-                ]
-            )
-            ->add(
-                'size',
-                ChoiceType::class,
-                [
-                    'label' => 'Size',
-                    'choices' => $imageSizes,
-                    'attr' => [
-                        'class' => 'form-control mt-1'
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ],
-                    'data' => 'english'
-                ]
-            )
-            ->add(
-                'number',
-                IntegerType::class,
-                [
-                    'label' => 'Number of images',
-                    'attr' => [
-                        'class' => 'form-control mt-1',
-                        'min' => 1,
-                        'max' => 10,
-                        'step' => 1,
-                        'pattern' => "\d*"
-                    ],
-                    'row_attr' => [
-                        'class' => 'mb-3'
-                    ],
-                    'data' => 1
-                ]
-            )
-            ->add(
-                'save',
-                SubmitType::class,
-                [
-                    'label' => 'Submit',
-                    'attr' => [
-                        'class' => 'btn btn-outline-primary'
-                    ]
-                ]
-            );
+        return $fields;
     }
 }

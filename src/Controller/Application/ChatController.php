@@ -4,7 +4,6 @@ namespace App\Controller\Application;
 
 use App\Form\Type\ChatCreateCompletionType;
 use App\Service\OpenAIService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author David
  */
-class ChatController extends AbstractController
+class ChatController extends AbstractApplicationController
 {
 
     protected OpenAIService $openAIService;
@@ -37,7 +36,10 @@ class ChatController extends AbstractController
      */
     public function createCompletion(Request $request): Response
     {
-        $form = $this->createForm(ChatCreateCompletionType::class);
+        $formData = $this->cleanQueryParameters($request, ChatCreateCompletionType::FIELD_NAMES);
+        $options = ['data' => $formData];
+
+        $form = $this->createForm(ChatCreateCompletionType::class, null, $options);
         $form->handleRequest($request);
 
         $inputPrompt = '';

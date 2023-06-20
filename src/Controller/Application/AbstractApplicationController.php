@@ -3,8 +3,7 @@
 namespace App\Controller\Application;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author David
@@ -13,10 +12,22 @@ abstract class AbstractApplicationController extends AbstractController
 {
 
     /**
-     * Constructor
+     * @param Request $request
+     * @param array $fieldNames
+     * @return array
      */
-    public function __construct()
+    public function cleanQueryParameters(Request $request, array $fieldNames)
     {
-        
+        $parameters = $request->query->all();
+        $keys = array_keys($parameters);
+        $allowedKeys = array_intersect($keys, $fieldNames);
+
+        return array_filter(
+            $parameters,
+            function ($item) use ($allowedKeys) {
+                return in_array($item, $allowedKeys);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
     }
 }

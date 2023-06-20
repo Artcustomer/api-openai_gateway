@@ -5,7 +5,6 @@ namespace App\Controller\Application;
 use App\Form\Type\ImageCreateType;
 use App\Service\OpenAIService;
 use Artcustomer\OpenAIClient\Enum\ResponseFormat;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author David
  */
-class ImageController extends AbstractController
+class ImageController extends AbstractApplicationController
 {
 
     protected OpenAIService $openAIService;
@@ -38,7 +37,10 @@ class ImageController extends AbstractController
      */
     public function create(Request $request): Response
     {
-        $form = $this->createForm(ImageCreateType::class);
+        $formData = $this->cleanQueryParameters($request, ImageCreateType::FIELD_NAMES);
+        $options = ['data' => $formData];
+
+        $form = $this->createForm(ImageCreateType::class, null, $options);
         $form->handleRequest($request);
 
         $inputPrompt = '';
