@@ -2,11 +2,12 @@
 
 namespace App\Security;
 
+use App\Entity\AbstractEntity;
 use App\Trait\ApiUserTrait;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements UserInterface, PasswordAuthenticatedUserInterface, IApiUser
+class User extends AbstractEntity implements UserInterface, PasswordAuthenticatedUserInterface, IApiUser
 {
 
     use ApiUserTrait;
@@ -197,5 +198,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IApiUse
     public function eraseCredentials()
     {
 
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'username' => $this->username,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'description' => $this->description,
+            'roles' => $this->roles,
+            'enabled' => $this->enabled,
+        ];
     }
 }

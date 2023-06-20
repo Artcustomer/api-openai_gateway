@@ -2,18 +2,18 @@
 
 namespace App\Trait;
 
-trait JsonUserStorageTrait
+trait JsonStorageTrait
 {
 
     private string $filePath = '';
 
     /**
      * @param string|null $sort
-     * @return array
+     * @return array|null
      */
-    protected function loadFileContent(string $sort = null): array
+    protected function loadFileContent(string $sort = null): ?array
     {
-        $content = [];
+        $content = null;
 
         try {
             $content = file_get_contents($this->getFilePath());
@@ -57,6 +57,19 @@ trait JsonUserStorageTrait
         }
 
         return $status;
+    }
+
+    /**
+     * @param $array
+     * @param $key
+     * @param $value
+     * @return int|string|null
+     */
+    protected function searchByKey($array, $key, $value)
+    {
+        $index = array_search($value, array_column($array, $key));
+
+        return $index !== false ? $index : null;
     }
 
     /**

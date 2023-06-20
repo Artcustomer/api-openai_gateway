@@ -2,6 +2,7 @@
 /nbproject/
 
 /data/users_local.json
+/data/api_tokens_local.json
 
 ###> symfony/framework-bundle ###
 /.env.local

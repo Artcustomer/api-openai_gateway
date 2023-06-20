@@ -3,14 +3,14 @@
 namespace App\Service;
 
 use App\Factory\UserFactory;
-use App\Trait\JsonUserStorageTrait;
+use App\Trait\JsonStorageTrait;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class JsonUserService implements IUserService
 {
 
-    use JsonUserStorageTrait;
+    use JsonStorageTrait;
 
     public const FIELD_ID = 'id';
     public const FIELD_USERNAME = 'username';
@@ -42,7 +42,7 @@ class JsonUserService implements IUserService
      */
     public function addUser($data): ?UserInterface
     {
-        $fileContent = $this->loadFileContent('id');
+        $fileContent = $this->loadFileContent(self::FIELD_ID);
         $user = null;
 
         if (!empty($fileContent)) {
@@ -78,11 +78,11 @@ class JsonUserService implements IUserService
      */
     public function removeUser(string $id): bool
     {
-        $fileContent = $this->loadFileContent('id');
+        $fileContent = $this->loadFileContent(self::FIELD_ID);
         $status = false;
 
         if (!empty($fileContent)) {
-            $index = $this->searchByKey($fileContent, 'id', $id);
+            $index = $this->searchByKey($fileContent, self::FIELD_ID, $id);
 
             if ($index !== null) {
                 unset($fileContent[$index]);
@@ -151,18 +151,5 @@ class JsonUserService implements IUserService
     public function getFactory(): UserFactory
     {
         return $this->userFactory;
-    }
-
-    /**
-     * @param $array
-     * @param $key
-     * @param $value
-     * @return int|string|null
-     */
-    private function searchByKey($array, $key, $value)
-    {
-        $index = array_search($value, array_column($array, $key));
-
-        return $index !== false ? $index : null;
     }
 }

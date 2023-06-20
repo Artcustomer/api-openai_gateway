@@ -87,11 +87,11 @@ abstract class AbstractServiceCommand extends Command
     }
 
     /**
-     * @param string $callback
+     * @param string|null $callback
      * @param array $arguments
      * @return int
      */
-    protected function invokeCallback(string $callback, array $arguments = []): int
+    protected function invokeCallback(string $callback = null, array $arguments = []): int
     {
         $status = Command::FAILURE;
         $checkedOptions = $this->checkRequiredOptions();
@@ -101,6 +101,8 @@ abstract class AbstractServiceCommand extends Command
         } else {
             if (method_exists($this, $callback)) {
                 $status = call_user_func_array([$this, $callback], $arguments);
+            } else {
+                $this->statusMessage = 'Wrong callback';
             }
         }
 

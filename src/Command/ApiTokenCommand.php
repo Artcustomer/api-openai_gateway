@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Service\JsonApiTokenService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -16,6 +17,21 @@ class ApiTokenCommand extends AbstractServiceCommand
     private const ACTION_REVOKE = 'revoke';
 
     private const OPT_USERNAME = 'username';
+
+    private JsonApiTokenService $apiTokenService;
+
+    /**
+     * Constructor
+     *
+     * @param JsonApiTokenService $apiTokenService
+     * @param string|null $name
+     */
+    public function __construct(JsonApiTokenService $apiTokenService, string $name = null)
+    {
+        parent::__construct($name);
+
+        $this->apiTokenService = $apiTokenService;
+    }
 
     /**
      * @return void
@@ -67,11 +83,24 @@ class ApiTokenCommand extends AbstractServiceCommand
      * php .\bin\console api-token create --username=
      *
      * @return int
+     * @throws \Exception
      */
     protected function create(): int
     {
-        $status = Command::SUCCESS;
-        $token = bin2hex(random_bytes(32));
+        $username = $this->input->getOption(self::OPT_USERNAME);
+        $apiToken = $this->apiTokenService->createToken($username);
+
+        if ($apiToken !== null) {
+            $status = Command::SUCCESS;
+            $message = sprintf('Api Token has been created for user %s', $apiToken->getUsername());
+        } else {
+            $status = Command::FAILURE;
+            $message = sprintf('Unable to create Api Token for user %s', $username);
+
+            $this->statusMessage = $message;
+        }
+
+        $this->output($message);
 
         return $status;
     }
@@ -83,7 +112,20 @@ class ApiTokenCommand extends AbstractServiceCommand
      */
     protected function get(): int
     {
-        $status = Command::SUCCESS;
+        $username = $this->input->getOption(self::OPT_USERNAME);
+        $apiToken = $this->apiTokenService->getToken($username);
+
+        if ($apiToken !== null) {
+            $status = Command::SUCCESS;
+            $message = sprintf('token: %s, username: %s, enabled: %s', $apiToken->token, $apiToken->username, $apiToken->enabled);
+        } else {
+            $status = Command::FAILURE;
+            $message = sprintf('Api token for user %s not found', $username);
+
+            $this->statusMessage = $message;
+        }
+
+        $this->output($message);
 
         return $status;
     }
@@ -95,7 +137,20 @@ class ApiTokenCommand extends AbstractServiceCommand
      */
     protected function revoke(): int
     {
-        $status = Command::SUCCESS;
+        $username = $this->input->getOption(self::OPT_USERNAME);
+        $result = $this->apiTokenService->revokeToken($username);
+
+        if ($result) {
+            $status = Command::SUCCESS;
+            $message = sprintf('Api token has been removed for user %s', $username);
+        } else {
+            $status = Command::FAILURE;
+            $message = sprintf('Unable to remove Api token for user %s', $username);
+
+            $this->statusMessage = $message;
+        }
+
+        $this->output($message);
 
         return $status;
     }

@@ -31,5 +31,8 @@ services:
     App\Service\JsonUserService:
         $filePath: '%kernel.project_dir%/%env(DATA_USER_JSON_FILE)%'
 
+    App\Service\JsonApiTokenService:
+        $filePath: '%kernel.project_dir%/%env(DATA_API_TOKEN_JSON_FILE)%'
+
     App\EventListener\ResponseListener:
         tags: [kernel.event_listener]
