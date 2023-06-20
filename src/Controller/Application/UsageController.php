@@ -33,6 +33,9 @@ class UsageController extends AbstractApplicationController
      */
     public function index(): Response
     {
+        $dateTime = \DateTime::createFromFormat('d/m/Y', '01/01/2022');
+        $response = $this->openAIService->getApiGateway()->getUsageConnector()->get($dateTime);
+
         return $this->render(
             'application/usage/index.html.twig',
             []
