@@ -5,6 +5,8 @@ namespace App\Controller\Application;
 use App\Form\Type\TextPromptType;
 use App\Form\Type\TextTranslateType;
 use App\Service\OpenAIService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +33,7 @@ class TextController extends AbstractApplicationController
 
     /**
      * @Route("/prompt", name="application_text_prompt", methods={"GET","POST"})
+     * @IsGranted("ROLE_APP")
      *
      * @param Request $request
      * @return Response
