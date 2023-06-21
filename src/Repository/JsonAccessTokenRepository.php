@@ -2,38 +2,38 @@
 
 namespace App\Repository;
 
-use App\Service\IUserService;
-use App\Service\JsonUserService;
+use App\Service\JsonApiTokenService;
 
 class JsonAccessTokenRepository implements IUserRepository
 {
 
-    private IUserService $userService;
+    private JsonApiTokenService $apiTokenService;
 
     /**
      * Constructor
      *
-     * @param JsonUserService $userService
+     * @param JsonApiTokenService $apiTokenService
      */
-    public function __construct(JsonUserService $userService)
+    public function __construct(JsonApiTokenService $apiTokenService)
     {
-        $this->userService = $userService;
+        $this->apiTokenService = $apiTokenService;
     }
 
     /**
      * @param $identifier
      * @return mixed
+     * @throws \Exception
      */
     public function findOneByIdentifier($identifier): mixed
     {
-        $userData = $this->userService->getUser($identifier, JsonUserService::FIELD_API_TOKEN);
-        $user = null;
+        $apiTokenData = $this->apiTokenService->getApiToken($identifier, JsonApiTokenService::FIELD_TOKEN);
+        $apiToken = null;
 
-        if ($userData !== null) {
-            $user = $this->userService->getFactory()->create($userData);
+        if ($apiTokenData !== null) {
+            $apiToken = $this->apiTokenService->getFactory()->create($apiTokenData);
         }
 
-        return $user;
+        return $apiToken;
     }
 }
 

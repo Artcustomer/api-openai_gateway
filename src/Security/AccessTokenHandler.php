@@ -28,12 +28,12 @@ class AccessTokenHandler implements AccessTokenHandlerInterface
      */
     public function getUserBadgeFrom(string $accessToken): UserBadge
     {
-        $user = $this->repository->findOneByIdentifier($accessToken);
+        $token = $this->repository->findOneByIdentifier($accessToken);
 
-        if (null === $user || !$user->getEnabled()) {
+        if (null === $token || !$token->getEnabled()) {
             throw new BadCredentialsException('Invalid credentials.');
         }
 
-        return new UserBadge($user->getUsername());
+        return new UserBadge($token->getUsername());
     }
 }

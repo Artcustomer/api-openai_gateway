@@ -39,16 +39,19 @@ class JsonApiTokenService
         $apiToken = null;
 
         if ($fileContent !== null) {
-            // TODO : validate data && check if username already exists
+            // TODO : validate data
+            $index = $this->searchByKey($fileContent, self::FIELD_USERNAME, $username);
 
-            $data = new \stdClass();
-            $data->username = $username;
-            $data->enabled = true;
-            $apiToken = $this->apiTokenFactory->create($data);
+            if ($index === null) {
+                $data = new \stdClass();
+                $data->username = $username;
+                $data->enabled = true;
+                $apiToken = $this->apiTokenFactory->create($data);
 
-            $fileContent[] = $apiToken->toObject();
+                $fileContent[] = $apiToken->toObject();
 
-            $this->writeFileContent($fileContent);
+                $this->writeFileContent($fileContent);
+            }
         }
 
         return $apiToken;
@@ -65,6 +68,26 @@ class JsonApiTokenService
 
         if (!empty($fileContent)) {
             $index = $this->searchByKey($fileContent, self::FIELD_USERNAME, $username);
+
+            if ($index !== null) {
+                $result = $fileContent[$index];
+            }
+        }
+
+        return $result;
+    }
+
+    public function getApiToken(string $value, string $field = self::FIELD_TOKEN): mixed
+    {
+        if (!in_array($field, [self::FIELD_USERNAME, self::FIELD_TOKEN])) {
+            return null;
+        }
+
+        $fileContent = $this->loadFileContent(self::FIELD_USERNAME);
+        $result = null;
+
+        if (!empty($fileContent)) {
+            $index = $this->searchByKey($fileContent, $field, $value);
 
             if ($index !== null) {
                 $result = $fileContent[$index];
@@ -96,5 +119,13 @@ class JsonApiTokenService
         }
 
         return $status;
+    }
+
+    /**
+     * @return ApiTokenFactory
+     */
+    public function getFactory(): ApiTokenFactory
+    {
+        return $this->apiTokenFactory;
     }
 }

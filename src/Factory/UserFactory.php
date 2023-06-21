@@ -26,13 +26,6 @@ class UserFactory
             $user->setDescription($data->description);
             $user->setRoles($data->roles);
             $user->setEnabled($data->enabled);
-
-            if (
-                $user instanceof IApiUser &&
-                isset($data->apiToken)
-            ) {
-                $user->setApiToken($data->apiToken);
-            }
         }
 
         return $user;

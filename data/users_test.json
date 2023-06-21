@@ -6,7 +6,6 @@
     "firstName": "John",
     "lastName": "Doe",
     "description": "Test user",
-    "apiToken": "",
     "roles": [
       "ROLE_APP",
       "ROLE_API"

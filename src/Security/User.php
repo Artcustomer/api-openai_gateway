@@ -3,14 +3,11 @@
 namespace App\Security;
 
 use App\Entity\AbstractEntity;
-use App\Trait\ApiUserTrait;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class User extends AbstractEntity implements UserInterface, PasswordAuthenticatedUserInterface, IApiUser
+class User extends AbstractEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
-
-    use ApiUserTrait;
 
     private int $id;
     private string $username;
