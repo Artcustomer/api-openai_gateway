@@ -45,21 +45,25 @@ class JsonUserService implements IUserService
         $fileContent = $this->loadFileContent(self::FIELD_ID);
         $user = null;
 
-        if (!empty($fileContent)) {
+        if ($fileContent !== null) {
             // TODO : validate data
 
             $index = $this->searchByKey($fileContent, self::FIELD_USERNAME, $data->username);
 
             if ($index === null) {
                 $numUsers = count($fileContent);
-                $lastUser = $fileContent[$numUsers - 1];
-                $lastUserId = $lastUser->id;
+                
+                if ($numUsers > 0) {
+                    $lastUser = $fileContent[$numUsers - 1];
+                    $lastUserId = $lastUser->id;
+                } else {
+                    $lastUserId = 0;
+                }
 
                 $data->id = $lastUserId + 1;
                 $data->enabled = true;
 
                 $user = $this->userFactory->create($data);
-
                 $hashedPassword = $this->passwordHasher->hashPassword($user, $data->password);
 
                 $user->setPassword($hashedPassword);

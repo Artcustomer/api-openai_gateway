@@ -2,7 +2,6 @@
 
 namespace App\Factory;
 
-use App\Security\IApiUser;
 use App\Security\User;
 
 class UserFactory

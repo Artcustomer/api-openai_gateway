@@ -1,5 +1,9 @@
+/.buildpath
+/.project
 /.idea/
+/.settings/
 /nbproject/
+
 
 /data/users_local.json
 /data/api_tokens_local.json
