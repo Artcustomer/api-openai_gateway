@@ -21,6 +21,12 @@ abstract class AbstractApplicationController extends AbstractController
         $parameters = $request->query->all();
         $keys = array_keys($parameters);
         $allowedKeys = array_intersect($keys, $fieldNames);
+        
+        array_walk($parameters,
+            function ($value, $key) use (&$parameters) {
+                $parameters[$key] = urldecode($value);
+            }
+        );
 
         return array_filter(
             $parameters,

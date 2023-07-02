@@ -98,9 +98,14 @@ class PromptService
         
         if ($path !== null) {
             $parameters = array_merge($parameters, ['prompt' => $prompt]);
-            $route = $this->router->generate($path, $parameters);
+            
+            array_walk($parameters,
+                function ($value, $key) use (&$parameters) {
+                    $parameters[$key] = urlencode($value);
+                }
+            );
 
-            $data['link'] = $route;
+            $data['link'] = $this->router->generate($path, $parameters);
         }
         
         return $data;
