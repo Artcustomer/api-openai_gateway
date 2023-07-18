@@ -22,6 +22,9 @@ class TextTranslateType extends AbstractExtendedType
     public const LANGUAGE_GERMAN = 'German';
     public const LANGUAGE_ITALIAN = 'Italian';
     public const LANGUAGE_SPANISH = 'Spanish';
+    public const LANGUAGE_PORTUGUESE = 'Portuguese';
+    public const LANGUAGE_RUSSIAN = 'Russian';
+    public const LANGUAGE_CHINESE = 'Chinese';
 
     public const FIELD_NAMES = [
         self::FIELD_FROM_LANGUAGE,
@@ -34,7 +37,10 @@ class TextTranslateType extends AbstractExtendedType
         self::LANGUAGE_FRENCH => 'french',
         self::LANGUAGE_GERMAN => 'german',
         self::LANGUAGE_ITALIAN => 'italian',
-        self::LANGUAGE_SPANISH => 'spanish'
+        self::LANGUAGE_SPANISH => 'spanish',
+        self::LANGUAGE_PORTUGUESE => 'portuguese',
+        self::LANGUAGE_RUSSIAN => 'russian',
+        self::LANGUAGE_CHINESE => 'chinese'
     ];
 
     /**

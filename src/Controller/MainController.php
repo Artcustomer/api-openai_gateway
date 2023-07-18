@@ -19,7 +19,7 @@ class MainController extends AbstractController
      *
      * @return Response
      */
-    public function index(JsonUserService $jsonUserService): Response
+    public function index(): Response
     {
         return $this->render(
             'main/index.html.twig',

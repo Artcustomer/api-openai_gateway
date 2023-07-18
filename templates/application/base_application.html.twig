@@ -8,11 +8,7 @@
     <main id="main" class="main">
         <div class="pagetitle">
             <h1>{% block applicationPageTitle %}{% endblock %}</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ path('application_home_index') }}">Home</a></li>
-                </ol>
-            </nav>
+            {{ render(controller("App\\Controller\\Application\\Layout\\UIController::breadcrumb")) }}
         </div>
 
         <section class="section">

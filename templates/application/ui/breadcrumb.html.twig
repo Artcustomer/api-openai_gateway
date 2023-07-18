@@ -1,0 +1,13 @@
+<nav>
+    <ol class="breadcrumb">
+        {% for pathItemIndex,pathItem in paths %}
+            <li class="breadcrumb-item">
+                {% if pathItem.path is not null %}
+                    <a href="{{ path(pathItem.path) }}">{{ pathItem.title }}</a>
+                {% else %}
+                    {{ pathItem.title }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+</nav>

@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @author David
  */
-class LayoutController extends AbstractController
+class UIController extends AbstractController
 {
 
     private NavigationService $navigationService;
@@ -29,37 +29,16 @@ class LayoutController extends AbstractController
     /**
      * @return Response
      */
-    public function header(): Response
-    {
-        return $this->render(
-            'application/header.html.twig',
-            []
-        );
-    }
-
-    /**
-     * @return Response
-     */
-    public function footer(): Response
-    {
-        return $this->render(
-            'application/footer.html.twig',
-            []
-        );
-    }
-
-    /**
-     * @return Response
-     */
-    public function sidebar(): Response
+    public function breadcrumb(): Response
     {
         $mainRequest = $this->requestStack->getMainRequest();
         $currentRoute = $mainRequest->attributes->get('_route');
 
+
         return $this->render(
-            'application/sidebar.html.twig',
+            'application/ui/breadcrumb.html.twig',
             [
-                'navigationData' => $this->navigationService->getNavigation($currentRoute),
+                'paths' => $this->navigationService->getPath($currentRoute)
             ]
         );
     }
