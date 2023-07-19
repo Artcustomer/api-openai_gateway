@@ -5,6 +5,9 @@ twig:
         app_name: '%env(APP_NAME)%'
         app_description: '%env(APP_DESCRIPTION)%'
 
+    form_themes:
+        - 'resources/form/fields.html.twig'
+
 when@test:
     twig:
         strict_variables: true

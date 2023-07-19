@@ -137,6 +137,10 @@ class NavigationService
             $this->navigationItemFactory('images-nav', 'Images', 'bi-gem', null, array_merge(
                 $this->navigationItemFactory('create', 'Create', null, 'application_image_create')
             )),
+            $this->navigationItemFactory('audio-nav', 'Audio', 'bi-speaker', null, array_merge(
+                $this->navigationItemFactory('create', 'Create transcription', null, 'application_audio_create_transcription'),
+                //$this->navigationItemFactory('speak_to_text', 'Speak to text', null, 'application_audio_speak_to_text')
+            )),
             $this->navigationItemFactory('tools-nav', 'Tools', 'bi-tools', null, array_merge(
                 $this->navigationItemFactory('samples', 'Prompts samples', null, 'application_tools_promptssamples')
             ))

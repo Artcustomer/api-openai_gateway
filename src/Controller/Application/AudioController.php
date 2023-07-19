@@ -3,7 +3,9 @@
 namespace App\Controller\Application;
 
 use App\Form\Type\AudioCreateTranscriptionType;
+use App\Form\Type\AudioSpeakToTextType;
 use App\Service\OpenAIService;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,6 +48,66 @@ class AudioController extends AbstractApplicationController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            /** @var UploadedFile $file */
+            $file = $data['file'];
+
+            $params = array(
+                'file' => $file->getPathname(),
+                'model' => $data['model'],
+                'prompt' => $data['prompt'],
+                'response_format' => 'json',
+                'temperature' => $data['temperature'],
+                'language' => $data['language']
+            );
+            $response = $this->openAIService->getApiGateway()->getAudioConnector()->createTranscription($params);
+
+            if ($response->getStatusCode() === 200) {
+                $content = json_decode((string)$response->getContent());
+            } else {
+                $errorMessage = $response->getMessage();
+
+                if (empty($errorMessage)) {
+                    $content = $response->getContent();
+
+                    if (!empty($content)) {
+                        $content = json_decode((string)$content);
+                        $errorMessage = $content->error->message ?? '';
+                    }
+                }
+
+                $errorMessage = !empty($errorMessage) ? $errorMessage : 'An error occurred';
+            }
+        }
+
+        return $this->render(
+            'application/audio/create_transcription.html.twig',
+            [
+                'form' => $form,
+                'errorMessage' => $errorMessage
+            ]
+        );
+    }
+
+    /**
+     * @Route("/speak-to-text", name="application_audio_speak_to_text", methods={"GET","POST"})
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function speakToText(Request $request): Response
+    {
+        $formData = $this->cleanQueryParameters($request, AudioSpeakToTextType::FIELD_NAMES);
+        $options = ['data' => $formData];
+
+        $form = $this->createForm(AudioSpeakToTextType::class, null, $options);
+        $form->handleRequest($request);
+
+        $errorMessage = '';
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
             $params = [
                 'file' => '',
                 'model' => '',
@@ -75,10 +137,10 @@ class AudioController extends AbstractApplicationController
         }
 
         return $this->render(
-            'application/audio/create_transcription.html.twig',
+            'application/audio/speak_to_text.html.twig',
             [
                 'form' => $form,
-                'error' => $errorMessage
+                'errorMessage' => $errorMessage
             ]
         );
     }
