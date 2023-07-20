@@ -55,16 +55,16 @@
         },
         {
             "name": "artcustomer/openai-api-client",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/api-openai_client.git",
-                "reference": "05552656479d05dd9b2578fbe39df5cf6ef519f5"
+                "reference": "ea0fedad25c5f60ebb69baa4c07d0a4d037003ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/api-openai_client/zipball/05552656479d05dd9b2578fbe39df5cf6ef519f5",
-                "reference": "05552656479d05dd9b2578fbe39df5cf6ef519f5",
+                "url": "https://api.github.com/repos/Artcustomer/api-openai_client/zipball/ea0fedad25c5f60ebb69baa4c07d0a4d037003ac",
+                "reference": "ea0fedad25c5f60ebb69baa4c07d0a4d037003ac",
                 "shasum": ""
             },
             "require": {
@@ -96,10 +96,10 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/api-openai_client/tree/1.0.0",
+                "source": "https://github.com/Artcustomer/api-openai_client/tree/1.0.1",
                 "issues": "https://github.com/Artcustomer/api-openai_client/issues"
             },
-            "time": "2023-06-14T09:43:26+00:00"
+            "time": "2023-07-20T08:01:08+00:00"
         },
         {
             "name": "doctrine/annotations",
