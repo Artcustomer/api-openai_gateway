@@ -3,6 +3,7 @@
 namespace App\Controller\Application;
 
 use App\Form\Type\AudioCreateTranscriptionType;
+use App\Form\Type\AudioCreateTranslationType;
 use App\Form\Type\AudioSpeakToTextType;
 use App\Service\OpenAIService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -44,6 +45,7 @@ class AudioController extends AbstractApplicationController
         $form = $this->createForm(AudioCreateTranscriptionType::class, null, $options);
         $form->handleRequest($request);
 
+        $outputResponse = '';
         $errorMessage = '';
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,19 +53,23 @@ class AudioController extends AbstractApplicationController
 
             /** @var UploadedFile $file */
             $file = $data['file'];
-
-            $params = array(
-                'file' => $file->getPathname(),
+            $params = [
+                'file' => [
+                    'pathName' => $file->getPathname(),
+                    'mimeType' => $file->getClientMimeType(),
+                    'originalName' => $file->getClientOriginalName(),
+                ],
                 'model' => $data['model'],
                 'prompt' => $data['prompt'],
                 'response_format' => 'json',
                 'temperature' => $data['temperature'],
                 'language' => $data['language']
-            );
+            ];
             $response = $this->openAIService->getApiGateway()->getAudioConnector()->createTranscription($params);
 
             if ($response->getStatusCode() === 200) {
                 $content = json_decode((string)$response->getContent());
+                $outputResponse = $content->text;
             } else {
                 $errorMessage = $response->getMessage();
 
@@ -84,6 +90,72 @@ class AudioController extends AbstractApplicationController
             'application/audio/create_transcription.html.twig',
             [
                 'form' => $form,
+                'outputResponse' => $outputResponse,
+                'errorMessage' => $errorMessage
+            ]
+        );
+    }
+
+    /**
+     * @Route("/translation/create", name="application_audio_create_translation", methods={"GET","POST"})
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function createTranslation(Request $request): Response
+    {
+        $formData = $this->cleanQueryParameters($request, AudioCreateTranslationType::FIELD_NAMES);
+        $options = ['data' => $formData];
+
+        $form = $this->createForm(AudioCreateTranslationType::class, null, $options);
+        $form->handleRequest($request);
+
+        $outputResponse = '';
+        $errorMessage = '';
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            /** @var UploadedFile $file */
+            $file = $data['file'];
+            $params = [
+                'file' => [
+                    'pathName' => $file->getPathname(),
+                    'mimeType' => $file->getClientMimeType(),
+                    'originalName' => $file->getClientOriginalName(),
+                ],
+                'model' => $data['model'],
+                'prompt' => $data['prompt'],
+                'response_format' => 'json',
+                'temperature' => $data['temperature'],
+                'language' => $data['language']
+            ];
+            $response = $this->openAIService->getApiGateway()->getAudioConnector()->createTranscription($params);
+
+            if ($response->getStatusCode() === 200) {
+                $content = json_decode((string)$response->getContent());
+                $outputResponse = $content->text;
+            } else {
+                $errorMessage = $response->getMessage();
+
+                if (empty($errorMessage)) {
+                    $content = $response->getContent();
+
+                    if (!empty($content)) {
+                        $content = json_decode((string)$content);
+                        $errorMessage = $content->error->message ?? '';
+                    }
+                }
+
+                $errorMessage = !empty($errorMessage) ? $errorMessage : 'An error occurred';
+            }
+        }
+
+        return $this->render(
+            'application/audio/create_translation.html.twig',
+            [
+                'form' => $form,
+                'outputResponse' => $outputResponse,
                 'errorMessage' => $errorMessage
             ]
         );
