@@ -31,9 +31,14 @@ class LayoutController extends AbstractController
      */
     public function header(): Response
     {
+        $mainRequest = $this->requestStack->getMainRequest();
+        $currentRoute = $mainRequest->attributes->get('_route');
+
         return $this->render(
             'application/header.html.twig',
-            []
+            [
+                'userMenuData' => $this->navigationService->getUserMenu($currentRoute),
+            ]
         );
     }
 

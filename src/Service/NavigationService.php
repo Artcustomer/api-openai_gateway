@@ -3,7 +3,6 @@
 namespace App\Service;
 
 /**
- *
  * @author David
  */
 class NavigationService
@@ -28,6 +27,17 @@ class NavigationService
         $this->currentRoute = $currentRoute;
 
         return $this->navigationItems();
+    }
+
+    /**
+     * @param string $currentRoute
+     * @return array
+     */
+    public function getUserMenu(string $currentRoute): array
+    {
+        $this->currentRoute = $currentRoute;
+
+        return $this->userMenuItems();
     }
 
     /**
@@ -125,26 +135,39 @@ class NavigationService
     private function navigationItems(): array
     {
         return array_merge(
-            $this->navigationItemFactory('home', 'Home', 'bi-grid', 'application_home_index', []),
-            $this->navigationItemFactory('chat-nav', 'Chat', 'bi-journal-text', null, array_merge(
-                $this->navigationItemFactory('create_completion', 'Create completion', null, 'application_chat_create_completion'),
-                $this->navigationItemFactory('converse', 'Converse', null, 'application_chat_converse')
+            $this->itemFactory('home', 'Home', 'bi-grid', 'application_home_index', []),
+            $this->itemFactory('chat-nav', 'Chat', 'bi-journal-text', null, array_merge(
+                $this->itemFactory('create_completion', 'Create completion', null, 'application_chat_create_completion'),
+                $this->itemFactory('converse', 'Converse', null, 'application_chat_converse')
             )),
-            $this->navigationItemFactory('text-nav', 'Text', 'bi-journal-text', null, array_merge(
-                $this->navigationItemFactory('prompt', 'Prompt', null, 'application_text_prompt'),
-                $this->navigationItemFactory('translate', 'Translate', null, 'application_text_translate'),
+            $this->itemFactory('text-nav', 'Text', 'bi-journal-text', null, array_merge(
+                $this->itemFactory('prompt', 'Prompt', null, 'application_text_prompt'),
+                $this->itemFactory('translate', 'Translate', null, 'application_text_translate'),
             )),
-            $this->navigationItemFactory('images-nav', 'Images', 'bi-gem', null, array_merge(
-                $this->navigationItemFactory('create', 'Create', null, 'application_image_create')
+            $this->itemFactory('images-nav', 'Images', 'bi-gem', null, array_merge(
+                $this->itemFactory('create', 'Create', null, 'application_image_create')
             )),
-            $this->navigationItemFactory('audio-nav', 'Audio', 'bi-speaker', null, array_merge(
-                $this->navigationItemFactory('create_transcription', 'Create transcription', null, 'application_audio_create_transcription'),
-                $this->navigationItemFactory('create_translation', 'Create translation', null, 'application_audio_create_translation'),
-                //$this->navigationItemFactory('speak_to_text', 'Speak to text', null, 'application_audio_speak_to_text')
+            $this->itemFactory('audio-nav', 'Audio', 'bi-speaker', null, array_merge(
+                $this->itemFactory('create_transcription', 'Create transcription', null, 'application_audio_create_transcription'),
+                $this->itemFactory('create_translation', 'Create translation', null, 'application_audio_create_translation'),
+            //$this->itemFactory('speak_to_text', 'Speak to text', null, 'application_audio_speak_to_text')
             )),
-            $this->navigationItemFactory('tools-nav', 'Tools', 'bi-tools', null, array_merge(
-                $this->navigationItemFactory('samples', 'Prompts samples', null, 'application_tools_promptssamples')
+            $this->itemFactory('tools-nav', 'Tools', 'bi-tools', null, array_merge(
+                $this->itemFactory('samples', 'Prompts samples', null, 'application_tools_promptssamples')
             ))
+        );
+    }
+
+    /**
+     * @return array
+     */
+    private function userMenuItems(): array
+    {
+        return array_merge(
+            $this->itemFactory('profile', 'Profile', 'bi-person-fill', 'application_user_index', []),
+            $this->itemFactory('api-settings', 'API Settings', 'bi-toggles', 'application_user_apisettings', []),
+            $this->itemFactory('usage', 'Usage', 'bi-graph-up', 'application_user_usage', []),
+            $this->itemFactory('log-out', 'Sign Out', 'bi-box-arrow-right', 'app_logout', []),
         );
     }
 
@@ -158,7 +181,7 @@ class NavigationService
      * @param array $childs
      * @return array[]
      */
-    private function navigationItemFactory(string $key, string $title, string $icon = null, string $path = null, array $childs = []): array
+    private function itemFactory(string $key, string $title, string $icon = null, string $path = null, array $childs = []): array
     {
         $data = [
             'title' => $title,
