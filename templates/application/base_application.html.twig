@@ -2,6 +2,8 @@
 
 {% block body %}
 
+    {% include 'application/ui/alert_box.html.twig' %}
+
     {{ render(controller("App\\Controller\\Application\\Layout\\LayoutController::header")) }}
     {{ render(controller("App\\Controller\\Application\\Layout\\LayoutController::sidebar")) }}
 

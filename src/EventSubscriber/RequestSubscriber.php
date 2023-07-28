@@ -4,9 +4,12 @@ namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class RequestSubscriber implements EventSubscriberInterface
 {
+
+    private RequestEvent $event;
 
     /**
      * @return string[]
@@ -14,7 +17,7 @@ class RequestSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            RequestEvent::class => 'onKernelRequest',
+            KernelEvents::REQUEST => 'onKernelRequest',
         ];
     }
 
@@ -24,8 +27,6 @@ class RequestSubscriber implements EventSubscriberInterface
      */
     public function onKernelRequest(RequestEvent $event): void
     {
-        if ($event->isMainRequest()) {
-            //$event->getRequest()->attributes->set('_test', 'value');
-        }
+        $this->event = $event;
     }
 }
