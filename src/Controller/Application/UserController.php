@@ -3,6 +3,7 @@
 namespace App\Controller\Application;
 
 use App\Service\OpenAIService;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
