@@ -3,21 +3,27 @@
         {% for navItemKey,navigationItem in navigationData %}
             <li class="nav-item">
                 {% if navigationItem.childs is defined %}
-                    <a class="nav-link {{ navigationItem.active ? '' : 'collapsed' }}" data-bs-target="#{{ navItemKey }}" data-bs-toggle="collapse" href="#" aria-expanded="{{ navigationItem.active ? 'true' : 'false' }}">
-                        <i class="bi {{ navigationItem.icon }}"></i><span>{{ navigationItem.title }}</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <a class="nav-link {{ navigationItem.active ? '' : 'collapsed' }}"
+                       data-bs-target="#{{ navItemKey }}" data-bs-toggle="collapse" href="#"
+                       aria-expanded="{{ navigationItem.active ? 'true' : 'false' }}">
+                        <i class="bi {{ navigationItem.icon }}"></i><span>{{ navigationItem.title }}</span><i
+                                class="bi bi-chevron-down ms-auto"></i>
                     </a>
-                    <ul id="{{ navItemKey }}" class="nav-content collapse {{ navigationItem.active ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+                    <ul id="{{ navItemKey }}" class="nav-content collapse {{ navigationItem.active ? 'show' : '' }}"
+                        data-bs-parent="#sidebar-nav">
                         {% for navItemChildKey,navigationChildItem in navigationItem.childs %}
                             {% set isCurrent = false %}
                             <li>
-                                <a href="{{ path(navigationChildItem.path) }}" class="{{ navigationChildItem.active ? 'active' : '' }}">
+                                <a href="{{ path(navigationChildItem.path) }}"
+                                   class="{{ navigationChildItem.active ? 'active' : '' }}">
                                     <i class="bi bi-circle"></i><span>{{ navigationChildItem.title }}</span>
                                 </a>
                             </li>
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <a href="{{ path(navigationItem.path) }}" class="nav-link {{ navigationItem.active ? '' : 'collapsed' }}">
+                    <a href="{{ path(navigationItem.path) }}"
+                       class="nav-link {{ navigationItem.active ? '' : 'collapsed' }}">
                         <i class="bi {{ navigationItem.icon }}"></i>
                         <span>{{ navigationItem.title }}</span>
                     </a>

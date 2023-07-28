@@ -4,6 +4,8 @@ namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 abstract class AbstractExtendedType extends AbstractType
 {
@@ -31,6 +33,13 @@ abstract class AbstractExtendedType extends AbstractType
     {
         $fields = $this->buildFields($builder, $options);
         $data = $options['data'] ?? [];
+
+        $builder->addEventListener(
+            FormEvents::POST_SET_DATA,
+            function (FormEvent $event) {
+                $form = $event->getForm();
+            }
+        );
 
         foreach ($fields as $key => $field) {
             $fieldOptions = $field['options'];

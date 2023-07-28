@@ -1,60 +1,61 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Meta -->
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="{{ app_description }}">
-        <meta name="keywords" content="OpenAI">
-        <meta name="author" content="David Massenot">
+<head>
+    <!-- Meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ app_description }}">
+    <meta name="keywords" content="OpenAI">
+    <meta name="author" content="David Massenot">
 
-        <title>{% block title %}{{ app_name }}{% endblock %}</title>
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
 
-        <link rel="canonical" href="/">
+    <link rel="canonical" href="/">
 
-        <!-- Favicons -->
-        <link rel="icon" href="{{ asset('assets/img/favicon.png') }}">
-        <link rel="apple-touch-icon" href="{{ asset('assets/img/apple-touch-icon.png') }}">
+    <!-- Favicons -->
+    <link rel="icon" href="{{ asset('assets/img/favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/img/apple-touch-icon.png') }}">
 
-        <!-- Google fonts -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i">
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i">
 
-        <!-- Vendor CSS files -->
-        <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/quill/quill.snow.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/quill/quill.bubble.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/remixicon/remixicon.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/simple-datatables/style.css') }}">
+    <!-- Vendor CSS files -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/quill/quill.snow.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/quill/quill.bubble.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/remixicon/remixicon.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/simple-datatables/style.css') }}">
 
-        <!-- Main CSS -->
-        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
-        <!-- Custom CSS -->
-        {% block stylesheets %}{% endblock %}
+    <!-- Custom CSS -->
+    {% block stylesheets %}{% endblock %}
 
-        <!-- Custom header JS -->
-        {% block headerJavascript %}{% endblock %}
-    </head>
-    <body class="{% block bodyclass %}{% endblock %}">
-        {% block body %}{% endblock %}
+    <!-- Custom header JS -->
+    {% block headerJavascript %}{% endblock %}
+</head>
+<body class="{% block bodyclass %}{% endblock %}">
+{% block body %}{% endblock %}
 
-        <!-- Vendor JS files -->
-        <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
-        <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-        <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
-        <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
-        <script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
-        <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
-        <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
-        <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
+<!-- Vendor JS files -->
+<script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
+<script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+<script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
 
-        <!-- Main JS file -->
-        <script src="{{ asset('assets/js/main.js') }}"></script>
+<!-- Main JS file -->
+<script src="{{ asset('assets/js/main.js') }}"></script>
 
-        <!-- Custom body JS -->
-        {% block bodyJavascript %}{% endblock %}
-    </body>
+<!-- Custom body JS -->
+{% block bodyJavascript %}{% endblock %}
+</body>
 </html>

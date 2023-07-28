@@ -2,9 +2,12 @@
 
 namespace App\Controller\Application;
 
+use App\Form\Type\AudioCreateTranscriptionType;
+use App\Form\Type\UserApiSettingsType;
 use App\Service\OpenAIService;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/user")
@@ -57,15 +60,36 @@ class UserController extends AbstractApplicationController
     }
 
     /**
-     * @Route("/api-settings", name="application_user_apisettings", methods={"GET"})
+     * @Route("/api-settings", name="application_user_apisettings", methods={"GET","POST"})
      *
+     * @param Request $request
+     * @param OpenAIService $openAIService
      * @return Response
      */
-    public function apiSettings(): Response
+    public function apiSettings(Request $request, OpenAIService $openAIService): Response
     {
+        $formData = $this->cleanQueryParameters($request, AudioCreateTranscriptionType::FIELD_NAMES);
+        $options = ['data' => $formData];
+        $isTokenAvailable = $openAIService->isTokenAvailable();
+
+        $form = $this->createForm(UserApiSettingsType::class, null, $options);
+
+        $form->handleRequest($request);
+
+        $outputResponse = '';
+        $errorMessage = '';
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+        }
+
         return $this->render(
             'application/user/api_settings.html.twig',
-            []
+            [
+                'form' => $form,
+                'outputResponse' => $outputResponse,
+                'errorMessage' => $errorMessage
+            ]
         );
     }
 }

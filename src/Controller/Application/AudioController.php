@@ -36,6 +36,7 @@ class AudioController extends AbstractApplicationController
      *
      * @param Request $request
      * @return Response
+     * @throws \ReflectionException
      */
     public function createTranscription(Request $request): Response
     {
@@ -101,6 +102,7 @@ class AudioController extends AbstractApplicationController
      *
      * @param Request $request
      * @return Response
+     * @throws \ReflectionException
      */
     public function createTranslation(Request $request): Response
     {
@@ -166,6 +168,7 @@ class AudioController extends AbstractApplicationController
      *
      * @param Request $request
      * @return Response
+     * @throws \ReflectionException
      */
     public function speakToText(Request $request): Response
     {
