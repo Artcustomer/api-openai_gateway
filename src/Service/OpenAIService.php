@@ -19,6 +19,8 @@ class OpenAIService
     private string $organisation;
     private bool $availability;
     private SessionManager $sessionManager;
+    private bool $apiKeyInEnv = false;
+    private bool $apiKeyInSession = false;
 
     /**
      * Constructor
@@ -66,9 +68,37 @@ class OpenAIService
     }
 
     /**
+     * @param string $apiKey
+     * @return void
+     */
+    public function setApiKeyInSession(string $apiKey): void
+    {
+        $this->sessionManager->set(SessionConsts::OPENAI_API_KEY, $apiKey);
+
+        $this->apiKey = $apiKey;
+        $this->apiKeyInSession = true;
+    }
+
+    /**
      * @return bool
      */
-    public function isTokenAvailable(): bool
+    public function isApiKeyInEnv(): bool
+    {
+        return $this->apiKeyInEnv;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApiKeyInSession(): bool
+    {
+        return $this->apiKeyInSession;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApiKeyAvailable(): bool
     {
         return !empty($this->apiKey);
     }
@@ -80,6 +110,11 @@ class OpenAIService
     {
         if (empty($this->apiKey)) {
             $this->apiKey = $this->sessionManager->get(SessionConsts::OPENAI_API_KEY, '');
+            $this->apiKeyInEnv = false;
+            $this->apiKeyInSession = true;
+        } else {
+            $this->apiKeyInEnv = true;
+            $this->apiKeyInSession = false;
         }
     }
 }

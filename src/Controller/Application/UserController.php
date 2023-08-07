@@ -2,7 +2,7 @@
 
 namespace App\Controller\Application;
 
-use App\Form\Type\AudioCreateTranscriptionType;
+use App\Form\Type\AbstractExtendedType;
 use App\Form\Type\UserApiSettingsType;
 use App\Service\OpenAIService;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,9 +68,14 @@ class UserController extends AbstractApplicationController
      */
     public function apiSettings(Request $request, OpenAIService $openAIService): Response
     {
-        $formData = $this->cleanQueryParameters($request, AudioCreateTranscriptionType::FIELD_NAMES);
+        $formData = $this->cleanQueryParameters($request, UserApiSettingsType::FIELD_NAMES);
+        $isApiKeyInEnv = $openAIService->isApiKeyInEnv();
         $options = ['data' => $formData];
-        $isTokenAvailable = $openAIService->isTokenAvailable();
+        $options[AbstractExtendedType::OPT_CUSTOM_FIELD_OPTIONS] = [
+            UserApiSettingsType::FIELD_API_TOKEN => [
+                'disabled' => $isApiKeyInEnv
+            ]
+        ];
 
         $form = $this->createForm(UserApiSettingsType::class, null, $options);
 
@@ -81,6 +86,9 @@ class UserController extends AbstractApplicationController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $apiToken = $data[UserApiSettingsType::FIELD_API_TOKEN];
+
+            $openAIService->setApiKeyInSession($apiToken);
         }
 
         return $this->render(

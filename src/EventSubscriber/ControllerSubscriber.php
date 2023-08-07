@@ -66,9 +66,9 @@ class ControllerSubscriber implements EventSubscriberInterface
     {
         if ($this->controller instanceof AbstractApplicationController) {
             if ($this->security->getUser() !== null) {
-                $isTokenAvailable = $this->openAIService->isTokenAvailable();
+                $isApiKeyAvailable = $this->openAIService->isApiKeyAvailable();
 
-                if (!$isTokenAvailable) {
+                if (!$isApiKeyAvailable) {
                     $this->flashMessageService->addFlash('notice', '_TRAD_ NO TOKEN FOUND');
                 }
             }

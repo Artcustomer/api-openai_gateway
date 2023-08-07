@@ -40,8 +40,28 @@ class SessionManager
      * @param mixed $value
      * @return void
      */
-    public function set(string $name, mixed $value)
+    public function set(string $name, mixed $value): void
     {
         $this->session->set($name, $value);
+    }
+
+    /**
+     * Get all values in session
+     *
+     * @return array
+     */
+    public function all(): array
+    {
+        return $this->session->all();
+    }
+
+    /**
+     * Clear all values in session
+     *
+     * @return void
+     */
+    public function clear(): void
+    {
+        $this->session->clear();
     }
 }

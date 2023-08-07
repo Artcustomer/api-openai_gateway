@@ -2,6 +2,7 @@
 
 namespace App\Form\Type;
 
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +20,7 @@ class UserApiSettingsType extends AbstractExtendedType
     {
         $fields = [];
         $fields[self::FIELD_API_TOKEN] = [
-            'type' => TextType::class,
+            'type' => PasswordType::class,
             'options' => [
                 'label' => 'Token',
                 'attr' => [
@@ -30,7 +31,8 @@ class UserApiSettingsType extends AbstractExtendedType
                 ],
                 'data' => '',
                 'empty_data' => '',
-                'required' => false
+                'required' => false,
+                'disabled' => false
             ]
         ];
         $fields[self::FIELD_SAVE] = [

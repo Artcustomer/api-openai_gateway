@@ -4,13 +4,14 @@ namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractExtendedType extends AbstractType
 {
 
+    public const OPT_CUSTOM_FIELD_OPTIONS = '_custom_field_options';
     public const FIELD_SAVE = 'save';
+
 
     /**
      * Override it.
@@ -33,16 +34,14 @@ abstract class AbstractExtendedType extends AbstractType
     {
         $fields = $this->buildFields($builder, $options);
         $data = $options['data'] ?? [];
-
-        $builder->addEventListener(
-            FormEvents::POST_SET_DATA,
-            function (FormEvent $event) {
-                $form = $event->getForm();
-            }
-        );
+        $customFieldOptions = $options[self::OPT_CUSTOM_FIELD_OPTIONS] ?? [];
 
         foreach ($fields as $key => $field) {
             $fieldOptions = $field['options'];
+
+            if (isset($customFieldOptions[$key])) {
+                $fieldOptions = array_merge($fieldOptions, $customFieldOptions[$key]);
+            }
 
             if (array_key_exists($key, $data)) {
                 $fieldOptions['data'] = $data[$key];
@@ -50,5 +49,16 @@ abstract class AbstractExtendedType extends AbstractType
 
             $builder->add($key, $field['type'], $fieldOptions);
         }
+    }
+
+    /**
+     * @param OptionsResolver $resolver
+     * @return void
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            self::OPT_CUSTOM_FIELD_OPTIONS => []
+        ]);
     }
 }
