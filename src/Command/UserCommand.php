@@ -100,6 +100,10 @@ class UserCommand extends AbstractServiceCommand
      */
     protected function addUser(): int
     {
+        if (!$this->userService->isFileExists()) {
+            $this->userService->createFile();
+        }
+
         $data = new \stdClass();
         $data->username = $this->input->getOption(self::OPT_USERNAME);
         $data->password = $this->input->getOption(self::OPT_PASSWORD);

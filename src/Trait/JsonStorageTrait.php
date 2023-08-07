@@ -73,6 +73,22 @@ trait JsonStorageTrait
     }
 
     /**
+     * @return bool
+     */
+    public function createFile(): bool
+    {
+        return $this->writeFileContent([]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFileExists(): bool
+    {
+        return file_exists($this->getFilePath());
+    }
+
+    /**
      * @param string $filePath
      * @return void
      */
