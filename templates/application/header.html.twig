@@ -28,7 +28,7 @@
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="{{ path(userMenuItem.path) }}">
                                 <i class="bi {{ userMenuItem.icon }}"></i>
-                                <span>{{ userMenuItem.title }}</span>
+                                <span>{{ userMenuItem.title|trans }}</span>
                             </a>
                         </li>
                     {% endfor %}

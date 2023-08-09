@@ -3,9 +3,9 @@
         {% for pathItemIndex,pathItem in paths %}
             <li class="breadcrumb-item">
                 {% if pathItem.path is not null %}
-                    <a href="{{ path(pathItem.path) }}">{{ pathItem.title }}</a>
+                    <a href="{{ path(pathItem.path) }}">{{ pathItem.title|trans }}</a>
                 {% else %}
-                    {{ pathItem.title }}
+                    {{ pathItem.title|trans }}
                 {% endif %}
             </li>
         {% endfor %}

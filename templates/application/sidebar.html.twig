@@ -3,10 +3,10 @@
         {% for navItemKey,navigationItem in navigationData %}
             <li class="nav-item">
                 {% if navigationItem.childs is defined %}
-                    <a class="nav-link {{ navigationItem.active ? '' : 'collapsed' }}"
+                    <a class="nav-link {{ navigationItem.active ? '' : 'collapsed' }} {{ navigationItem.disabled ? 'btn border-0 disabled' : '' }}"
                        data-bs-target="#{{ navItemKey }}" data-bs-toggle="collapse" href="#"
                        aria-expanded="{{ navigationItem.active ? 'true' : 'false' }}">
-                        <i class="bi {{ navigationItem.icon }}"></i><span>{{ navigationItem.title }}</span><i
+                        <i class="bi {{ navigationItem.icon }}"></i><span>{{ navigationItem.title|trans }}</span><i
                                 class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="{{ navItemKey }}" class="nav-content collapse {{ navigationItem.active ? 'show' : '' }}"
@@ -15,17 +15,17 @@
                             {% set isCurrent = false %}
                             <li>
                                 <a href="{{ path(navigationChildItem.path) }}"
-                                   class="{{ navigationChildItem.active ? 'active' : '' }}">
-                                    <i class="bi bi-circle"></i><span>{{ navigationChildItem.title }}</span>
+                                   class="{{ navigationChildItem.active ? 'active' : '' }} {{ navigationChildItem.disabled ? 'btn border-0 disabled' : '' }}">
+                                    <i class="bi bi-circle"></i><span>{{ navigationChildItem.title|trans }}</span>
                                 </a>
                             </li>
                         {% endfor %}
                     </ul>
                 {% else %}
                     <a href="{{ path(navigationItem.path) }}"
-                       class="nav-link {{ navigationItem.active ? '' : 'collapsed' }}">
+                       class="nav-link {{ navigationItem.active ? '' : 'collapsed' }} {{ navigationItem.disabled ? 'btn border-0 disabled' : '' }}">
                         <i class="bi {{ navigationItem.icon }}"></i>
-                        <span>{{ navigationItem.title }}</span>
+                        <span>{{ navigationItem.title|trans }}</span>
                     </a>
                 {% endif %}
             </li>
