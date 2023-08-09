@@ -65,11 +65,13 @@ class ChatCreateCompletionType extends AbstractExtendedType
                 'label' => 'Model',
                 'choices' => [
                     'GPT-3.5 Turbo' => Model::GPT_3_5_TURBO,
-                    'GPT-3.5 Turbo 0301' => Model::GPT_3_5_TURBO_0301,
+                    'GPT-3.5 Turbo 0613' => Model::GPT_3_5_TURBO_0613,
+                    'GPT-3.5 Turbo 16K' => Model::GPT_3_5_TURBO_16K,
+                    'GPT-3.5 Turbo 16K 0613' => Model::GPT_3_5_TURBO_16K_0613,
                     'GPT-4' => Model::GPT_4,
-                    'GPT-4 0314' => Model::GPT_4_0314,
+                    'GPT-4 0613' => Model::GPT_4_0613,
                     'GPT-4 32k' => Model::GPT_4_32K,
-                    'GPT-4 32k 0314' => Model::GPT_4_32K_0314,
+                    'GPT-4 32k 0613' => Model::GPT_4_32K_0613,
                 ],
                 'attr' => [
                     'class' => 'form-control mt-1'
