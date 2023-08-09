@@ -33,6 +33,9 @@ class ChatController extends AbstractApplicationController
      *
      * @param Request $request
      * @return Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
      */
     public function createCompletion(Request $request): Response
     {
@@ -84,7 +87,7 @@ class ChatController extends AbstractApplicationController
                     }
                 }
 
-                $errorMessage = !empty($errorMessage) ? $errorMessage : 'An error occurred';
+                $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
             }
         }
 

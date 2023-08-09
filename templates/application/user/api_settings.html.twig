@@ -1,8 +1,8 @@
 {% extends 'application/base_application.html.twig' %}
 
-{% block title %}OpenAI Gateway - API Settings{% endblock %}
+{% block title %}{{ app_name }} - {{ 'user_menu.api_settings'|trans }}{% endblock %}
 
-{% block applicationPageTitle %}API Settings{% endblock %}
+{% block applicationPageTitle %}{{ 'user_menu.api_settings'|trans }}{% endblock %}
 
 {% block applicationSection %}
     {% if errorMessage %}

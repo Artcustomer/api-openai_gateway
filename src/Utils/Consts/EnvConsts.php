@@ -10,6 +10,7 @@ class EnvConsts
 
     public const APP_NAME = 'APP_NAME';
     public const APP_DESCRIPTION = 'APP_DESCRIPTION';
+    public const APP_AUTHOR = 'APP_AUTHOR';
 
     public const API_AVAILABILITY = 'API_AVAILABILITY';
 

@@ -10,12 +10,14 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ControllerSubscriber implements EventSubscriberInterface
 {
 
     private Security $security;
     private FlashMessageService $flashMessageService;
+    private TranslatorInterface $translator;
     private OpenAIService $openAIService;
     private ControllerEvent $event;
     private $controller;
@@ -23,12 +25,14 @@ class ControllerSubscriber implements EventSubscriberInterface
     /**
      * @param Security $security
      * @param FlashMessageService $flashMessageService
+     * @param TranslatorInterface $translator
      * @param OpenAIService $openAIService
      */
-    public function __construct(Security $security, FlashMessageService $flashMessageService, OpenAIService $openAIService)
+    public function __construct(Security $security, FlashMessageService $flashMessageService, TranslatorInterface $translator, OpenAIService $openAIService)
     {
         $this->security = $security;
         $this->flashMessageService = $flashMessageService;
+        $this->translator = $translator;
         $this->openAIService = $openAIService;
     }
 
@@ -73,7 +77,7 @@ class ControllerSubscriber implements EventSubscriberInterface
                 $isApiKeyAvailable = $this->openAIService->isApiKeyAvailable();
 
                 if (!$isApiKeyAvailable) {
-                    $this->flashMessageService->addFlash('notice', '_TRAD_ NO TOKEN FOUND');
+                    $this->flashMessageService->addFlash('notice', $this->translator->trans('notice.no_token_found'));
                 }
             }
         }

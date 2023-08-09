@@ -34,6 +34,9 @@ class ImageController extends AbstractApplicationController
      *
      * @param Request $request
      * @return Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
      */
     public function create(Request $request): Response
     {
@@ -82,7 +85,7 @@ class ImageController extends AbstractApplicationController
                     }
                 }
 
-                $errorMessage = !empty($errorMessage) ? $errorMessage : 'An error occurred';
+                $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
             }
         }
 

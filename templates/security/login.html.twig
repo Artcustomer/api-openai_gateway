@@ -26,21 +26,21 @@
                                                 <span class="input-group-text" id="inputGroupPrepend">@</span>
                                                 <input type="text" class="form-control" id="username" name="_username"
                                                        placeholder="username" required>
-                                                <div class="invalid-feedback">Please enter your username.</div>
+                                                <div class="invalid-feedback">{{ 'login.form.error.invalid_username'|trans }}</div>
                                             </div>
                                         </div>
 
                                         <div class="col-12">
                                             <input type="password" class="form-control" id="password" name="_password"
                                                    placeholder="password" required>
-                                            <div class="invalid-feedback">Please enter your password!</div>
+                                            <div class="invalid-feedback">{{ 'login.form.error.invalid_password'|trans }}</div>
                                         </div>
 
                                         <input type="hidden" name="_csrf_token"
                                                value="{{ csrf_token('authenticate') }}">
 
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100" type="submit">Sign in</button>
+                                            <button class="btn btn-primary w-100" type="submit">{{ 'login.form.sign_in'|trans }}</button>
                                         </div>
                                     </form>
                                 </div>

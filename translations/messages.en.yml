@@ -1,3 +1,7 @@
+'api.documentation.title': 'API Documentation'
+
+'application.title': 'Application'
+
 'user.role.admin': 'Administrator'
 
 'main_menu.home': 'Home'
@@ -24,3 +28,10 @@
 'footer.copyright': '© Copyright'
 'footer.rights': 'All Rights Reserved'
 'footer.performed_by': 'Performed by'
+
+'notice.no_token_found': 'No API token found'
+'error.occurred': 'An error occurred'
+
+'login.form.sign_in': 'Sign in'
+'login.form.error.invalid_username': 'Please enter your username.'
+'login.form.error.invalid_password': 'Please enter your password.'

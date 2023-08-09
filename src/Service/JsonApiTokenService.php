@@ -77,6 +77,11 @@ class JsonApiTokenService
         return $result;
     }
 
+    /**
+     * @param string $value
+     * @param string $field
+     * @return mixed
+     */
     public function getApiToken(string $value, string $field = self::FIELD_TOKEN): mixed
     {
         if (!in_array($field, [self::FIELD_USERNAME, self::FIELD_TOKEN])) {

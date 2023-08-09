@@ -1,8 +1,8 @@
 {% extends 'application/base_application.html.twig' %}
 
-{% block title %}Create an audio transcription{% endblock %}
+{% block title %}{{ app_name }} - {{ 'main_menu.audio.create_transcription'|trans }}{% endblock %}
 
-{% block applicationPageTitle %}Create an audio transcription{% endblock %}
+{% block applicationPageTitle %}{{ 'main_menu.audio.create_transcription'|trans }}{% endblock %}
 
 {% block applicationSection %}
     {% if errorMessage %}

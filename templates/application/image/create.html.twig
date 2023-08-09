@@ -1,8 +1,8 @@
 {% extends 'application/base_application.html.twig' %}
 
-{% block title %}Create an image{% endblock %}
+{% block title %}{{ app_name }} - {{ 'main_menu.images.create'|trans }}{% endblock %}
 
-{% block applicationPageTitle %}Create an image{% endblock %}
+{% block applicationPageTitle %}{{ 'main_menu.images.create'|trans }}{% endblock %}
 
 {% block applicationSection %}
     {% if errorMessage %}

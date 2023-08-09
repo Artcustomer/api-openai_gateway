@@ -1,8 +1,8 @@
 {% extends 'application/base_application.html.twig' %}
 
-{% block title %}Translate{% endblock %}
+{% block title %}{{ app_name }} - {{ 'main_menu.text.translate'|trans }}{% endblock %}
 
-{% block applicationPageTitle %}Translate{% endblock %}
+{% block applicationPageTitle %}{{ 'main_menu.text.translate'|trans }}{% endblock %}
 
 {% block applicationSection %}
     {% if errorMessage %}

@@ -1,8 +1,8 @@
 {% extends 'application/base_application.html.twig' %}
 
-{% block title %}Create a chat completion{% endblock %}
+{% block title %}{{ app_name }} - {{ 'main_menu.chat.create_completion'|trans }}{% endblock %}
 
-{% block applicationPageTitle %}Create a chat completion{% endblock %}
+{% block applicationPageTitle %}{{ app_name }} - {{ 'main_menu.chat.create_completion'|trans }}{% endblock %}
 
 {% block applicationSection %}
     {% if errorMessage %}

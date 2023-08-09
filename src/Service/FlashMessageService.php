@@ -30,5 +30,4 @@ class FlashMessageService
             $this->session->getFlashBag()->add($type, $message);
         }
     }
-
 }

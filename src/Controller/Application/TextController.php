@@ -37,6 +37,9 @@ class TextController extends AbstractApplicationController
      *
      * @param Request $request
      * @return Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
      */
     public function prompt(Request $request): Response
     {
@@ -87,7 +90,7 @@ class TextController extends AbstractApplicationController
                     }
                 }
 
-                $errorMessage = !empty($errorMessage) ? $errorMessage : 'An error occurred';
+                $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
             }
         }
 
@@ -107,6 +110,9 @@ class TextController extends AbstractApplicationController
      *
      * @param Request $request
      * @return Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
      */
     public function translate(Request $request): Response
     {
@@ -156,7 +162,7 @@ class TextController extends AbstractApplicationController
                     }
                 }
 
-                $errorMessage = !empty($errorMessage) ? $errorMessage : 'An error occurred';
+                $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
             }
         }
 

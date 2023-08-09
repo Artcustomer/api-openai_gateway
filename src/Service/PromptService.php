@@ -10,12 +10,12 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class PromptService
 {
-    
+
     private RouterInterface $router;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param RouterInterface $router
      */
     public function __construct(RouterInterface $router)
@@ -31,6 +31,19 @@ class PromptService
     public function getSamples(): array
     {
         $data = [];
+        $data['learning'] = [
+            'title' => 'Learning',
+            'prompts' => [
+                $this->sampleFactory('Focus on the most important', 'Act as an expert in [TOPIC]. MY goal is to learn [SKILL] as quickly as possible. Make a list of the most important things I need to know that will allow me to master this topic.', 'application_chat_create_completion', ['max_tokens' => 1024]),
+                $this->sampleFactory('Define and understand a concept', 'Define [TERM] and provide an example that can be used in everyday life. The definition should be complete but easy to understand, explaining any complicated words if necessary.', 'application_chat_create_completion', ['max_tokens' => 1024]),
+                $this->sampleFactory('Relate multiple topics', 'Describe and explain in simple words the relationship between [CONCEPT 1] and [CONCEPT 2].', 'application_chat_create_completion', ['max_tokens' => 1024]),
+                $this->sampleFactory('Consult an expert and ask questions', 'I want you to act as an expert in [TOPIC] and give me recommendations for [SPECIFIC QUESTION].', 'application_chat_create_completion', ['max_tokens' => 1024]),
+                $this->sampleFactory('Learn the most important terms', 'What are some key terms I should know about [TOPIC]? Make a list what a short, simple definition of each term.', 'application_chat_create_completion', ['max_tokens' => 1024]),
+                $this->sampleFactory('Create a learning plan', 'I want to learn [TOPIC]. Give me step-by-step instructions on how to learn [SKILL]. Start with the basics and move on to the more difficult ones. Keep in mind that i am a beginner', 'application_chat_create_completion', ['max_tokens' => 1024]),
+                $this->sampleFactory('Easily understand anything', 'Can you explain the concept of [TOPIC] in simple terms? Summarize the main principles and illustrate with examples to make it easier to understand.', 'application_chat_create_completion', ['max_tokens' => 1024]),
+                $this->sampleFactory('Increase your productivity', 'Enhance team productivity in [BUSINESS] by implementing the [SCRUM] methodology.', 'application_chat_create_completion', ['max_tokens' => 1024]),
+            ]
+        ];
         $data['teaching'] = [
             'title' => 'Teaching',
             'prompts' => [
@@ -86,8 +99,9 @@ class PromptService
      *
      * @param string $title
      * @param string $prompt
-     * @param string $route
-     * @return array
+     * @param string|null $path
+     * @param array $parameters
+     * @return string[]
      */
     private function sampleFactory(string $title, string $prompt, string $path = null, array $parameters = []): array
     {
@@ -95,10 +109,10 @@ class PromptService
             'title' => $title,
             'prompt' => $prompt
         ];
-        
+
         if ($path !== null) {
             $parameters = array_merge($parameters, ['prompt' => $prompt]);
-            
+
             array_walk($parameters,
                 function ($value, $key) use (&$parameters) {
                     $parameters[$key] = urlencode($value);
@@ -107,7 +121,7 @@ class PromptService
 
             $data['link'] = $this->router->generate($path, $parameters);
         }
-        
+
         return $data;
     }
 }

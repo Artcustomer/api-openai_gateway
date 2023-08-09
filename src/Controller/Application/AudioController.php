@@ -36,6 +36,8 @@ class AudioController extends AbstractApplicationController
      *
      * @param Request $request
      * @return Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \ReflectionException
      */
     public function createTranscription(Request $request): Response
@@ -83,7 +85,7 @@ class AudioController extends AbstractApplicationController
                     }
                 }
 
-                $errorMessage = !empty($errorMessage) ? $errorMessage : 'An error occurred';
+                $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
             }
         }
 
@@ -102,6 +104,8 @@ class AudioController extends AbstractApplicationController
      *
      * @param Request $request
      * @return Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \ReflectionException
      */
     public function createTranslation(Request $request): Response
@@ -149,7 +153,7 @@ class AudioController extends AbstractApplicationController
                     }
                 }
 
-                $errorMessage = !empty($errorMessage) ? $errorMessage : 'An error occurred';
+                $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
             }
         }
 
@@ -168,6 +172,8 @@ class AudioController extends AbstractApplicationController
      *
      * @param Request $request
      * @return Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \ReflectionException
      */
     public function speakToText(Request $request): Response
@@ -207,7 +213,7 @@ class AudioController extends AbstractApplicationController
                     }
                 }
 
-                $errorMessage = !empty($errorMessage) ? $errorMessage : 'An error occurred';
+                $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
             }
         }
 
