@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 use App\Controller\Application\AbstractApplicationController;
 use App\Service\FlashMessageService;
 use App\Service\OpenAIService;
+use Artcustomer\ApiUnit\Utils\ApiMethodTypes;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -64,7 +65,10 @@ class ControllerSubscriber implements EventSubscriberInterface
      */
     private function checkOpenAIApiToken(): void
     {
-        if ($this->controller instanceof AbstractApplicationController) {
+        if (
+            $this->event->getRequest()->isMethod(ApiMethodTypes::GET) &&
+            $this->controller instanceof AbstractApplicationController
+        ) {
             if ($this->security->getUser() !== null) {
                 $isApiKeyAvailable = $this->openAIService->isApiKeyAvailable();
 
