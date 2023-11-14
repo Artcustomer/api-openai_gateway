@@ -19,6 +19,8 @@
 'main_menu.audio.speak_to_text': 'Speak to text'
 'main_menu.tools': 'Tools'
 'main_menu.tools.prompt_samples': 'Prompt samples'
+'main_menu.sandbox': 'Sandbox'
+'main_menu.sandbox.edenai_test': 'EdenAI test'
 
 'user_menu.profile': 'Profile'
 'user_menu.api_settings': 'API Settings'

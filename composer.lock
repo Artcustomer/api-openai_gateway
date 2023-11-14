@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "343b4d54203961c6c02e41697fc720cd",
+    "content-hash": "bfb43f8151bd4ab3de5a79bf579c2c7b",
     "packages": [
         {
             "name": "artcustomer/apiunit",
@@ -55,16 +55,16 @@
         },
         {
             "name": "artcustomer/edenai-api-client",
-            "version": "0.0.1",
+            "version": "0.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/api-edenai_client.git",
-                "reference": "73e1d8b74c82526c5afbb105db4dc20a2381621f"
+                "reference": "6d81451840b9969c2704e10634f415a86f02e456"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/api-edenai_client/zipball/73e1d8b74c82526c5afbb105db4dc20a2381621f",
-                "reference": "73e1d8b74c82526c5afbb105db4dc20a2381621f",
+                "url": "https://api.github.com/repos/Artcustomer/api-edenai_client/zipball/6d81451840b9969c2704e10634f415a86f02e456",
+                "reference": "6d81451840b9969c2704e10634f415a86f02e456",
                 "shasum": ""
             },
             "require": {
@@ -74,7 +74,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x"
+                    "dev-master": "0.x"
                 }
             },
             "autoload": {
@@ -96,10 +96,10 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/api-edenai_client/tree/0.0.1",
+                "source": "https://github.com/Artcustomer/api-edenai_client/tree/0.0.2",
                 "issues": "https://github.com/Artcustomer/api-edenai_client/issues"
             },
-            "time": "2023-11-14T10:49:59+00:00"
+            "time": "2023-11-14T12:39:10+00:00"
         },
         {
             "name": "artcustomer/openai-api-client",

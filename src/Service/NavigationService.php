@@ -154,6 +154,9 @@ class NavigationService
             )),
             $this->itemFactory('tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
                 $this->itemFactory('samples', 'main_menu.tools.prompt_samples', null, 'application_tools_promptssamples')
+            )),
+            $this->itemFactory('sandbox-nav', 'main_menu.sandbox', 'bi-tools', null, array_merge(
+                $this->itemFactory('edenai_test', 'main_menu.sandbox.edenai_test', null, 'application_sandbox_edenai_test')
             ))
         );
     }

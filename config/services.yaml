@@ -23,6 +23,9 @@ services:
         $organisation: '%env(OPENAI_ORGANISATION)%'
         $availability: '%env(API_AVAILABILITY)%'
 
+    App\Service\EdenAIService:
+        $apiKey: '%env(EDENAI_API_KEY)%'
+
     App\Service\JsonUserService:
         $filePath: '%kernel.project_dir%/%env(DATA_USER_JSON_FILE)%'
 
