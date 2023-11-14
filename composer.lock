@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f3ef56cdee5dd0d608c2588cc5845d5",
+    "content-hash": "343b4d54203961c6c02e41697fc720cd",
     "packages": [
         {
             "name": "artcustomer/apiunit",
@@ -52,6 +52,54 @@
                 "issues": "https://github.com/Artcustomer/apiunit/issues"
             },
             "time": "2023-01-31T16:47:46+00:00"
+        },
+        {
+            "name": "artcustomer/edenai-api-client",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Artcustomer/api-edenai_client.git",
+                "reference": "73e1d8b74c82526c5afbb105db4dc20a2381621f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Artcustomer/api-edenai_client/zipball/73e1d8b74c82526c5afbb105db4dc20a2381621f",
+                "reference": "73e1d8b74c82526c5afbb105db4dc20a2381621f",
+                "shasum": ""
+            },
+            "require": {
+                "artcustomer/apiunit": "^1.0.0",
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Artcustomer\\EdenAIClient\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Massenot",
+                    "email": "david@artcustomer.fr"
+                }
+            ],
+            "description": "EdenAI Api client in PHP",
+            "keywords": [
+                "api"
+            ],
+            "support": {
+                "source": "https://github.com/Artcustomer/api-edenai_client/tree/0.0.1",
+                "issues": "https://github.com/Artcustomer/api-edenai_client/issues"
+            },
+            "time": "2023-11-14T10:49:59+00:00"
         },
         {
             "name": "artcustomer/openai-api-client",
@@ -2335,16 +2383,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v2.3.3",
+            "version": "v2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "9c402af768c6c9f8126a9ffa192ecf7c16581e35"
+                "reference": "ae6dea68771c5fca9d172e0c0910bdd06199f6f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/9c402af768c6c9f8126a9ffa192ecf7c16581e35",
-                "reference": "9c402af768c6c9f8126a9ffa192ecf7c16581e35",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/ae6dea68771c5fca9d172e0c0910bdd06199f6f4",
+                "reference": "ae6dea68771c5fca9d172e0c0910bdd06199f6f4",
                 "shasum": ""
             },
             "require": {
@@ -2380,7 +2428,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v2.3.3"
+                "source": "https://github.com/symfony/flex/tree/v2.4.1"
             },
             "funding": [
                 {
@@ -2396,7 +2444,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-04T09:02:35+00:00"
+            "time": "2023-10-30T18:35:17+00:00"
         },
         {
             "name": "symfony/form",
@@ -5288,16 +5336,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.7.14",
+            "version": "4.7.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "e53c0c7a6e250c435cc13ab50792247a8eb07da3"
+                "reference": "df8de8e484003f68cd2fa68db1e6cfb47a3a92cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/e53c0c7a6e250c435cc13ab50792247a8eb07da3",
-                "reference": "e53c0c7a6e250c435cc13ab50792247a8eb07da3",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/df8de8e484003f68cd2fa68db1e6cfb47a3a92cb",
+                "reference": "df8de8e484003f68cd2fa68db1e6cfb47a3a92cb",
                 "shasum": ""
             },
             "require": {
@@ -5360,9 +5408,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.7.14"
+                "source": "https://github.com/zircote/swagger-php/tree/4.7.15"
             },
-            "time": "2023-09-12T00:18:13+00:00"
+            "time": "2023-10-12T20:26:34+00:00"
         }
     ],
     "packages-dev": [

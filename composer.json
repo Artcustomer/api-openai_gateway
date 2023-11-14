@@ -11,6 +11,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/Artcustomer/api-openai_client"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/Artcustomer/api-edenai_client"
         }
     ],
     "require": {
@@ -18,6 +22,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "artcustomer/openai-api-client": "^1.0.0",
+        "artcustomer/edenai-api-client": "^0.0.1",
         "doctrine/annotations": "^1.0",
         "friendsofsymfony/rest-bundle": "^3.4",
         "jms/serializer-bundle": "^5.0",
