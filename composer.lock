@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bfb43f8151bd4ab3de5a79bf579c2c7b",
+    "content-hash": "2c6f7f19c0a2464e3574bb9465f04730",
     "packages": [
         {
             "name": "artcustomer/apiunit",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/apiunit.git",
-                "reference": "a4d1129a412a4b916b1a6766eab5f743fd661a3d"
+                "reference": "985bd75abe179c21339656f214cba4be2847f9b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/apiunit/zipball/a4d1129a412a4b916b1a6766eab5f743fd661a3d",
-                "reference": "a4d1129a412a4b916b1a6766eab5f743fd661a3d",
+                "url": "https://api.github.com/repos/Artcustomer/apiunit/zipball/985bd75abe179c21339656f214cba4be2847f9b9",
+                "reference": "985bd75abe179c21339656f214cba4be2847f9b9",
                 "shasum": ""
             },
             "require": {
@@ -26,7 +26,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.x-dev"
+                    "dev-master": "1.x"
                 }
             },
             "autoload": {
@@ -48,23 +48,23 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/apiunit/tree/1.0.0",
+                "source": "https://github.com/Artcustomer/apiunit/tree/1.0.1",
                 "issues": "https://github.com/Artcustomer/apiunit/issues"
             },
-            "time": "2023-01-31T16:47:46+00:00"
+            "time": "2023-11-16T07:45:14+00:00"
         },
         {
             "name": "artcustomer/edenai-api-client",
-            "version": "0.0.2",
+            "version": "0.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/api-edenai_client.git",
-                "reference": "6d81451840b9969c2704e10634f415a86f02e456"
+                "reference": "b2df3fb289cd94db0c7ab04c0d652f57eb922794"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/api-edenai_client/zipball/6d81451840b9969c2704e10634f415a86f02e456",
-                "reference": "6d81451840b9969c2704e10634f415a86f02e456",
+                "url": "https://api.github.com/repos/Artcustomer/api-edenai_client/zipball/b2df3fb289cd94db0c7ab04c0d652f57eb922794",
+                "reference": "b2df3fb289cd94db0c7ab04c0d652f57eb922794",
                 "shasum": ""
             },
             "require": {
@@ -96,23 +96,23 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/api-edenai_client/tree/0.0.2",
+                "source": "https://github.com/Artcustomer/api-edenai_client/tree/0.0.3",
                 "issues": "https://github.com/Artcustomer/api-edenai_client/issues"
             },
-            "time": "2023-11-14T12:39:10+00:00"
+            "time": "2023-11-16T08:51:44+00:00"
         },
         {
             "name": "artcustomer/openai-api-client",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/api-openai_client.git",
-                "reference": "341b7475126ab45ef9eb0f193f13b9c382e82b5d"
+                "reference": "6245d7fe89314962ec580fcd9053fa8f168c1107"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/api-openai_client/zipball/341b7475126ab45ef9eb0f193f13b9c382e82b5d",
-                "reference": "341b7475126ab45ef9eb0f193f13b9c382e82b5d",
+                "url": "https://api.github.com/repos/Artcustomer/api-openai_client/zipball/6245d7fe89314962ec580fcd9053fa8f168c1107",
+                "reference": "6245d7fe89314962ec580fcd9053fa8f168c1107",
                 "shasum": ""
             },
             "require": {
@@ -144,10 +144,10 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/api-openai_client/tree/1.0.2",
+                "source": "https://github.com/Artcustomer/api-openai_client/tree/1.0.3",
                 "issues": "https://github.com/Artcustomer/api-openai_client/issues"
             },
-            "time": "2023-08-09T05:11:38+00:00"
+            "time": "2023-11-16T08:54:40+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -1549,16 +1549,16 @@
         },
         {
             "name": "symfony/cache-contracts",
-            "version": "v3.3.0",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache-contracts.git",
-                "reference": "ad945640ccc0ae6e208bcea7d7de4b39b569896b"
+                "reference": "1d74b127da04ffa87aa940abe15446fa89653778"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache-contracts/zipball/ad945640ccc0ae6e208bcea7d7de4b39b569896b",
-                "reference": "ad945640ccc0ae6e208bcea7d7de4b39b569896b",
+                "url": "https://api.github.com/repos/symfony/cache-contracts/zipball/1d74b127da04ffa87aa940abe15446fa89653778",
+                "reference": "1d74b127da04ffa87aa940abe15446fa89653778",
                 "shasum": ""
             },
             "require": {
@@ -1605,7 +1605,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/cache-contracts/tree/v3.3.0"
+                "source": "https://github.com/symfony/cache-contracts/tree/v3.4.0"
             },
             "funding": [
                 {
@@ -1621,7 +1621,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-23T14:45:45+00:00"
+            "time": "2023-09-25T12:52:38+00:00"
         },
         {
             "name": "symfony/config",
@@ -1885,7 +1885,7 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.3.0",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
@@ -1932,7 +1932,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.3.0"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.4.0"
             },
             "funding": [
                 {
@@ -2180,7 +2180,7 @@
         },
         {
             "name": "symfony/event-dispatcher-contracts",
-            "version": "v3.3.0",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher-contracts.git",
@@ -2236,7 +2236,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/event-dispatcher-contracts/tree/v3.3.0"
+                "source": "https://github.com/symfony/event-dispatcher-contracts/tree/v3.4.0"
             },
             "funding": [
                 {
@@ -4319,16 +4319,16 @@
         },
         {
             "name": "symfony/service-contracts",
-            "version": "v3.3.0",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "40da9cc13ec349d9e4966ce18b5fbcd724ab10a4"
+                "reference": "b3313c2dbffaf71c8de2934e2ea56ed2291a3838"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/40da9cc13ec349d9e4966ce18b5fbcd724ab10a4",
-                "reference": "40da9cc13ec349d9e4966ce18b5fbcd724ab10a4",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/b3313c2dbffaf71c8de2934e2ea56ed2291a3838",
+                "reference": "b3313c2dbffaf71c8de2934e2ea56ed2291a3838",
                 "shasum": ""
             },
             "require": {
@@ -4381,7 +4381,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/service-contracts/tree/v3.3.0"
+                "source": "https://github.com/symfony/service-contracts/tree/v3.4.0"
             },
             "funding": [
                 {
@@ -4397,7 +4397,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-23T14:45:45+00:00"
+            "time": "2023-07-30T20:28:31+00:00"
         },
         {
             "name": "symfony/string",
@@ -4585,16 +4585,16 @@
         },
         {
             "name": "symfony/translation-contracts",
-            "version": "v3.3.0",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation-contracts.git",
-                "reference": "02c24deb352fb0d79db5486c0c79905a85e37e86"
+                "reference": "dee0c6e5b4c07ce851b462530088e64b255ac9c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/02c24deb352fb0d79db5486c0c79905a85e37e86",
-                "reference": "02c24deb352fb0d79db5486c0c79905a85e37e86",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/dee0c6e5b4c07ce851b462530088e64b255ac9c5",
+                "reference": "dee0c6e5b4c07ce851b462530088e64b255ac9c5",
                 "shasum": ""
             },
             "require": {
@@ -4643,7 +4643,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/translation-contracts/tree/v3.3.0"
+                "source": "https://github.com/symfony/translation-contracts/tree/v3.4.0"
             },
             "funding": [
                 {
@@ -4659,7 +4659,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-30T17:17:10+00:00"
+            "time": "2023-07-25T15:08:44+00:00"
         },
         {
             "name": "symfony/twig-bridge",
