@@ -105,7 +105,7 @@ class EdenAIController extends AbstractApplicationController
             [
                 'form' => $form,
                 'inputPrompt' => $inputPrompt,
-                'outputResponse' => $outputResponse,
+                'outputResponse' => '',
                 'output' => $output,
                 'errorMessage' => $errorMessage
             ]
