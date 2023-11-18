@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
+use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Component\Cache\Adapter\TraceableAdapter;
 use Symfony\Component\Cache\CacheItem;
 use Symfony\Contracts\Cache\CacheInterface;
 
@@ -14,7 +14,8 @@ class CacheService
 {
 
     protected CacheInterface $cache;
-    protected ?AdapterInterface $pool;
+    protected ?AdapterInterface $adapter = null;
+    protected $isCacheAvailable = false;
 
     /**
      * Constructor
@@ -25,8 +26,9 @@ class CacheService
     {
         $this->cache = $cache;
 
-        if ($this->cache instanceof TraceableAdapter) {
-            $this->pool = $this->cache->getPool();
+        if ($this->cache instanceof AbstractAdapter) {
+            $this->adapter = $this->cache;
+            $this->isCacheAvailable = true;
         } else {
             // Warning : Cache is not well configured
         }
@@ -58,14 +60,14 @@ class CacheService
      */
     public function set(string $key, mixed $value): bool
     {
-        if ($this->pool === null) {
+        if (!$this->isCacheAvailable) {
             return false;
         }
 
-        $item = $this->pool->getItem($key);
+        $item = $this->adapter->getItem($key);
         $item->set($value);
 
-        return $this->pool->save($item);
+        return $this->adapter->save($item);
     }
 
     /**
@@ -75,15 +77,15 @@ class CacheService
      */
     public function delete(string|array $keys): bool
     {
-        if ($this->pool === null) {
+        if (!$this->isCacheAvailable) {
             return false;
         }
 
         if (is_array($keys)) {
-            return $this->pool->deleteItems($keys);
+            return $this->adapter->deleteItems($keys);
         }
 
-        return $this->pool->deleteItem($keys);
+        return $this->adapter->deleteItem($keys);
     }
 
     /**
@@ -93,10 +95,10 @@ class CacheService
      */
     public function getItem(string $key): ?CacheItem
     {
-        if ($this->pool === null) {
+        if (!$this->isCacheAvailable) {
             return null;
         }
 
-        return $this->pool->getItem($key);
+        return $this->adapter->getItem($key);
     }
 }
