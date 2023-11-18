@@ -2,6 +2,7 @@
 
 namespace App\Form\Type;
 
+use App\Enum\Languages;
 use Artcustomer\OpenAIClient\Enum\Model;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -22,15 +23,6 @@ class AudioCreateTranscriptionType extends AbstractExtendedType
     public const FIELD_TEMPERATURE = 'temperature';
     public const FIELD_LANGUAGE = 'language';
 
-    public const LANGUAGE_ENGLISH = 'English';
-    public const LANGUAGE_FRENCH = 'French';
-    public const LANGUAGE_GERMAN = 'German';
-    public const LANGUAGE_ITALIAN = 'Italian';
-    public const LANGUAGE_SPANISH = 'Spanish';
-    public const LANGUAGE_PORTUGUESE = 'Portuguese';
-    public const LANGUAGE_RUSSIAN = 'Russian';
-    public const LANGUAGE_CHINESE = 'Chinese';
-
     public const FIELD_NAMES = [
         self::FIELD_FILE,
         self::FIELD_MODEL,
@@ -40,14 +32,14 @@ class AudioCreateTranscriptionType extends AbstractExtendedType
     ];
 
     public const LANGUAGES = [
-        self::LANGUAGE_ENGLISH => 'en',
-        self::LANGUAGE_FRENCH => 'fr',
-        self::LANGUAGE_GERMAN => 'de',
-        self::LANGUAGE_ITALIAN => 'it',
-        self::LANGUAGE_SPANISH => 'es',
-        self::LANGUAGE_PORTUGUESE => 'pt',
-        self::LANGUAGE_RUSSIAN => 'ru',
-        self::LANGUAGE_CHINESE => 'zh'
+        Languages::LANGUAGE_ENGLISH => Languages::LANGCODE_ENGLISH,
+        Languages::LANGUAGE_FRENCH => Languages::LANGCODE_FRENCH,
+        Languages::LANGUAGE_GERMAN => Languages::LANGCODE_GERMAN,
+        Languages::LANGUAGE_ITALIAN => Languages::LANGCODE_ITALIAN,
+        Languages::LANGUAGE_SPANISH => Languages::LANGCODE_SPANISH,
+        Languages::LANGUAGE_PORTUGUESE => Languages::LANGCODE_PORTUGUESE,
+        Languages::LANGUAGE_RUSSIAN => Languages::LANGCODE_RUSSIAN,
+        Languages::LANGUAGE_CHINESE => Languages::LANGCODE_CHINESE
     ];
 
     /**

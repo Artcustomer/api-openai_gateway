@@ -5,7 +5,6 @@ namespace App\Service;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- *
  * @author David
  */
 class PromptService

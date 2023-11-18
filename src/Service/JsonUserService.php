@@ -7,6 +7,9 @@ use App\Trait\JsonStorageTrait;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @author David
+ */
 class JsonUserService implements IUserService
 {
 

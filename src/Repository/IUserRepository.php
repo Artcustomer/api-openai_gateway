@@ -2,6 +2,9 @@
 
 namespace App\Repository;
 
+/**
+ * @author David
+ */
 interface IUserRepository
 {
 

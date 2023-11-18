@@ -11,18 +11,22 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @author David
+ */
 class AudioType extends BaseType implements DataTransformerInterface
 {
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
             $requestHandler = $form->getConfig()->getRequestHandler();
-
-            dump($event);
-            dump($requestHandler);
-            exit;
         });
     }
 
@@ -61,17 +65,11 @@ class AudioType extends BaseType implements DataTransformerInterface
     public function transform(mixed $data): mixed
     {
         // Model data should not be transformed
-        dump('transform');
-        dump($this);
-        exit;
         return $data;
     }
 
     public function reverseTransform(mixed $data): mixed
     {
-        dump('reverseTransform');
-        dump($this);
-        exit;
         return $data ?? '';
     }
 }

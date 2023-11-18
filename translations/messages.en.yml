@@ -20,7 +20,9 @@
 'main_menu.tools': 'Tools'
 'main_menu.tools.prompt_samples': 'Prompt samples'
 'main_menu.sandbox': 'Sandbox'
-'main_menu.sandbox.edenai_test': 'EdenAI test'
+'main_menu.sandbox.testing': 'Testing'
+'main_menu.edenai': 'EdenAI'
+'main_menu.edenai.text_to_speech': 'Text To Speech'
 
 'user_menu.profile': 'Profile'
 'user_menu.api_settings': 'API Settings'
@@ -31,9 +33,13 @@
 'footer.rights': 'All Rights Reserved'
 'footer.performed_by': 'Performed by'
 
-'notice.no_token_found': 'No API token found'
+'notice.no_openai_token_found': 'No OpenAI API token found'
+'notice.no_edenai_token_found': 'No EdenAI API token found'
+
 'error.occurred': 'An error occurred'
 
 'login.form.sign_in': 'Sign in'
 'login.form.error.invalid_username': 'Please enter your username.'
 'login.form.error.invalid_password': 'Please enter your password.'
+
+'title.debug_bar': 'Debug bar'

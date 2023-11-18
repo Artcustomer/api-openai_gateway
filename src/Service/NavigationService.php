@@ -155,8 +155,11 @@ class NavigationService
             $this->itemFactory('tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
                 $this->itemFactory('samples', 'main_menu.tools.prompt_samples', null, 'application_tools_promptssamples')
             )),
+            $this->itemFactory('edenai-nav', 'main_menu.edenai', 'bi-tools', null, array_merge(
+                $this->itemFactory('text_to_speech', 'main_menu.edenai.text_to_speech', null, 'application_edenai_textospeech')
+            )),
             $this->itemFactory('sandbox-nav', 'main_menu.sandbox', 'bi-tools', null, array_merge(
-                $this->itemFactory('edenai_test', 'main_menu.sandbox.edenai_test', null, 'application_sandbox_edenai_test')
+                $this->itemFactory('testing', 'main_menu.sandbox.testing', null, 'application_sandbox_testing')
             ))
         );
     }

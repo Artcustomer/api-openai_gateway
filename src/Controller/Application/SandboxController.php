@@ -2,9 +2,9 @@
 
 namespace App\Controller\Application;
 
-use App\Service\EdenAIService;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Service\OpenAIService;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  *
@@ -15,28 +15,27 @@ use Symfony\Component\HttpFoundation\Response;
 class SandboxController extends AbstractApplicationController
 {
 
-    protected EdenAIService $edenAIService;
-
+    protected OpenAIService $openAIService;
 
     /**
      * Constructor
      *
-     * @param EdenAIService $edenAIService
+     * @param OpenAIService $openAIService
      */
-    public function __construct(EdenAIService $edenAIService)
+    public function __construct(OpenAIService $openAIService)
     {
-        $this->edenAIService = $edenAIService;
+        $this->openAIService = $openAIService;
     }
 
     /**
-     * @Route("/edenai/test", name="application_sandbox_edenai_test", methods={"GET"})
+     * @Route("/testing", name="application_sandbox_testing", methods={"GET", "POST"})
      *
      * @return Response
      */
-    public function edenAITest(): Response
+    public function testing(): Response
     {
         return $this->render(
-            'application/sandbox/edenai/test.html.twig',
+            'application/sandbox/testing.html.twig',
             [
 
             ]

@@ -7,6 +7,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * @author David
+ */
 class UserApiSettingsType extends AbstractExtendedType
 {
 
@@ -16,6 +19,11 @@ class UserApiSettingsType extends AbstractExtendedType
         self::FIELD_API_TOKEN
     ];
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return array
+     */
     protected function buildFields(FormBuilderInterface $builder, array $options): array
     {
         $fields = [];

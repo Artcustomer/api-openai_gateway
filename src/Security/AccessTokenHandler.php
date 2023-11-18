@@ -8,6 +8,9 @@ use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @author David
+ */
 class AccessTokenHandler implements AccessTokenHandlerInterface
 {
 

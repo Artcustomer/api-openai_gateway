@@ -2,8 +2,12 @@
 
 namespace App\Service;
 
+use App\EventHandler\ApiEventHandler;
 use App\Utils\Consts\SessionConsts;
+use Artcustomer\ApiUnit\Enum\ClientConfig;
+use Artcustomer\OpenAIClient\Client\ApiClient;
 use Artcustomer\OpenAIClient\OpenAIApiGateway;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @author David
@@ -19,6 +23,7 @@ class OpenAIService
     private string $organisation;
     private bool $availability;
     private SessionManager $sessionManager;
+    private EventDispatcherInterface $eventDispatcher;
     private bool $apiKeyInEnv = false;
     private bool $apiKeyInSession = false;
 
@@ -29,13 +34,15 @@ class OpenAIService
      * @param string $organisation
      * @param bool $availability
      * @param SessionManager $sessionManager
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(string $apiKey, string $organisation, bool $availability, SessionManager $sessionManager)
+    public function __construct(string $apiKey, string $organisation, bool $availability, SessionManager $sessionManager, EventDispatcherInterface $eventDispatcher)
     {
         $this->apiKey = $apiKey;
         $this->organisation = $organisation;
         $this->availability = $availability;
         $this->sessionManager = $sessionManager;
+        $this->eventDispatcher = $eventDispatcher;
 
         $this->defineApiKey();
     }
@@ -49,7 +56,15 @@ class OpenAIService
     private function setupApiGateway(): void
     {
         if ($this->apiGateway === null) {
+            $config = [
+                ApiClient::CONFIG_USE_DECORATOR => true,
+                ClientConfig::ENABLE_EVENTS => true,
+                ClientConfig::DEBUG_MODE => false
+            ];
+
             $this->apiGateway = new OpenAIApiGateway($this->apiKey, $this->organisation, $this->availability);
+            $this->apiGateway->setEventHandler(new ApiEventHandler($this->eventDispatcher));
+            $this->apiGateway->setClientConfig($config);
             $this->apiGateway->initialize();
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Form\Type;
 
+use App\Enum\Languages;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -17,15 +18,6 @@ class TextTranslateType extends AbstractExtendedType
     public const FIELD_TO_LANGUAGE = 'to_language';
     public const FIELD_PROMPT = 'prompt';
 
-    public const LANGUAGE_ENGLISH = 'English';
-    public const LANGUAGE_FRENCH = 'French';
-    public const LANGUAGE_GERMAN = 'German';
-    public const LANGUAGE_ITALIAN = 'Italian';
-    public const LANGUAGE_SPANISH = 'Spanish';
-    public const LANGUAGE_PORTUGUESE = 'Portuguese';
-    public const LANGUAGE_RUSSIAN = 'Russian';
-    public const LANGUAGE_CHINESE = 'Chinese';
-
     public const FIELD_NAMES = [
         self::FIELD_FROM_LANGUAGE,
         self::FIELD_TO_LANGUAGE,
@@ -33,14 +25,14 @@ class TextTranslateType extends AbstractExtendedType
     ];
 
     public const LANGUAGES = [
-        self::LANGUAGE_ENGLISH => 'english',
-        self::LANGUAGE_FRENCH => 'french',
-        self::LANGUAGE_GERMAN => 'german',
-        self::LANGUAGE_ITALIAN => 'italian',
-        self::LANGUAGE_SPANISH => 'spanish',
-        self::LANGUAGE_PORTUGUESE => 'portuguese',
-        self::LANGUAGE_RUSSIAN => 'russian',
-        self::LANGUAGE_CHINESE => 'chinese'
+        Languages::LANGUAGE_ENGLISH => 'english',
+        Languages::LANGUAGE_FRENCH => 'french',
+        Languages::LANGUAGE_GERMAN => 'german',
+        Languages::LANGUAGE_ITALIAN => 'italian',
+        Languages::LANGUAGE_SPANISH => 'spanish',
+        Languages::LANGUAGE_PORTUGUESE => 'portuguese',
+        Languages::LANGUAGE_RUSSIAN => 'russian',
+        Languages::LANGUAGE_CHINESE => 'chinese'
     ];
 
     /**

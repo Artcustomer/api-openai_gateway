@@ -5,6 +5,9 @@ namespace App\Service;
 use App\Factory\UserFactory;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @author David
+ */
 interface IUserService
 {
 

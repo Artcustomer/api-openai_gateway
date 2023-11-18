@@ -1,0 +1,5 @@
+{% extends 'application/base_application.html.twig' %}
+
+{% block preApplicationSection %}
+    {{ render(controller("App\\Controller\\Application\\Layout\\UIController::debugBarApi")) }}
+{% endblock %}

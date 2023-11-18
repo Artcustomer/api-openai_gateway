@@ -4,6 +4,9 @@ namespace App\Factory;
 
 use App\Security\User;
 
+/**
+ * @author David
+ */
 class UserFactory
 {
 

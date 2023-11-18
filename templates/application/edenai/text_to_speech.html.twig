@@ -1,0 +1,68 @@
+{% extends 'application/layout/controller_layout.html.twig' %}
+
+{% block title %}{{ app_name }} - {{ 'main_menu.edenai.text_to_speech'|trans }}{% endblock %}
+
+{% block applicationPageTitle %}{{ 'main_menu.edenai.text_to_speech'|trans }}{% endblock %}
+
+{% block applicationSection %}
+    {% if errorMessage %}
+        <div class="alert alert-dismissible alert-danger">
+            <strong>{{ errorMessage }}</strong>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if output %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Output</h5>
+                    <div class="accordion accordion-flush" id="accordionFlushOutput">
+                        {% for key,outputItem in output %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-heading-{{ key }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#flush-collapse-{{ key }}" aria-expanded="false"
+                                            aria-controls="flush-collapse-{{ key }}">
+                                        {{ key }}
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse-{{ key }}" class="accordion-collapse collapse"
+                                     aria-labelledby="flush-heading-{{ key }}" data-bs-parent="#accordionFlushOutput" style="">
+                                    <div class="accordion-body">
+                                        {% if outputItem.status == 'success' %}
+                                            <audio controls class="embed-responsive-item">
+                                                <source src="{{ outputItem.url }}">
+                                            </audio>
+                                        {% else %}
+                                            An error occured
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if outputResponse %}
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ outputResponse }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+

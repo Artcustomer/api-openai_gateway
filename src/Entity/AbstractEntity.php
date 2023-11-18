@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+/**
+ * @author David
+ */
 class AbstractEntity
 {
 

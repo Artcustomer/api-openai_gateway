@@ -2,6 +2,9 @@
 
 namespace App\Trait;
 
+/**
+ * @author David
+ */
 trait JsonStorageTrait
 {
 

@@ -6,6 +6,9 @@ use App\Factory\ApiTokenFactory;
 use App\Security\ApiToken;
 use App\Trait\JsonStorageTrait;
 
+/**
+ * @author David
+ */
 class JsonApiTokenService
 {
     use JsonStorageTrait;

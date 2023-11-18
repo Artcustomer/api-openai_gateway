@@ -52,7 +52,6 @@ class ChatController extends AbstractApplicationController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $inputPrompt = $data['prompt'];
-
             $params = [
                 'model' => $data['model'],
                 'messages' => [

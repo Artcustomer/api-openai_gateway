@@ -4,6 +4,9 @@ namespace App\Repository;
 
 use App\Service\JsonApiTokenService;
 
+/**
+ * @author David
+ */
 class JsonAccessTokenRepository implements IUserRepository
 {
 

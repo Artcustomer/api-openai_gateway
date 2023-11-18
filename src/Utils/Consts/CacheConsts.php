@@ -5,9 +5,9 @@ namespace App\Utils\Consts;
 /**
  * @author David
  */
-class SessionConsts
+class CacheConsts
 {
 
-    public const OPENAI_API_KEY = '_openai_api_key';
+    public const DEBUG_API_CALLS = 'debug_api_calls';
 
 }

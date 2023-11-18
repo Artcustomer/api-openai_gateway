@@ -3,8 +3,11 @@
 namespace App\EventSubscriber;
 
 use App\Controller\Application\AbstractApplicationController;
+use App\Service\CacheService;
+use App\Service\EdenAIService;
 use App\Service\FlashMessageService;
 use App\Service\OpenAIService;
+use App\Utils\Consts\CacheConsts;
 use Artcustomer\ApiUnit\Utils\ApiMethodTypes;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -12,28 +15,46 @@ use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @author David
+ */
 class ControllerSubscriber implements EventSubscriberInterface
 {
 
     private Security $security;
+    private CacheService $cache;
     private FlashMessageService $flashMessageService;
     private TranslatorInterface $translator;
     private OpenAIService $openAIService;
+    private EdenAIService $edenAIService;
     private ControllerEvent $event;
     private $controller;
 
     /**
+     * Constructor
+     *
      * @param Security $security
+     * @param CacheService $cache
      * @param FlashMessageService $flashMessageService
      * @param TranslatorInterface $translator
      * @param OpenAIService $openAIService
+     * @param EdenAIService $edenAIService
      */
-    public function __construct(Security $security, FlashMessageService $flashMessageService, TranslatorInterface $translator, OpenAIService $openAIService)
+    public function __construct(
+        Security            $security,
+        CacheService        $cache,
+        FlashMessageService $flashMessageService,
+        TranslatorInterface $translator,
+        OpenAIService       $openAIService,
+        EdenAIService       $edenAIService
+    )
     {
         $this->security = $security;
+        $this->cache = $cache;
         $this->flashMessageService = $flashMessageService;
         $this->translator = $translator;
         $this->openAIService = $openAIService;
+        $this->edenAIService = $edenAIService;
     }
 
     /**
@@ -49,6 +70,7 @@ class ControllerSubscriber implements EventSubscriberInterface
     /**
      * @param ControllerEvent $event
      * @return void
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function onKernelController(ControllerEvent $event): void
     {
@@ -61,24 +83,38 @@ class ControllerSubscriber implements EventSubscriberInterface
         $this->event = $event;
         $this->controller = $controller;
 
-        $this->checkOpenAIApiToken();
+        $this->handleApplication();
+
     }
 
     /**
      * @return void
+     * @throws \Psr\Cache\InvalidArgumentException
      */
-    private function checkOpenAIApiToken(): void
+    private function handleApplication(): void
     {
         if (
             $this->event->getRequest()->isMethod(ApiMethodTypes::GET) &&
             $this->controller instanceof AbstractApplicationController
         ) {
-            if ($this->security->getUser() !== null) {
-                $isApiKeyAvailable = $this->openAIService->isApiKeyAvailable();
+            $this->cache->delete(CacheConsts::DEBUG_API_CALLS);
 
-                if (!$isApiKeyAvailable) {
-                    $this->flashMessageService->addFlash('notice', $this->translator->trans('notice.no_token_found'));
-                }
+            $this->checkApiTokens();
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function checkApiTokens(): void
+    {
+        if ($this->security->getUser() !== null) {
+            if (!$this->openAIService->isApiKeyAvailable()) {
+                $this->flashMessageService->addFlash('notice', $this->translator->trans('notice.no_openai_token_found'));
+            }
+
+            if (!$this->edenAIService->isApiKeyAvailable()) {
+                $this->flashMessageService->addFlash('notice', $this->translator->trans('notice.no_edenai_token_found'));
             }
         }
     }

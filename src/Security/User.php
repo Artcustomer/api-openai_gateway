@@ -6,6 +6,9 @@ use App\Entity\AbstractEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @author David
+ */
 class User extends AbstractEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
 

@@ -2,6 +2,9 @@
 
 namespace App\Utils\Consts;
 
+/**
+ * @author David
+ */
 class EnvConsts
 {
 

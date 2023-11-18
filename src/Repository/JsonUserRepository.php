@@ -6,6 +6,9 @@ use App\Service\IUserService;
 use App\Service\JsonUserService;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @author David
+ */
 class JsonUserRepository implements IUserRepository
 {
 

@@ -4,6 +4,9 @@ namespace App\Security;
 
 use App\Entity\AbstractEntity;
 
+/**
+ * @author David
+ */
 class ApiToken extends AbstractEntity
 {
 

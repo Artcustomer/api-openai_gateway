@@ -6,6 +6,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
+/**
+ * @author David
+ */
 class FlashMessageService
 {
 
