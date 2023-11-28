@@ -15,12 +15,17 @@
         {
             "type": "vcs",
             "url": "https://github.com/Artcustomer/api-edenai_client"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/Artcustomer/api-elevenlabs_client"
         }
     ],
     "require": {
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "artcustomer/elevenlabs-api-client": "^0.0.1",
         "artcustomer/edenai-api-client": "^0.0.3",
         "artcustomer/openai-api-client": "^1.0.3",
         "doctrine/annotations": "^1.0",
