@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aedc29ec4ab30b5faace0fa04fe18ea3",
+    "content-hash": "7e7cd89e2c29b90e21c2e04bed3241b2",
     "packages": [
         {
             "name": "artcustomer/apiunit",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/apiunit.git",
-                "reference": "985bd75abe179c21339656f214cba4be2847f9b9"
+                "reference": "3888c0bc56e22944ccda3370852e0a98925b6cca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/apiunit/zipball/985bd75abe179c21339656f214cba4be2847f9b9",
-                "reference": "985bd75abe179c21339656f214cba4be2847f9b9",
+                "url": "https://api.github.com/repos/Artcustomer/apiunit/zipball/3888c0bc56e22944ccda3370852e0a98925b6cca",
+                "reference": "3888c0bc56e22944ccda3370852e0a98925b6cca",
                 "shasum": ""
             },
             "require": {
@@ -48,10 +48,10 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/apiunit/tree/1.0.1",
+                "source": "https://github.com/Artcustomer/apiunit/tree/1.0.2",
                 "issues": "https://github.com/Artcustomer/apiunit/issues"
             },
-            "time": "2023-11-16T07:45:14+00:00"
+            "time": "2023-11-29T16:37:55+00:00"
         },
         {
             "name": "artcustomer/edenai-api-client",
@@ -102,17 +102,17 @@
             "time": "2023-11-16T08:51:44+00:00"
         },
         {
-            "name": "artcustomer/elevenLabs-api-client",
-            "version": "0.0.1",
+            "name": "artcustomer/elevenlabs-api-client",
+            "version": "0.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/api-elevenlabs_client.git",
-                "reference": "c64e25bf87a52dbb3f253d8c098287d7d8eed2b8"
+                "reference": "95098f6d6dce0718a42cb33b5193c983186a0902"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/api-elevenlabs_client/zipball/c64e25bf87a52dbb3f253d8c098287d7d8eed2b8",
-                "reference": "c64e25bf87a52dbb3f253d8c098287d7d8eed2b8",
+                "url": "https://api.github.com/repos/Artcustomer/api-elevenlabs_client/zipball/95098f6d6dce0718a42cb33b5193c983186a0902",
+                "reference": "95098f6d6dce0718a42cb33b5193c983186a0902",
                 "shasum": ""
             },
             "require": {
@@ -144,10 +144,10 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/api-elevenlabs_client/tree/0.0.1",
+                "source": "https://github.com/Artcustomer/api-elevenlabs_client/tree/0.0.2",
                 "issues": "https://github.com/Artcustomer/api-elevenlabs_client/issues"
             },
-            "time": "2023-11-28T08:13:59+00:00"
+            "time": "2023-11-29T16:48:56+00:00"
         },
         {
             "name": "artcustomer/openai-api-client",
