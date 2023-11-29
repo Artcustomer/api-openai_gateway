@@ -35,6 +35,7 @@
 
 'notice.no_openai_token_found': 'No OpenAI API token found'
 'notice.no_edenai_token_found': 'No EdenAI API token found'
+'notice.no_elevenlabs_token_found': 'No ElevenLabs API token found'
 
 'error.occurred': 'An error occurred'
 

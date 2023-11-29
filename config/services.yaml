@@ -26,6 +26,9 @@ services:
     App\Service\EdenAIService:
         $apiKey: '%env(EDENAI_API_KEY)%'
 
+    App\Service\ElevenLabsService:
+        $apiKey: '%env(ELEVENLABS_API_KEY)%'
+
     App\Service\JsonUserService:
         $filePath: '%kernel.project_dir%/%env(DATA_USER_JSON_FILE)%'
 

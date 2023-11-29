@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 use App\Controller\Application\AbstractApplicationController;
 use App\Service\CacheService;
 use App\Service\EdenAIService;
+use App\Service\ElevenLabsService;
 use App\Service\FlashMessageService;
 use App\Service\OpenAIService;
 use App\Utils\Consts\CacheConsts;
@@ -27,6 +28,7 @@ class ControllerSubscriber implements EventSubscriberInterface
     private TranslatorInterface $translator;
     private OpenAIService $openAIService;
     private EdenAIService $edenAIService;
+    private ElevenLabsService $elevenLabsService;
     private ControllerEvent $event;
     private $controller;
 
@@ -39,6 +41,7 @@ class ControllerSubscriber implements EventSubscriberInterface
      * @param TranslatorInterface $translator
      * @param OpenAIService $openAIService
      * @param EdenAIService $edenAIService
+     * @param ElevenLabsService $elevenLabsService
      */
     public function __construct(
         Security            $security,
@@ -46,7 +49,8 @@ class ControllerSubscriber implements EventSubscriberInterface
         FlashMessageService $flashMessageService,
         TranslatorInterface $translator,
         OpenAIService       $openAIService,
-        EdenAIService       $edenAIService
+        EdenAIService       $edenAIService,
+        ElevenLabsService   $elevenLabsService
     )
     {
         $this->security = $security;
@@ -55,6 +59,7 @@ class ControllerSubscriber implements EventSubscriberInterface
         $this->translator = $translator;
         $this->openAIService = $openAIService;
         $this->edenAIService = $edenAIService;
+        $this->elevenLabsService = $elevenLabsService;
     }
 
     /**
@@ -110,11 +115,15 @@ class ControllerSubscriber implements EventSubscriberInterface
     {
         if ($this->security->getUser() !== null) {
             if (!$this->openAIService->isApiKeyAvailable()) {
-                $this->flashMessageService->addFlash('notice', $this->translator->trans('notice.no_openai_token_found'));
+                $this->flashMessageService->addFlash(FlashMessageService::TYPE_NOTICE, $this->translator->trans('notice.no_openai_token_found'));
             }
 
             if (!$this->edenAIService->isApiKeyAvailable()) {
-                $this->flashMessageService->addFlash('notice', $this->translator->trans('notice.no_edenai_token_found'));
+                $this->flashMessageService->addFlash(FlashMessageService::TYPE_NOTICE, $this->translator->trans('notice.no_edenai_token_found'));
+            }
+
+            if (!$this->elevenLabsService->isApiKeyAvailable()) {
+                $this->flashMessageService->addFlash(FlashMessageService::TYPE_NOTICE, $this->translator->trans('notice.no_elevenlabs_token_found'));
             }
         }
     }
