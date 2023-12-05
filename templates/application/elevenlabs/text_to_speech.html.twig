@@ -1,0 +1,46 @@
+{% extends 'application/layout/controller_layout.html.twig' %}
+
+{% block title %}{{ app_name }} - {{ 'main_menu.elevenlabs.text_to_speech'|trans }}{% endblock %}
+
+{% block applicationPageTitle %}{{ 'main_menu.elevenlabs.text_to_speech'|trans }}{% endblock %}
+
+{% block applicationSection %}
+    {% if errorMessage %}
+        <div class="alert alert-dismissible alert-danger">
+            <strong>{{ errorMessage }}</strong>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if output %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Output</h5>
+                <audio controls class="embed-responsive-item">
+                    <source src="data:audio/mp3;base64, {{ output }}">
+                </audio>
+            </div>
+        </div>
+        </div>
+    {% endif %}
+
+    {% if outputResponse %}
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ outputResponse }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+

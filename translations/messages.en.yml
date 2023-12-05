@@ -23,6 +23,8 @@
 'main_menu.sandbox.testing': 'Testing'
 'main_menu.edenai': 'EdenAI'
 'main_menu.edenai.text_to_speech': 'Text To Speech'
+'main_menu.elevenlabs': 'ElevenLabs'
+'main_menu.elevenlabs.text_to_speech': 'Text To Speech'
 
 'user_menu.profile': 'Profile'
 'user_menu.api_settings': 'API Settings'

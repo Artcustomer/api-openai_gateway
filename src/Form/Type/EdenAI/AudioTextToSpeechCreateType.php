@@ -68,6 +68,11 @@ class AudioTextToSpeechCreateType extends AbstractExtendedType
         'Female' => Option::FEMALE
     ];
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return array
+     */
     protected function buildFields(FormBuilderInterface $builder, array $options): array
     {
         $fields = [];

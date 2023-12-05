@@ -2,7 +2,7 @@
 
 namespace App\Controller\Application;
 
-use App\Service\OpenAIService;
+use App\Service\ElevenLabsService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,16 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class SandboxController extends AbstractApplicationController
 {
 
-    protected OpenAIService $openAIService;
+    protected ElevenLabsService $elevenLabsService;
 
     /**
      * Constructor
      *
-     * @param OpenAIService $openAIService
+     * @param ElevenLabsService $elevenLabsService
      */
-    public function __construct(OpenAIService $openAIService)
+    public function __construct(ElevenLabsService $elevenLabsService)
     {
-        $this->openAIService = $openAIService;
+        $this->elevenLabsService = $elevenLabsService;
     }
 
     /**
