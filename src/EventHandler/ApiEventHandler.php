@@ -21,7 +21,6 @@ class ApiEventHandler implements IApiEventHandler
      * Constructor
      *
      * @param EventDispatcherInterface $eventDispatcher
-     * @param CacheService $cache
      */
     public function __construct(EventDispatcherInterface $eventDispatcher)
     {

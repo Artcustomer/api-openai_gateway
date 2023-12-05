@@ -37,6 +37,7 @@ class ElevenLabsService
      * Setup OpenAIApiGateway instance
      *
      * @return void
+     * @throws \ReflectionException
      */
     private function setupApiGateway(): void
     {
@@ -66,6 +67,7 @@ class ElevenLabsService
      * Get ElevenLabsApiGateway instance
      *
      * @return ElevenLabsApiGateway
+     * @throws \ReflectionException
      */
     public function getApiGateway(): ElevenLabsApiGateway
     {
