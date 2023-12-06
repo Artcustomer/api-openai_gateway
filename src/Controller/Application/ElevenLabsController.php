@@ -36,6 +36,7 @@ class ElevenLabsController extends AbstractApplicationController
      * @return Response
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
      */
     public function textToSpeech(Request $request): Response
     {
@@ -77,7 +78,7 @@ class ElevenLabsController extends AbstractApplicationController
 
             if ($response->getStatusCode() === 200) {
                 $content = $response->getContent();
-                $output = base64_encode($content);
+                $output = sprintf('data:audio/mp3;base64, %s', base64_encode($content));
             } else {
                 $errorMessage = $response->getMessage();
 
@@ -98,7 +99,7 @@ class ElevenLabsController extends AbstractApplicationController
             [
                 'form' => $form,
                 'inputPrompt' => $inputPrompt,
-                'outputResponse' => '',
+                'outputResponse' => $outputResponse,
                 'output' => $output,
                 'errorMessage' => $errorMessage
             ]

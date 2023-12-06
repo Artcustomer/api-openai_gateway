@@ -70,8 +70,7 @@ class EdenAIController extends AbstractApplicationController
             $response = $this->edenAIService->getApiGateway()->getAudioConnector()->textToSpeech($params);
 
             if ($response->getStatusCode() === 200) {
-                $outputResponse = (string)$response->getContent();
-                $content = json_decode($outputResponse);
+                $content = $response->getContent();
                 $providers = $data['providers'];
 
                 foreach ($providers as $provider) {
@@ -105,7 +104,7 @@ class EdenAIController extends AbstractApplicationController
             [
                 'form' => $form,
                 'inputPrompt' => $inputPrompt,
-                'outputResponse' => '',
+                'outputResponse' => $outputResponse,
                 'output' => $output,
                 'errorMessage' => $errorMessage
             ]

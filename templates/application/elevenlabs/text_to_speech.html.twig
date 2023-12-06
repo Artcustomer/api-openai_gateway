@@ -25,9 +25,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Output</h5>
-                <audio controls class="embed-responsive-item">
-                    <source src="data:audio/mp3;base64, {{ output }}">
-                </audio>
+                {% include 'application/ui/components/media/audio_player.html.twig' with {'src': output, 'controls':'controls'} %}
             </div>
         </div>
         </div>

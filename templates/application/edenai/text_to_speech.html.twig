@@ -39,9 +39,7 @@
                                      aria-labelledby="flush-heading-{{ key }}" data-bs-parent="#accordionFlushOutput" style="">
                                     <div class="accordion-body">
                                         {% if outputItem.status == 'success' %}
-                                            <audio controls class="embed-responsive-item">
-                                                <source src="{{ outputItem.url }}">
-                                            </audio>
+                                            {% include 'application/ui/components/media/audio_player.html.twig' with {'src': outputItem.url, 'controls':'controls'} %}
                                         {% else %}
                                             An error occured
                                         {% endif %}
