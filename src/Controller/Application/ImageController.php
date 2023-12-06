@@ -6,8 +6,8 @@ use App\Form\Type\ImageCreateType;
 use App\Service\OpenAIService;
 use Artcustomer\OpenAIClient\Enum\ResponseFormat;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/image")
@@ -62,10 +62,9 @@ class ImageController extends AbstractApplicationController
                 'response_format' => ResponseFormat::URL
             ];
             $response = $this->openAIService->getApiGateway()->getImageConnector()->create($params);
+            $content = $response->getContent();
 
             if ($response->getStatusCode() === 200) {
-                $content = json_decode((string)$response->getContent());
-
                 $contentData = $content->data;
                 $imageUrls = array_map(
                     function ($item) {
@@ -77,10 +76,7 @@ class ImageController extends AbstractApplicationController
                 $errorMessage = $response->getMessage();
 
                 if (empty($errorMessage)) {
-                    $content = $response->getContent();
-
                     if (!empty($content)) {
-                        $content = json_decode((string)$content);
                         $errorMessage = $content->error->message ?? '';
                     }
                 }

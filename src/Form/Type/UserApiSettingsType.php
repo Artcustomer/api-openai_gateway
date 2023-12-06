@@ -13,10 +13,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 class UserApiSettingsType extends AbstractExtendedType
 {
 
-    public const FIELD_API_TOKEN = 'api_token';
+    public const FIELD_OPENAI_API_TOKEN = 'openai_api_token';
+    public const FIELD_EDENAI_API_TOKEN = 'edenai_api_token';
+    public const FIELD_ELEVENLABS_API_TOKEN = 'elevenlabs_api_token';
 
     public const FIELD_NAMES = [
-        self::FIELD_API_TOKEN
+        self::FIELD_OPENAI_API_TOKEN,
+        self::FIELD_EDENAI_API_TOKEN,
+        self::FIELD_ELEVENLABS_API_TOKEN
     ];
 
     /**
@@ -27,10 +31,42 @@ class UserApiSettingsType extends AbstractExtendedType
     protected function buildFields(FormBuilderInterface $builder, array $options): array
     {
         $fields = [];
-        $fields[self::FIELD_API_TOKEN] = [
+        $fields[self::FIELD_OPENAI_API_TOKEN] = [
             'type' => PasswordType::class,
             'options' => [
-                'label' => 'Token',
+                'label' => 'OpenAI API Token',
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => '',
+                'empty_data' => '',
+                'required' => false,
+                'disabled' => false
+            ]
+        ];
+        $fields[self::FIELD_EDENAI_API_TOKEN] = [
+            'type' => PasswordType::class,
+            'options' => [
+                'label' => 'EdenAI API Token',
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => '',
+                'empty_data' => '',
+                'required' => false,
+                'disabled' => false
+            ]
+        ];
+        $fields[self::FIELD_ELEVENLABS_API_TOKEN] = [
+            'type' => PasswordType::class,
+            'options' => [
+                'label' => 'ElevenLabs API Token',
                 'attr' => [
                     'class' => 'form-control mt-1'
                 ],

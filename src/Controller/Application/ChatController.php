@@ -5,8 +5,8 @@ namespace App\Controller\Application;
 use App\Form\Type\ChatCreateCompletionType;
 use App\Service\OpenAIService;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/chat")
@@ -70,18 +70,15 @@ class ChatController extends AbstractApplicationController
                 'stream' => false
             ];
             $response = $this->openAIService->getApiGateway()->getChatConnector()->createCompletion($params);
+            $content = $response->getContent();
 
             if ($response->getStatusCode() === 200) {
-                $content = json_decode((string)$response->getContent());
                 $outputResponse = $content->choices[0]->message->content;
             } else {
                 $errorMessage = $response->getMessage();
 
                 if (empty($errorMessage)) {
-                    $content = $response->getContent();
-
                     if (!empty($content)) {
-                        $content = json_decode((string)$content);
                         $errorMessage = $content->error->message ?? '';
                     }
                 }

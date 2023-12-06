@@ -75,16 +75,14 @@ class ElevenLabsController extends AbstractApplicationController
                 $query,
                 $body
             );
+            $content = $response->getContent();
 
             if ($response->getStatusCode() === 200) {
-                $content = $response->getContent();
                 $output = sprintf('data:audio/mp3;base64, %s', base64_encode($content));
             } else {
                 $errorMessage = $response->getMessage();
 
                 if (empty($errorMessage)) {
-                    $content = $response->getContent();
-
                     if (!empty($content)) {
                         $errorMessage = $content->detail->message ?? '';
                     }

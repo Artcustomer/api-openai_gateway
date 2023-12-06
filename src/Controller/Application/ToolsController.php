@@ -4,8 +4,8 @@ namespace App\Controller\Application;
 
 use App\Service\OpenAIService;
 use App\Service\PromptService;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  *
@@ -16,8 +16,14 @@ use Symfony\Component\HttpFoundation\Response;
 class ToolsController extends AbstractApplicationController
 {
 
+    /**
+     * @var OpenAIService
+     */
     protected OpenAIService $openAIService;
-    
+
+    /**
+     * @var PromptService
+     */
     protected PromptService $promptService;
 
     /**

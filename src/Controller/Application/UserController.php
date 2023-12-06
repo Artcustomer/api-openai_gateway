@@ -4,6 +4,8 @@ namespace App\Controller\Application;
 
 use App\Form\Type\AbstractExtendedType;
 use App\Form\Type\UserApiSettingsType;
+use App\Service\EdenAIService;
+use App\Service\ElevenLabsService;
 use App\Service\OpenAIService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,16 +19,33 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractApplicationController
 {
 
+    /**
+     * @var OpenAIService
+     */
     protected OpenAIService $openAIService;
+
+    /**
+     * @var EdenAIService
+     */
+    protected EdenAIService $edenAIService;
+
+    /**
+     * @var ElevenLabsService
+     */
+    protected ElevenLabsService $elevenLabsService;
 
     /**
      * Constructor
      *
      * @param OpenAIService $openAIService
+     * @param EdenAIService $edenAIService
+     * @param ElevenLabsService $elevenLabsService
      */
-    public function __construct(OpenAIService $openAIService)
+    public function __construct(OpenAIService $openAIService, EdenAIService $edenAIService, ElevenLabsService $elevenLabsService)
     {
         $this->openAIService = $openAIService;
+        $this->edenAIService = $edenAIService;
+        $this->elevenLabsService = $elevenLabsService;
     }
 
     /**
@@ -63,17 +82,21 @@ class UserController extends AbstractApplicationController
      * @Route("/api-settings", name="application_user_apisettings", methods={"GET","POST"})
      *
      * @param Request $request
-     * @param OpenAIService $openAIService
      * @return Response
      */
-    public function apiSettings(Request $request, OpenAIService $openAIService): Response
+    public function apiSettings(Request $request): Response
     {
         $formData = $this->cleanQueryParameters($request, UserApiSettingsType::FIELD_NAMES);
-        $isApiKeyInEnv = $openAIService->isApiKeyInEnv();
         $options = ['data' => $formData];
         $options[AbstractExtendedType::OPT_CUSTOM_FIELD_OPTIONS] = [
-            UserApiSettingsType::FIELD_API_TOKEN => [
-                'disabled' => $isApiKeyInEnv
+            UserApiSettingsType::FIELD_OPENAI_API_TOKEN => [
+                'disabled' => $this->openAIService->isApiKeyInEnv()
+            ],
+            UserApiSettingsType::FIELD_EDENAI_API_TOKEN => [
+                'disabled' => $this->edenAIService->isApiKeyAvailable()
+            ],
+            UserApiSettingsType::FIELD_ELEVENLABS_API_TOKEN => [
+                'disabled' => $this->elevenLabsService->isApiKeyAvailable()
             ]
         ];
 
@@ -86,9 +109,11 @@ class UserController extends AbstractApplicationController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $apiToken = $data[UserApiSettingsType::FIELD_API_TOKEN];
+            $openAiApiToken = $data[UserApiSettingsType::FIELD_OPENAI_API_TOKEN];
+            $edenAiApiToken = $data[UserApiSettingsType::FIELD_EDENAI_API_TOKEN];
+            $elevenLabsApiToken = $data[UserApiSettingsType::FIELD_ELEVENLABS_API_TOKEN];
 
-            $openAIService->setApiKeyInSession($apiToken);
+            $this->openAIService->setApiKeyInSession($openAiApiToken);
         }
 
         return $this->render(
