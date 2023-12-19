@@ -98,6 +98,10 @@ class JsonUserService implements IUserService
             if ($index !== null) {
                 unset($fileContent[$index]);
 
+                $fileContent = array_values($fileContent);
+
+                dump($index, $fileContent);
+
                 $this->writeFileContent($fileContent);
 
                 $status = true;
