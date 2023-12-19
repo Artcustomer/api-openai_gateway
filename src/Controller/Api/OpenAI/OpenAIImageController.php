@@ -4,8 +4,8 @@ namespace App\Controller\Api\OpenAI;
 
 use App\Controller\Api\AbstractApiController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/images")
@@ -20,6 +20,7 @@ class OpenAIImageController extends AbstractApiController
      *
      * @param Request $request
      * @return Response
+     * @throws \ReflectionException
      */
     public function create(Request $request): Response
     {
@@ -40,6 +41,7 @@ class OpenAIImageController extends AbstractApiController
      *
      * @param Request $request
      * @return Response
+     * @throws \ReflectionException
      */
     public function createEdit(Request $request): Response
     {
@@ -60,6 +62,7 @@ class OpenAIImageController extends AbstractApiController
      *
      * @param Request $request
      * @return Response
+     * @throws \ReflectionException
      */
     public function createImageVariation(Request $request): Response
     {

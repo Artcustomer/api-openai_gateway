@@ -4,8 +4,8 @@ namespace App\Controller\Api\OpenAI;
 
 use App\Controller\Api\AbstractApiController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/files")
@@ -20,6 +20,7 @@ class OpenAIFileController extends AbstractApiController
      *
      * @param Request $request
      * @return Response
+     * @throws \ReflectionException
      */
     public function getAll(Request $request): Response
     {
@@ -33,6 +34,7 @@ class OpenAIFileController extends AbstractApiController
      *
      * @param Request $request
      * @return Response
+     * @throws \ReflectionException
      */
     public function uploadOne(Request $request): Response
     {
@@ -54,6 +56,7 @@ class OpenAIFileController extends AbstractApiController
      * @param string $fileid
      * @param Request $request
      * @return Response
+     * @throws \ReflectionException
      */
     public function getOne(string $fileid, Request $request): Response
     {
@@ -68,6 +71,7 @@ class OpenAIFileController extends AbstractApiController
      * @param string $fileid
      * @param Request $request
      * @return Response
+     * @throws \ReflectionException
      */
     public function getOneContent(string $fileid, Request $request): Response
     {
@@ -82,6 +86,7 @@ class OpenAIFileController extends AbstractApiController
      * @param string $fileid
      * @param Request $request
      * @return Response
+     * @throws \ReflectionException
      */
     public function deleteOne(string $fileid, Request $request): Response
     {
