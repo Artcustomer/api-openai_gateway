@@ -67,7 +67,10 @@ class ChatController extends AbstractApplicationController
                 'presence_penalty' => $data['presence_penalty'],
                 'frequency_penalty' => $data['frequency_penalty'],
                 'user' => $data['user'],
-                'stream' => false
+                'stream' => false,
+                'logit_bias' => null,
+                'logprobs' => false,
+                'top_logprobs' => null
             ];
             $response = $this->openAIService->getApiGateway()->getChatConnector()->createCompletion($params);
             $content = $response->getContent();

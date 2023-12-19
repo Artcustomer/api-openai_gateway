@@ -141,7 +141,6 @@ class NavigationService
                 $this->itemFactory('converse', 'main_menu.chat.converse', null, 'application_chat_converse', [], true)
             )),
             $this->itemFactory('text-nav', 'main_menu.text', 'bi-journal-text', null, array_merge(
-                $this->itemFactory('prompt', 'main_menu.text.prompt', null, 'application_text_prompt'),
                 $this->itemFactory('translate', 'main_menu.text.translate', null, 'application_text_translate'),
             )),
             $this->itemFactory('images-nav', 'main_menu.images', 'bi-gem', null, array_merge(

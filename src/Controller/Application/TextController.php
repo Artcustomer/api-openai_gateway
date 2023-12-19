@@ -2,11 +2,9 @@
 
 namespace App\Controller\Application;
 
-use App\Form\Type\TextPromptType;
 use App\Form\Type\TextTranslateType;
 use App\Service\OpenAIService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Artcustomer\OpenAIClient\Enum\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,77 +27,6 @@ class TextController extends AbstractApplicationController
     public function __construct(OpenAIService $openAIService)
     {
         $this->openAIService = $openAIService;
-    }
-
-    /**
-     * @Route("/prompt", name="application_text_prompt", methods={"GET","POST"})
-     * @IsGranted("ROLE_APP")
-     *
-     * @param Request $request
-     * @return Response
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \ReflectionException
-     */
-    public function prompt(Request $request): Response
-    {
-        $formData = $this->cleanQueryParameters($request, TextPromptType::FIELD_NAMES);
-        $options = ['data' => $formData];
-
-        $form = $this->createForm(TextPromptType::class, null, $options);
-        $form->handleRequest($request);
-
-        $inputPrompt = '';
-        $outputResponse = '';
-        $errorMessage = '';
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $inputPrompt = $data['prompt'];
-            $inputModel = $data['model'];
-
-            $params = [
-                'model' => $inputModel,
-                'prompt' => $inputPrompt,
-                'suffix' => $data['suffix'],
-                'max_tokens' => $data['max_tokens'],
-                'temperature' => $data['temperature'],
-                'top_p' => $data['top_p'],
-                'n' => $data['n'],
-                'echo' => $data['echo'],
-                'presence_penalty' => $data['presence_penalty'],
-                'frequency_penalty' => $data['frequency_penalty'],
-                'best_of' => $data['best_of'],
-                'user' => $data['user'],
-                'stream' => false
-            ];
-            $response = $this->openAIService->getApiGateway()->getCompletionConnector()->create($params);
-            $content = $response->getContent();
-
-            if ($response->getStatusCode() === 200) {
-                $outputResponse = $content->choices[0]->text;
-            } else {
-                $errorMessage = $response->getMessage();
-
-                if (empty($errorMessage)) {
-                    if (!empty($content)) {
-                        $errorMessage = $content->error->message ?? '';
-                    }
-                }
-
-                $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
-            }
-        }
-
-        return $this->render(
-            'application/text/prompt.html.twig',
-            [
-                'form' => $form,
-                'inputPrompt' => $inputPrompt,
-                'outputResponse' => $outputResponse,
-                'errorMessage' => $errorMessage
-            ]
-        );
     }
 
     /**
@@ -129,24 +56,31 @@ class TextController extends AbstractApplicationController
             $fromLanguage = $data['from_language'];
             $toLanguage = $data['to_language'];
             $fullPrompt = sprintf('Translate this from %s into %s: %s', $fromLanguage, $toLanguage, $inputPrompt);
-
             $params = [
-                'model' => 'text-davinci-003',
-                'prompt' => $fullPrompt,
-                'suffix' => null,
-                'temperature' => 0.3,
-                'max_tokens' => 1024,
+                'model' => Model::GPT_3_5_TURBO,
+                'messages' => [
+                    [
+                        'role' => 'user',
+                        'content' => $fullPrompt
+                    ]
+                ],
+                'temperature' => 1,
                 'top_p' => 1,
                 'n' => 1,
-                'stream' => false,
+                'max_tokens' => 2056,
+                'presence_penalty' => 0,
                 'frequency_penalty' => 0,
-                'presence_penalty' => 0
+                'user' => '',
+                'stream' => false,
+                'logit_bias' => null,
+                'logprobs' => false,
+                'top_logprobs' => null
             ];
-            $response = $this->openAIService->getApiGateway()->getCompletionConnector()->create($params);
+            $response = $this->openAIService->getApiGateway()->getChatConnector()->createCompletion($params);
             $content = $response->getContent();
 
             if ($response->getStatusCode() === 200) {
-                $outputResponse = $content->choices[0]->text;
+                $outputResponse = $content->choices[0]->message->content;
             } else {
                 $errorMessage = $response->getMessage();
 
