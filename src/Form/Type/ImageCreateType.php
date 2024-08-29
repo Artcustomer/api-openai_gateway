@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 use Artcustomer\OpenAIClient\Enum\ImageSize;
+use Artcustomer\OpenAIClient\Enum\Model;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,19 +17,28 @@ class ImageCreateType extends AbstractExtendedType
 {
 
     public const FIELD_PROMPT = 'prompt';
+    public const FIELD_MODEL = 'model';
     public const FIELD_SIZE = 'size';
     public const FIELD_NUMBER = 'number';
 
     public const FIELD_NAMES = [
         self::FIELD_PROMPT,
+        self::FIELD_MODEL,
         self::FIELD_SIZE,
         self::FIELD_NUMBER
+    ];
+
+    public const MODELS = [
+        Model::DALL_E_2 => Model::DALL_E_2,
+        Model::DALL_E_3 => Model::DALL_E_3
     ];
 
     public const IMAGE_SIZES = [
         ImageSize::SQUARE_256 => ImageSize::SQUARE_256,
         ImageSize::SQUARE_512 => ImageSize::SQUARE_512,
-        ImageSize::SQUARE_1024 => ImageSize::SQUARE_1024
+        ImageSize::SQUARE_1024 => ImageSize::SQUARE_1024,
+        ImageSize::PORTRAIT_1024 => ImageSize::PORTRAIT_1024,
+        ImageSize::LANDSCAPE_1024 => ImageSize::LANDSCAPE_1024
     ];
 
     /**
@@ -43,6 +53,19 @@ class ImageCreateType extends AbstractExtendedType
             'type' => TextType::class,
             'options' => [
                 'label' => 'Prompt',
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ]
+            ]
+        ];
+        $fields[self::FIELD_MODEL] = [
+            'type' => ChoiceType::class,
+            'options' => [
+                'label' => 'Model',
+                'choices' => self::MODELS,
                 'attr' => [
                     'class' => 'form-control mt-1'
                 ],
