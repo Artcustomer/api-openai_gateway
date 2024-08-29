@@ -33,6 +33,16 @@ abstract class AbstractApiController extends AbstractController
      */
     protected function responseProxy(IApiResponse $response): JsonResponse
     {
-        return new JsonResponse($response->getContent(), $response->getStatusCode(), [], true);
+        $content = $response->getContent();
+        $json = false;
+
+        if (
+            is_string($content) ||
+            (is_object($content) && method_exists($content, '__toString'))
+        ) {
+            $json = true;
+        }
+
+        return new JsonResponse($response->getContent(), $response->getStatusCode(), [], $json);
     }
 }
