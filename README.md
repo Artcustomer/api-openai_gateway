@@ -18,12 +18,13 @@ https://www.php.net/releases/8.1/en.php
 ### Symfony 6.3
 https://symfony.com/doc/6.3/index.html
 
-
 ## Installation
 ### Environment variables
 At the root of the project, create a ".env.local" file from the ".env" file and fill in the variables:
 - OPENAI_API_KEY (from your OpenAI account)
 - OPENAI_ORGANISATION (from your OpenAI account)
+- EDENAI_API_KEY (from your EdenAI account)
+- ELEVENLABS_API_KEY (from your ElevenLabs account)
 - DATA_USER_JSON_FILE (ex: data/users_local.json)
 - DATA_API_TOKEN_JSON_FILE (ex: data/api_tokens_local.json)
 
@@ -48,7 +49,6 @@ Start the symfony server
 ```bash
 symfony server:start
 ```
-
 
 ## Next steps
 ### Improvements
