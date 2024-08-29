@@ -25,14 +25,16 @@ class TextTranslateType extends AbstractExtendedType
     ];
 
     public const LANGUAGES = [
+        Languages::LANGUAGE_CHINESE => 'chinese',
         Languages::LANGUAGE_ENGLISH => 'english',
         Languages::LANGUAGE_FRENCH => 'french',
         Languages::LANGUAGE_GERMAN => 'german',
         Languages::LANGUAGE_ITALIAN => 'italian',
-        Languages::LANGUAGE_SPANISH => 'spanish',
+        Languages::LANGUAGE_NORWEGIAN => 'norwegian',
         Languages::LANGUAGE_PORTUGUESE => 'portuguese',
         Languages::LANGUAGE_RUSSIAN => 'russian',
-        Languages::LANGUAGE_CHINESE => 'chinese'
+        Languages::LANGUAGE_SPANISH => 'spanish',
+        Languages::LANGUAGE_SWEDISH => 'swedish'
     ];
 
     /**
@@ -53,7 +55,8 @@ class TextTranslateType extends AbstractExtendedType
                 ],
                 'row_attr' => [
                     'class' => 'mb-3'
-                ]
+                ],
+                'data' => 'french'
             ]
         ];
         $fields[self::FIELD_TO_LANGUAGE] = [
@@ -66,7 +69,8 @@ class TextTranslateType extends AbstractExtendedType
                 ],
                 'row_attr' => [
                     'class' => 'mb-3'
-                ]
+                ],
+                'data' => 'english'
             ]
         ];
         $fields[self::FIELD_PROMPT] = [

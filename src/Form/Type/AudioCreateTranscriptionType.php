@@ -32,14 +32,16 @@ class AudioCreateTranscriptionType extends AbstractExtendedType
     ];
 
     public const LANGUAGES = [
+        Languages::LANGUAGE_CHINESE => Languages::LANGCODE_CHINESE,
         Languages::LANGUAGE_ENGLISH => Languages::LANGCODE_ENGLISH,
         Languages::LANGUAGE_FRENCH => Languages::LANGCODE_FRENCH,
         Languages::LANGUAGE_GERMAN => Languages::LANGCODE_GERMAN,
         Languages::LANGUAGE_ITALIAN => Languages::LANGCODE_ITALIAN,
-        Languages::LANGUAGE_SPANISH => Languages::LANGCODE_SPANISH,
+        Languages::LANGUAGE_NORWEGIAN => Languages::LANGCODE_NORWEGIAN,
         Languages::LANGUAGE_PORTUGUESE => Languages::LANGCODE_PORTUGUESE,
         Languages::LANGUAGE_RUSSIAN => Languages::LANGCODE_RUSSIAN,
-        Languages::LANGUAGE_CHINESE => Languages::LANGCODE_CHINESE
+        Languages::LANGUAGE_SPANISH => Languages::LANGCODE_SPANISH,
+        Languages::LANGUAGE_SWEDISH => Languages::LANGCODE_SWEDISH
     ];
 
     /**
