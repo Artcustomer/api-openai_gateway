@@ -2,6 +2,7 @@
 
 namespace App\Controller\Application;
 
+use App\Form\Type\TextCorrectType;
 use App\Form\Type\TextTranslateType;
 use App\Service\OpenAIService;
 use Artcustomer\OpenAIClient\Enum\Model;
@@ -96,6 +97,81 @@ class TextController extends AbstractApplicationController
 
         return $this->render(
             'application/text/translate.html.twig',
+            [
+                'form' => $form,
+                'inputPrompt' => $inputPrompt,
+                'outputResponse' => $outputResponse,
+                'errorMessage' => $errorMessage
+            ]
+        );
+    }
+
+    /**
+     * @Route("/correct", name="application_text_correct", methods={"GET","POST"})
+     *
+     * @param Request $request
+     * @return Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
+     */
+    public function correct(Request $request): Response
+    {
+        $formData = $this->cleanQueryParameters($request, TextCorrectType::FIELD_NAMES);
+        $options = ['data' => $formData];
+
+        $form = $this->createForm(TextCorrectType::class, null, $options);
+        $form->handleRequest($request);
+
+        $inputPrompt = '';
+        $outputResponse = '';
+        $errorMessage = '';
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $inputPrompt = $data['prompt'];
+            $language = $data['language'];
+            $fullPrompt = sprintf('Correct the mistakes and rewrite this text written in %s: %s', $language, $inputPrompt);
+            $params = [
+                'model' => Model::GPT_3_5_TURBO,
+                'messages' => [
+                    [
+                        'role' => 'user',
+                        'content' => $fullPrompt
+                    ]
+                ],
+                'temperature' => 1,
+                'top_p' => 1,
+                'n' => 1,
+                'max_tokens' => 2056,
+                'presence_penalty' => 0,
+                'frequency_penalty' => 0,
+                'user' => '',
+                'stream' => false,
+                'logit_bias' => null,
+                'logprobs' => false,
+                'top_logprobs' => null
+            ];
+            $response = $this->openAIService->getApiGateway()->getChatConnector()->createCompletion($params);
+            $content = $response->getContent();
+
+            if ($response->getStatusCode() === 200) {
+                $outputResponse = $content->choices[0]->message->content;
+            } else {
+                $errorMessage = $response->getMessage();
+
+                if (empty($errorMessage)) {
+                    if (!empty($content)) {
+                        $errorMessage = $content->error->message ?? '';
+                    }
+                }
+
+                $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
+            }
+        }
+
+        return $this->render(
+            'application/text/correct.html.twig',
             [
                 'form' => $form,
                 'inputPrompt' => $inputPrompt,

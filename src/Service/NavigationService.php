@@ -142,6 +142,7 @@ class NavigationService
             )),
             $this->itemFactory('text-nav', 'main_menu.text', 'bi-journal-text', null, array_merge(
                 $this->itemFactory('translate', 'main_menu.text.translate', null, 'application_text_translate'),
+                $this->itemFactory('correct', 'main_menu.text.correct', null, 'application_text_correct'),
             )),
             $this->itemFactory('images-nav', 'main_menu.images', 'bi-gem', null, array_merge(
                 $this->itemFactory('create', 'main_menu.images.create', null, 'application_image_create')

@@ -10,6 +10,7 @@
 'main_menu.chat.converse': 'Converse'
 'main_menu.text': 'Text'
 'main_menu.text.translate': 'Translate'
+'main_menu.text.correct': 'Correct'
 'main_menu.images': 'Images'
 'main_menu.images.create': 'Create'
 'main_menu.audio': 'Audio'
