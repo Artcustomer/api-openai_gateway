@@ -40,6 +40,8 @@
 'notice.no_elevenlabs_token_found': 'No ElevenLabs API token found'
 
 'error.occurred': 'An error occurred'
+'error.format.json.invalid': 'The object is not a valid JSON'
+'error.format.json.invalid_structure': 'The JSON object is not well structured'
 
 'login.form.sign_in': 'Sign in'
 'login.form.error.invalid_username': 'Please enter your username.'

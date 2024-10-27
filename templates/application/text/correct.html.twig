@@ -22,12 +22,25 @@
     </div>
 
     {% if outputResponse %}
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <p>{{ outputResponse }}</p>
+        {% if outputResponse.output %}
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <p>{{ outputResponse.output }}</p>
+                        {% if outputResponse.corrections %}
+                            <h5>{{ outputResponse.corrections|length }}</h5>
+                            <ul class="list-group list-group-flush">
+                                {% for index,value in outputResponse.corrections %}
+                                    <li class="list-group-item">
+                                        <span class="badge border-danger border-1 text-danger">{{ value.a }}</span>
+                                        <span class="badge border-success border-1 text-success">{{ value.b }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
     {% endif %}
 {% endblock %}

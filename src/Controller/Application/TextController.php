@@ -58,7 +58,7 @@ class TextController extends AbstractApplicationController
             $toLanguage = $data['to_language'];
             $fullPrompt = sprintf('Translate this from %s into %s: %s', $fromLanguage, $toLanguage, $inputPrompt);
             $params = [
-                'model' => Model::GPT_3_5_TURBO,
+                'model' => Model::GPT_4,
                 'messages' => [
                     [
                         'role' => 'user',
@@ -124,22 +124,33 @@ class TextController extends AbstractApplicationController
         $form->handleRequest($request);
 
         $inputPrompt = '';
-        $outputResponse = '';
+        $outputResponse = [];
         $errorMessage = '';
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $inputPrompt = $data['prompt'];
             $language = $data['language'];
-            $fullPrompt = sprintf('Correct the mistakes and rewrite this text written in %s: %s', $language, $inputPrompt);
+            $basePrompt = sprintf(
+                'Correct the mistakes and rewrite this text written in %s: "%s".',
+                $language,
+                $inputPrompt
+            );
+            $fullPrompt = $basePrompt . '\n\n' .
+                'Extract the corrected words and create a JSON object with the result and the corrections.\n\n' .
+                'Assign the result to the property "output" and the corrections to the property "corrections".\n\n' .
+                'For each correction assign to the property "a" the wrong word and to the property "b" the right word' .
+                'The resulting JSON object should be in this format:' .
+                '{"output":"string","corrections":[{"a":"string","b":"string"}]}';
             $params = [
-                'model' => Model::GPT_3_5_TURBO,
+                'model' => Model::GPT_4_TURBO,
                 'messages' => [
                     [
                         'role' => 'user',
                         'content' => $fullPrompt
                     ]
                 ],
+                'response_format' => ['type' => 'json_object'],
                 'temperature' => 1,
                 'top_p' => 1,
                 'n' => 1,
@@ -156,7 +167,21 @@ class TextController extends AbstractApplicationController
             $content = $response->getContent();
 
             if ($response->getStatusCode() === 200) {
-                $outputResponse = $content->choices[0]->message->content;
+                $messageContent = $content->choices[0]->message->content;
+                $jsonResponse = json_decode($messageContent, true);
+
+                if (!is_null($jsonResponse)) {
+                    if (
+                        isset($jsonResponse['output']) &&
+                        isset($jsonResponse['corrections'])
+                    ) {
+                        $outputResponse = $jsonResponse;
+                    } else {
+                        $errorMessage = $this->trans('error.format.json.invalid_structure');
+                    }
+                } else {
+                    $errorMessage = $this->trans('error.format.json.invalid');
+                }
             } else {
                 $errorMessage = $response->getMessage();
 
