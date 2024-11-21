@@ -25,8 +25,8 @@
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "artcustomer/elevenlabs-api-client": "^0.0.2",
         "artcustomer/edenai-api-client": "^0.0.3",
+        "artcustomer/elevenlabs-api-client": "^0.0.2",
         "artcustomer/openai-api-client": "^1.1.0",
         "doctrine/annotations": "^1.0",
         "friendsofsymfony/rest-bundle": "^3.4",
@@ -50,6 +50,7 @@
         "symfony/serializer": "6.3.*",
         "symfony/translation": "6.3.*",
         "symfony/twig-bundle": "6.3.*",
+        "symfony/ux-live-component": "^2.21",
         "symfony/yaml": "6.3.*"
     },
     "config": {
