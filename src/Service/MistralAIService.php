@@ -2,7 +2,11 @@
 
 namespace App\Service;
 
+use App\EventHandler\ApiEventHandler;
 use App\Utils\Consts\SessionConsts;
+use Artcustomer\ApiUnit\Enum\ClientConfig;
+use Artcustomer\MistralAIClient\Client\ApiClient;
+use Artcustomer\MistralAIClient\MistralAIApiGateway;
 
 /**
  * @author David
@@ -11,6 +15,8 @@ use App\Utils\Consts\SessionConsts;
  */
 class MistralAIService extends AbstractAPIClientService
 {
+
+    private ?MistralAIApiGateway $apiGateway = null;
 
     private string $apiKey = '';
 
@@ -30,6 +36,39 @@ class MistralAIService extends AbstractAPIClientService
     public function initialize(): void
     {
         $this->defineApiKey();
+    }
+
+    /**
+     * Setup MistralAIApiGateway instance
+     *
+     * @return void
+     */
+    private function setupApiGateway(): void
+    {
+        if ($this->apiGateway === null) {
+            $config = [
+                ApiClient::CONFIG_USE_DECORATOR => true,
+                ClientConfig::ENABLE_EVENTS => true,
+                ClientConfig::DEBUG_MODE => false
+            ];
+
+            $this->apiGateway = new MistralAIApiGateway($this->apiKey, true);
+            $this->apiGateway->setEventHandler(new ApiEventHandler($this->eventDispatcher));
+            $this->apiGateway->setClientConfig($config);
+            $this->apiGateway->initialize();
+        }
+    }
+
+    /**
+     * Get MistralAIApiGateway instance
+     *
+     * @return MistralAIApiGateway
+     */
+    public function getApiGateway(): MistralAIApiGateway
+    {
+        $this->setupApiGateway();
+
+        return $this->apiGateway;
     }
 
     /**
