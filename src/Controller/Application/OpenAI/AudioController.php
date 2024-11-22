@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Controller\Application;
+namespace App\Controller\Application\OpenAI;
 
-use App\Form\Type\AudioCreateTranscriptionType;
-use App\Form\Type\AudioCreateTranslationType;
-use App\Form\Type\AudioSpeakToTextType;
+use App\Controller\Application\AbstractApplicationController;
+use App\Form\Type\OpenAI\AudioCreateTranscriptionType;
+use App\Form\Type\OpenAI\AudioCreateTranslationType;
+use App\Form\Type\OpenAI\AudioSpeakToTextType;
 use App\Service\OpenAIService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/audio")
+ * @Route("/openai/audio")
  *
  * @author David
  */

@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Controller\Application;
+namespace App\Controller\Application\OpenAI;
 
-use App\Form\Type\ChatCreateCompletionType;
+use App\Controller\Application\AbstractApplicationController;
+use App\Form\Type\OpenAI\ChatCreateCompletionType;
 use App\Service\OpenAIService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/chat")
+ * @Route("/openai/chat")
  *
  * @author David
  */

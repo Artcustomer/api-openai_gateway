@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controller\Application;
+namespace App\Controller\Application\EdenAI;
 
+use App\Controller\Application\AbstractApplicationController;
 use App\Form\Type\EdenAI\AudioTextToSpeechCreateType;
 use App\Service\EdenAIService;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,11 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  *
- * @Route("/edenai")
+ * @Route("/edenai/audio")
  *
  * @author David
  */
-class EdenAIController extends AbstractApplicationController
+class AudioController extends AbstractApplicationController
 {
 
     protected EdenAIService $edenAIService;

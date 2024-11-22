@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Controller\Application;
+namespace App\Controller\Application\OpenAI;
 
-use App\Form\Type\ImageCreateType;
+use App\Controller\Application\AbstractApplicationController;
+use App\Form\Type\OpenAI\ImageCreateType;
 use App\Service\OpenAIService;
 use Artcustomer\OpenAIClient\Enum\ResponseFormat;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/image")
+ * @Route("/openai/image")
  *
  * @author David
  */

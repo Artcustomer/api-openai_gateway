@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controller\Application;
+namespace App\Controller\Application\ElevenLabs;
 
+use App\Controller\Application\AbstractApplicationController;
 use App\Form\Type\ElevenLabs\AudioTextToSpeechCreateType;
 use App\Service\ElevenLabsService;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,11 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  *
- * @Route("/elevenlabs")
+ * @Route("/elevenlabs/audio")
  *
  * @author David
  */
-class ElevenLabsController extends AbstractApplicationController
+class AudioController extends AbstractApplicationController
 {
 
     protected ElevenLabsService $elevenLabsService;

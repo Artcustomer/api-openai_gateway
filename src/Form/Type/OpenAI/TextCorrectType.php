@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Form\Type;
+namespace App\Form\Type\OpenAI;
 
 use App\Enum\Languages;
+use App\Form\Type\AbstractExtendedType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -11,16 +12,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * @author David
  */
-class TextTranslateType extends AbstractExtendedType
+class TextCorrectType extends AbstractExtendedType
 {
 
-    public const FIELD_FROM_LANGUAGE = 'from_language';
-    public const FIELD_TO_LANGUAGE = 'to_language';
+    public const FIELD_LANGUAGE = 'language';
     public const FIELD_PROMPT = 'prompt';
 
     public const FIELD_NAMES = [
-        self::FIELD_FROM_LANGUAGE,
-        self::FIELD_TO_LANGUAGE,
+        self::FIELD_LANGUAGE,
         self::FIELD_PROMPT
     ];
 
@@ -45,10 +44,10 @@ class TextTranslateType extends AbstractExtendedType
     protected function buildFields(FormBuilderInterface $builder, array $options): array
     {
         $fields = [];
-        $fields[self::FIELD_FROM_LANGUAGE] = [
+        $fields[self::FIELD_LANGUAGE] = [
             'type' => ChoiceType::class,
             'options' => [
-                'label' => 'From language',
+                'label' => 'Language',
                 'choices' => self::LANGUAGES,
                 'attr' => [
                     'class' => 'form-control mt-1'
@@ -57,20 +56,6 @@ class TextTranslateType extends AbstractExtendedType
                     'class' => 'mb-3'
                 ],
                 'data' => 'french'
-            ]
-        ];
-        $fields[self::FIELD_TO_LANGUAGE] = [
-            'type' => ChoiceType::class,
-            'options' => [
-                'label' => 'To language',
-                'choices' => self::LANGUAGES,
-                'attr' => [
-                    'class' => 'form-control mt-1'
-                ],
-                'row_attr' => [
-                    'class' => 'mb-3'
-                ],
-                'data' => 'english'
             ]
         ];
         $fields[self::FIELD_PROMPT] = [

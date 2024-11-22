@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  *
- * @Route("/sandbox")
+ * @Route("/toolbox/sandbox")
  *
  * @author David
  */

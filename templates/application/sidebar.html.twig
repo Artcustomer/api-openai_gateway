@@ -1,8 +1,8 @@
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         {% for navItemKey,navigationItem in navigationData %}
-            <li class="nav-item">
-                {% if navigationItem.childs is defined %}
+            <li class="nav-{{ navigationItem.type }}">
+                {% if navigationItem.children is defined %}
                     <a class="nav-link {{ navigationItem.active ? '' : 'collapsed' }} {{ navigationItem.disabled ? 'btn border-0 disabled' : '' }}"
                        data-bs-target="#{{ navItemKey }}" data-bs-toggle="collapse" href="#"
                        aria-expanded="{{ navigationItem.active ? 'true' : 'false' }}">
@@ -11,7 +11,7 @@
                     </a>
                     <ul id="{{ navItemKey }}" class="nav-content collapse {{ navigationItem.active ? 'show' : '' }}"
                         data-bs-parent="#sidebar-nav">
-                        {% for navItemChildKey,navigationChildItem in navigationItem.childs %}
+                        {% for navItemChildKey,navigationChildItem in navigationItem.children %}
                             {% set isCurrent = false %}
                             <li>
                                 <a href="{{ path(navigationChildItem.path) }}"
@@ -22,11 +22,15 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <a href="{{ path(navigationItem.path) }}"
-                       class="nav-link {{ navigationItem.active ? '' : 'collapsed' }} {{ navigationItem.disabled ? 'btn border-0 disabled' : '' }}">
-                        <i class="bi {{ navigationItem.icon }}"></i>
-                        <span>{{ navigationItem.title|trans }}</span>
-                    </a>
+                    {% if navigationItem.path is defined %}
+                        <a href="{{ path(navigationItem.path) }}"
+                           class="nav-link {{ navigationItem.active ? '' : 'collapsed' }} {{ navigationItem.disabled ? 'btn border-0 disabled' : '' }}">
+                            <i class="bi {{ navigationItem.icon }}"></i>
+                            <span>{{ navigationItem.title|trans }}</span>
+                        </a>
+                    {% else %}
+                        {{ navigationItem.title|trans }}
+                    {% endif %}
                 {% endif %}
             </li>
         {% endfor %}

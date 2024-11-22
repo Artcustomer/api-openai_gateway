@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Form\Type;
+namespace App\Form\Type\OpenAI;
 
+use App\Form\Type\AbstractExtendedType;
 use App\Form\Type\Core\AudioType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;

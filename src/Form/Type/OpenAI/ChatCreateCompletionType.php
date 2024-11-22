@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Form\Type;
+namespace App\Form\Type\OpenAI;
 
+use App\Form\Type\AbstractExtendedType;
 use Artcustomer\OpenAIClient\Enum\Model;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;

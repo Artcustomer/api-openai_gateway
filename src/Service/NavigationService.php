@@ -8,6 +8,9 @@ namespace App\Service;
 class NavigationService
 {
 
+    private const NAV_TYPE_ITEM = 'item';
+    private const NAV_TYPE_HEADING = 'heading';
+
     private string $currentRoute;
 
     /**
@@ -79,8 +82,8 @@ class NavigationService
     private function pathfind(array $data, string $path, &$stack = [])
     {
         foreach ($data as $key => $value) {
-            if (!empty($value['childs'])) {
-                $result = $this->pathfind($value['childs'], $path, $stack);
+            if (!empty($value['children'])) {
+                $result = $this->pathfind($value['children'], $path, $stack);
 
                 if ($result !== null) {
                     $stack[] = [
@@ -113,8 +116,8 @@ class NavigationService
     private function search(array $data, string $path)
     {
         foreach ($data as $key => $value) {
-            if (!empty($value['childs'])) {
-                $result = $this->search($value['childs'], $path);
+            if (!empty($value['children'])) {
+                $result = $this->search($value['children'], $path);
 
                 if ($result !== null) {
                     return $result;
@@ -135,34 +138,39 @@ class NavigationService
     private function navigationItems(): array
     {
         return array_merge(
-            $this->itemFactory('home', 'main_menu.home', 'bi-grid', 'application_home_index', []),
-            $this->itemFactory('chat-nav', 'main_menu.chat', 'bi-journal-text', null, array_merge(
-                $this->itemFactory('create_completion', 'main_menu.chat.create_completion', null, 'application_chat_create_completion'),
-                $this->itemFactory('converse', 'main_menu.chat.converse', null, 'application_chat_converse', [], true)
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'home', 'main_menu.home', 'bi-grid', 'application_home_index'),
+            $this->itemFactory(self::NAV_TYPE_HEADING, 'openai-heading', 'OpenAI'),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-chat-nav', 'main_menu.chat', 'bi-journal-text', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-create_completion', 'main_menu.chat.create_completion', null, 'application_chat_create_completion'),
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-converse', 'main_menu.chat.converse', null, 'application_chat_converse', [], true)
             )),
-            $this->itemFactory('text-nav', 'main_menu.text', 'bi-journal-text', null, array_merge(
-                $this->itemFactory('translate', 'main_menu.text.translate', null, 'application_text_translate'),
-                $this->itemFactory('correct', 'main_menu.text.correct', null, 'application_text_correct'),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-text-nav', 'main_menu.text', 'bi-journal-text', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-translate', 'main_menu.text.translate', null, 'application_text_translate'),
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-correct', 'main_menu.text.correct', null, 'application_text_correct'),
             )),
-            $this->itemFactory('images-nav', 'main_menu.images', 'bi-gem', null, array_merge(
-                $this->itemFactory('create', 'main_menu.images.create', null, 'application_image_create')
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-images-nav', 'main_menu.images', 'bi-gem', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-create', 'main_menu.images.create', null, 'application_image_create')
             )),
-            $this->itemFactory('audio-nav', 'main_menu.audio', 'bi-speaker', null, array_merge(
-                $this->itemFactory('create_transcription', 'main_menu.audio.create_transcription', null, 'application_audio_create_transcription'),
-                $this->itemFactory('create_translation', 'main_menu.audio.create_translation', null, 'application_audio_create_translation'),
-                $this->itemFactory('speak_to_text', 'main_menu.audio.speak_to_text', null, 'application_audio_speak_to_text', [], true)
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-audio-nav', 'main_menu.audio', 'bi-speaker', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-create_transcription', 'main_menu.audio.create_transcription', null, 'application_audio_create_transcription'),
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-create_translation', 'main_menu.audio.create_translation', null, 'application_audio_create_translation'),
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-speak_to_text', 'main_menu.audio.speak_to_text', null, 'application_audio_speak_to_text', [], true)
             )),
-            $this->itemFactory('tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
-                $this->itemFactory('samples', 'main_menu.tools.prompt_samples', null, 'application_tools_promptssamples')
+            $this->itemFactory(self::NAV_TYPE_HEADING, 'edenai-heading', 'EdenAI'),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'edenai-audio-nav', 'main_menu.audio', 'bi-speaker', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'edenai-text_to_speech', 'main_menu.edenai.text_to_speech', null, 'application_edenai_textospeech')
             )),
-            $this->itemFactory('edenai-nav', 'main_menu.edenai', 'bi-tools', null, array_merge(
-                $this->itemFactory('text_to_speech', 'main_menu.edenai.text_to_speech', null, 'application_edenai_textospeech')
+            $this->itemFactory(self::NAV_TYPE_HEADING, 'elevenlabs-heading', 'ElevenLabs'),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'elevenlabs-audio-nav', 'main_menu.audio', 'bi-speaker', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'elevenlabs-text_to_speech', 'main_menu.elevenlabs.text_to_speech', null, 'application_elevenlabs_textospeech')
             )),
-            $this->itemFactory('elevenlabs-nav', 'main_menu.elevenlabs', 'bi-tools', null, array_merge(
-                $this->itemFactory('text_to_speech', 'main_menu.elevenlabs.text_to_speech', null, 'application_elevenlabs_textospeech')
+            $this->itemFactory(self::NAV_TYPE_HEADING, 'mistral-heading', 'Mistral'),
+            $this->itemFactory(self::NAV_TYPE_HEADING, 'toolbox-heading', 'main_menu.tools'),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-samples', 'main_menu.tools.prompt_samples', null, 'application_tools_promptssamples')
             )),
-            $this->itemFactory('sandbox-nav', 'main_menu.sandbox', 'bi-tools', null, array_merge(
-                $this->itemFactory('testing', 'main_menu.sandbox.testing', null, 'application_sandbox_testing')
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-sandbox-nav', 'main_menu.sandbox', 'bi-tools', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-testing', 'main_menu.sandbox.testing', null, 'application_sandbox_testing')
             ))
         );
     }
@@ -173,27 +181,29 @@ class NavigationService
     private function userMenuItems(): array
     {
         return array_merge(
-            $this->itemFactory('profile', 'user_menu.profile', 'bi-person-fill', 'application_user_index', []),
-            $this->itemFactory('api-settings', 'user_menu.api_settings', 'bi-toggles', 'application_user_apisettings', []),
-            $this->itemFactory('usage', 'user_menu.usage', 'bi-graph-up', 'application_user_usage', []),
-            $this->itemFactory('log-out', 'user_menu.sign_out', 'bi-box-arrow-right', 'app_logout', []),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'profile', 'user_menu.profile', 'bi-person-fill', 'application_user_index', []),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'api-settings', 'user_menu.api_settings', 'bi-toggles', 'application_user_apisettings', []),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'usage', 'user_menu.usage', 'bi-graph-up', 'application_user_usage', []),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'log-out', 'user_menu.sign_out', 'bi-box-arrow-right', 'app_logout', []),
         );
     }
 
     /**
      * Navigation item factory
      *
+     * @param string $type
      * @param string $key
      * @param string $title
      * @param string|null $icon
      * @param string|null $path
-     * @param array $childs
+     * @param array $children
      * @param bool $disabled
      * @return array[]
      */
-    private function itemFactory(string $key, string $title, string $icon = null, string $path = null, array $childs = [], bool $disabled = false): array
+    private function itemFactory(string $type, string $key, string $title, string $icon = null, string $path = null, array $children = [], bool $disabled = false): array
     {
         $data = [
+            'type' => $type,
             'title' => $title,
             'disabled' => $disabled,
             'active' => false
@@ -211,10 +221,10 @@ class NavigationService
             }
         }
 
-        if (!empty($childs)) {
-            $data['childs'] = $childs;
+        if (!empty($children)) {
+            $data['children'] = $children;
 
-            foreach ($childs as $cKey => $cValue) {
+            foreach ($children as $cKey => $cValue) {
                 if ($cValue['active'] === true) {
                     $data['active'] = true;
                 }

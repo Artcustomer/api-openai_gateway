@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Controller\Application;
+namespace App\Controller\Application\OpenAI;
 
-use App\Form\Type\TextCorrectType;
-use App\Form\Type\TextTranslateType;
+use App\Controller\Application\AbstractApplicationController;
+use App\Form\Type\OpenAI\TextCorrectType;
+use App\Form\Type\OpenAI\TextTranslateType;
 use App\Service\OpenAIService;
 use Artcustomer\OpenAIClient\Enum\Model;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/text")
+ * @Route("/openai/text")
  *
  * @author David
  */

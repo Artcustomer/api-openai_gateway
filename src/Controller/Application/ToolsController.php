@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  *
- * @Route("/tools")
+ * @Route("/toolbox/tools")
  *
  * @author David
  */
