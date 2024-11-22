@@ -164,7 +164,7 @@ class NavigationService
             $this->itemFactory(self::NAV_TYPE_ITEM, 'elevenlabs-audio-nav', 'main_menu.audio', 'bi-speaker', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'elevenlabs-text_to_speech', 'main_menu.elevenlabs.text_to_speech', null, 'application_elevenlabs_textospeech')
             )),
-            $this->itemFactory(self::NAV_TYPE_HEADING, 'mistral-heading', 'Mistral'),
+            $this->itemFactory(self::NAV_TYPE_HEADING, 'mistral-heading', 'MistralAI'),
             $this->itemFactory(self::NAV_TYPE_HEADING, 'toolbox-heading', 'main_menu.tools'),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-samples', 'main_menu.tools.prompt_samples', null, 'application_tools_promptssamples')

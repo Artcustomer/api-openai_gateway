@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "48f3a289ed4decbcfd43a40956598418",
+    "content-hash": "78e036c1aa5018e98339e69eb25118b2",
     "packages": [
         {
             "name": "artcustomer/apiunit",
@@ -148,6 +148,54 @@
                 "issues": "https://github.com/Artcustomer/api-elevenlabs_client/issues"
             },
             "time": "2023-11-29T16:48:56+00:00"
+        },
+        {
+            "name": "artcustomer/mistralai-api-client",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Artcustomer/api-mistralai_client.git",
+                "reference": "47274f93823fb6c02b21f7f3b4073379c28c6410"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Artcustomer/api-mistralai_client/zipball/47274f93823fb6c02b21f7f3b4073379c28c6410",
+                "reference": "47274f93823fb6c02b21f7f3b4073379c28c6410",
+                "shasum": ""
+            },
+            "require": {
+                "artcustomer/apiunit": "^1.0.0",
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Artcustomer\\MistralAIClient\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Massenot",
+                    "email": "david@artcustomer.fr"
+                }
+            ],
+            "description": "MistralAI Api client in PHP",
+            "keywords": [
+                "api"
+            ],
+            "support": {
+                "source": "https://github.com/Artcustomer/api-mistralai_client/tree/0.0.1",
+                "issues": "https://github.com/Artcustomer/api-mistralai_client/issues"
+            },
+            "time": "2024-11-22T17:22:30+00:00"
         },
         {
             "name": "artcustomer/openai-api-client",
@@ -6218,7 +6266,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -6226,6 +6274,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

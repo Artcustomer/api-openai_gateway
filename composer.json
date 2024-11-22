@@ -19,6 +19,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/Artcustomer/api-elevenlabs_client"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/Artcustomer/api-mistralai_client"
         }
     ],
     "require": {
@@ -28,6 +32,7 @@
         "artcustomer/edenai-api-client": "^0.0.3",
         "artcustomer/elevenlabs-api-client": "^0.0.2",
         "artcustomer/openai-api-client": "^1.1.0",
+        "artcustomer/mistralai-api-client": "^0.0.1",
         "doctrine/annotations": "^1.0",
         "friendsofsymfony/rest-bundle": "^3.4",
         "jms/serializer-bundle": "^5.0",
