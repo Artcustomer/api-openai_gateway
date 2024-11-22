@@ -6,6 +6,7 @@ use App\Form\Type\AbstractExtendedType;
 use App\Form\Type\UserApiSettingsType;
 use App\Service\EdenAIService;
 use App\Service\ElevenLabsService;
+use App\Service\MistralAIService;
 use App\Service\OpenAIService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,17 +36,24 @@ class UserController extends AbstractApplicationController
     protected ElevenLabsService $elevenLabsService;
 
     /**
+     * @var MistralAIService
+     */
+    protected MistralAIService $mistralAIService;
+
+    /**
      * Constructor
      *
      * @param OpenAIService $openAIService
      * @param EdenAIService $edenAIService
      * @param ElevenLabsService $elevenLabsService
+     * @param MistralAIService $mistralAIService
      */
-    public function __construct(OpenAIService $openAIService, EdenAIService $edenAIService, ElevenLabsService $elevenLabsService)
+    public function __construct(OpenAIService $openAIService, EdenAIService $edenAIService, ElevenLabsService $elevenLabsService, MistralAIService $mistralAIService)
     {
         $this->openAIService = $openAIService;
         $this->edenAIService = $edenAIService;
         $this->elevenLabsService = $elevenLabsService;
+        $this->mistralAIService = $mistralAIService;
     }
 
     /**
@@ -97,6 +105,9 @@ class UserController extends AbstractApplicationController
             ],
             UserApiSettingsType::FIELD_ELEVENLABS_API_TOKEN => [
                 'disabled' => $this->elevenLabsService->isApiKeyAvailable()
+            ],
+            UserApiSettingsType::FIELD_MISTRALAI_API_TOKEN => [
+                'disabled' => $this->mistralAIService->isApiKeyAvailable()
             ]
         ];
 
@@ -109,11 +120,15 @@ class UserController extends AbstractApplicationController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $openAiApiToken = $data[UserApiSettingsType::FIELD_OPENAI_API_TOKEN];
-            $edenAiApiToken = $data[UserApiSettingsType::FIELD_EDENAI_API_TOKEN];
+            $openAIApiToken = $data[UserApiSettingsType::FIELD_OPENAI_API_TOKEN];
+            $edenAIApiToken = $data[UserApiSettingsType::FIELD_EDENAI_API_TOKEN];
             $elevenLabsApiToken = $data[UserApiSettingsType::FIELD_ELEVENLABS_API_TOKEN];
+            $mistralAIApiToken = $data[UserApiSettingsType::FIELD_MISTRALAI_API_TOKEN];
 
-            $this->openAIService->setApiKeyInSession($openAiApiToken);
+            $this->openAIService->setApiKeyInSession($openAIApiToken);
+            //$this->edenAIService->setApiKeyInSession($edenAIApiToken);
+            //$this->elevenLabsService->setApiKeyInSession($elevenLabsApiToken);
+            //$this->mistralAIService->setApiKeyInSession($mistralAIApiToken);
         }
 
         return $this->render(

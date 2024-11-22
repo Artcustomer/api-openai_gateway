@@ -29,6 +29,9 @@ services:
     App\Service\ElevenLabsService:
         $apiKey: '%env(ELEVENLABS_API_KEY)%'
 
+    App\Service\MistralAIService:
+        $apiKey: '%env(MISTRALAI_API_KEY)%'
+
     App\Service\JsonUserService:
         $filePath: '%kernel.project_dir%/%env(DATA_USER_JSON_FILE)%'
 
