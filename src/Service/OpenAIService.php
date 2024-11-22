@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * https://beta.openai.com/docs/api-reference/authentication
  */
-class OpenAIService
+class OpenAIService extends AbstractAPIClientService
 {
 
     private ?OpenAIApiGateway $apiGateway = null;
@@ -22,10 +22,6 @@ class OpenAIService
     private string $apiKey = '';
     private string $organisation;
     private bool $availability;
-    private SessionManager $sessionManager;
-    private EventDispatcherInterface $eventDispatcher;
-    private bool $apiKeyInEnv = false;
-    private bool $apiKeyInSession = false;
 
     /**
      * Constructor
@@ -33,17 +29,19 @@ class OpenAIService
      * @param string $apiKey
      * @param string $organisation
      * @param bool $availability
-     * @param SessionManager $sessionManager
-     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(string $apiKey, string $organisation, bool $availability, SessionManager $sessionManager, EventDispatcherInterface $eventDispatcher)
+    public function __construct(string $apiKey, string $organisation, bool $availability)
     {
         $this->apiKey = $apiKey;
         $this->organisation = $organisation;
         $this->availability = $availability;
-        $this->sessionManager = $sessionManager;
-        $this->eventDispatcher = $eventDispatcher;
+    }
 
+    /**
+     * @return void
+     */
+    public function initialize(): void
+    {
         $this->defineApiKey();
     }
 
@@ -92,22 +90,6 @@ class OpenAIService
 
         $this->apiKey = $apiKey;
         $this->apiKeyInSession = true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isApiKeyInEnv(): bool
-    {
-        return $this->apiKeyInEnv;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isApiKeyInSession(): bool
-    {
-        return $this->apiKeyInSession;
     }
 
     /**

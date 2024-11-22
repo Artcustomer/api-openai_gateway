@@ -18,19 +18,33 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Service\AbstractAPIClientService:
+        abstract: true
+        calls:
+            - setEventDispatcher: [ '@event_dispatcher' ]
+            - setSessionManager: [ '@App\Service\SessionManager' ]
+
     App\Service\OpenAIService:
-        $apiKey: '%env(OPENAI_API_KEY)%'
-        $organisation: '%env(OPENAI_ORGANISATION)%'
-        $availability: '%env(API_AVAILABILITY)%'
+        parent: App\Service\AbstractAPIClientService
+        arguments:
+            - '%env(OPENAI_API_KEY)%'
+            - '%env(OPENAI_ORGANISATION)%'
+            - '%env(API_AVAILABILITY)%'
 
     App\Service\EdenAIService:
-        $apiKey: '%env(EDENAI_API_KEY)%'
+        parent: App\Service\AbstractAPIClientService
+        arguments:
+            - '%env(EDENAI_API_KEY)%'
 
     App\Service\ElevenLabsService:
-        $apiKey: '%env(ELEVENLABS_API_KEY)%'
+        parent: App\Service\AbstractAPIClientService
+        arguments:
+            - '%env(ELEVENLABS_API_KEY)%'
 
     App\Service\MistralAIService:
-        $apiKey: '%env(MISTRALAI_API_KEY)%'
+        parent: App\Service\AbstractAPIClientService
+        arguments:
+            - '%env(MISTRALAI_API_KEY)%'
 
     App\Service\JsonUserService:
         $filePath: '%kernel.project_dir%/%env(DATA_USER_JSON_FILE)%'

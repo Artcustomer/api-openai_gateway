@@ -3,34 +3,39 @@
 namespace App\Service;
 
 use App\EventHandler\ApiEventHandler;
+use App\Utils\Consts\SessionConsts;
 use Artcustomer\ApiUnit\Enum\ClientConfig;
 use Artcustomer\EdenAIClient\Client\ApiClient;
 use Artcustomer\EdenAIClient\EdenAIApiGateway;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @author David
  *
  * https://docs.edenai.co/reference/start-your-ai-journey-with-edenai
  */
-class EdenAIService
+class EdenAIService extends AbstractAPIClientService
 {
 
     private ?EdenAIApiGateway $apiGateway = null;
 
     private string $apiKey = '';
-    private EventDispatcherInterface $eventDispatcher;
 
     /**
      * Constructor
      *
      * @param string $apiKey
-     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(string $apiKey, EventDispatcherInterface $eventDispatcher)
+    public function __construct(string $apiKey)
     {
         $this->apiKey = $apiKey;
-        $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * @return void
+     */
+    public function initialize(): void
+    {
+        $this->defineApiKey();
     }
 
     /**
@@ -56,14 +61,6 @@ class EdenAIService
     }
 
     /**
-     * @return bool
-     */
-    public function isApiKeyAvailable(): bool
-    {
-        return !empty($this->apiKey);
-    }
-
-    /**
      * Get EdenAIApiGateway instance
      *
      * @return EdenAIApiGateway
@@ -74,5 +71,40 @@ class EdenAIService
         $this->setupApiGateway();
 
         return $this->apiGateway;
+    }
+
+    /**
+     * @param string $apiKey
+     * @return void
+     */
+    public function setApiKeyInSession(string $apiKey): void
+    {
+        $this->sessionManager->set(SessionConsts::EDENAI_API_KEY, $apiKey);
+
+        $this->apiKey = $apiKey;
+        $this->apiKeyInSession = true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApiKeyAvailable(): bool
+    {
+        return !empty($this->apiKey);
+    }
+
+    /**
+     * @return void
+     */
+    private function defineApiKey(): void
+    {
+        if (empty($this->apiKey)) {
+            $this->apiKey = $this->sessionManager->get(SessionConsts::EDENAI_API_KEY, '');
+            $this->apiKeyInEnv = false;
+            $this->apiKeyInSession = true;
+        } else {
+            $this->apiKeyInEnv = true;
+            $this->apiKeyInSession = false;
+        }
     }
 }

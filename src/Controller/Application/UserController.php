@@ -98,7 +98,7 @@ class UserController extends AbstractApplicationController
         $options = ['data' => $formData];
         $options[AbstractExtendedType::OPT_CUSTOM_FIELD_OPTIONS] = [
             UserApiSettingsType::FIELD_OPENAI_API_TOKEN => [
-                'disabled' => $this->openAIService->isApiKeyInEnv()
+                'disabled' => $this->openAIService->isApiKeyAvailable()
             ],
             UserApiSettingsType::FIELD_EDENAI_API_TOKEN => [
                 'disabled' => $this->edenAIService->isApiKeyAvailable()
@@ -126,9 +126,9 @@ class UserController extends AbstractApplicationController
             $mistralAIApiToken = $data[UserApiSettingsType::FIELD_MISTRALAI_API_TOKEN];
 
             $this->openAIService->setApiKeyInSession($openAIApiToken);
-            //$this->edenAIService->setApiKeyInSession($edenAIApiToken);
-            //$this->elevenLabsService->setApiKeyInSession($elevenLabsApiToken);
-            //$this->mistralAIService->setApiKeyInSession($mistralAIApiToken);
+            $this->edenAIService->setApiKeyInSession($edenAIApiToken);
+            $this->elevenLabsService->setApiKeyInSession($elevenLabsApiToken);
+            $this->mistralAIService->setApiKeyInSession($mistralAIApiToken);
         }
 
         return $this->render(
