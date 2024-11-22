@@ -7,6 +7,7 @@ use App\Form\Type\OpenAI\AudioCreateTranscriptionType;
 use App\Form\Type\OpenAI\AudioCreateTranslationType;
 use App\Form\Type\OpenAI\AudioSpeakToTextType;
 use App\Service\OpenAIService;
+use Artcustomer\OpenAIClient\Utils\ApiInfos;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +34,7 @@ class AudioController extends AbstractApplicationController
     }
 
     /**
-     * @Route("/transcription/create", name="application_audio_create_transcription", methods={"GET","POST"})
+     * @Route("/transcription/create", name="application_openai_audio_create_transcription", methods={"GET","POST"})
      *
      * @param Request $request
      * @return Response
@@ -88,8 +89,9 @@ class AudioController extends AbstractApplicationController
         }
 
         return $this->render(
-            'application/audio/create_transcription.html.twig',
+            'application/openai/audio/create_transcription.html.twig',
             [
+                'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,
                 'outputResponse' => $outputResponse,
                 'errorMessage' => $errorMessage
@@ -98,7 +100,7 @@ class AudioController extends AbstractApplicationController
     }
 
     /**
-     * @Route("/translation/create", name="application_audio_create_translation", methods={"GET","POST"})
+     * @Route("/translation/create", name="application_openai_audio_create_translation", methods={"GET","POST"})
      *
      * @param Request $request
      * @return Response
@@ -153,8 +155,9 @@ class AudioController extends AbstractApplicationController
         }
 
         return $this->render(
-            'application/audio/create_translation.html.twig',
+            'application/openai/audio/create_translation.html.twig',
             [
+                'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,
                 'outputResponse' => $outputResponse,
                 'errorMessage' => $errorMessage
@@ -163,7 +166,7 @@ class AudioController extends AbstractApplicationController
     }
 
     /**
-     * @Route("/speak-to-text", name="application_audio_speak_to_text", methods={"GET","POST"})
+     * @Route("/speak-to-text", name="application_openai_audio_speak_to_text", methods={"GET","POST"})
      *
      * @param Request $request
      * @return Response
@@ -211,8 +214,9 @@ class AudioController extends AbstractApplicationController
         }
 
         return $this->render(
-            'application/audio/speak_to_text.html.twig',
+            'application/openai/audio/speak_to_text.html.twig',
             [
+                'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,
                 'errorMessage' => $errorMessage
             ]

@@ -1,8 +1,8 @@
-{% extends 'application/layout/controller_layout.html.twig' %}
+{% extends 'application/base_application.html.twig' %}
 
-{% block title %}{{ app_name }} - {{ 'main_menu.edenai.text_to_speech'|trans }}{% endblock %}
+{% block title %}{{ app_name }} | {{ gatewayName }} - {{ 'main_menu.edenai.text_to_speech'|trans }}{% endblock %}
 
-{% block applicationPageTitle %}{{ 'main_menu.edenai.text_to_speech'|trans }}{% endblock %}
+{% block applicationPageTitle %}{{ gatewayName }} - {{ 'main_menu.edenai.text_to_speech'|trans }}{% endblock %}
 
 {% block applicationSection %}
     {% if errorMessage %}

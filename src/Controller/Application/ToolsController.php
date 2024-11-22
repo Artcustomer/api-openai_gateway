@@ -39,7 +39,7 @@ class ToolsController extends AbstractApplicationController
     }
 
     /**
-     * @Route("/prompts-samples", name="application_tools_promptssamples", methods={"GET"})
+     * @Route("/prompts-samples", name="application_toolbox_tools_promptssamples", methods={"GET"})
      *
      * @return Response
      */

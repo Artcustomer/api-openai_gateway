@@ -5,6 +5,7 @@ namespace App\Controller\Application\ElevenLabs;
 use App\Controller\Application\AbstractApplicationController;
 use App\Form\Type\ElevenLabs\AudioTextToSpeechCreateType;
 use App\Service\ElevenLabsService;
+use Artcustomer\ElevenLabsClient\Utils\ApiInfos;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +32,7 @@ class AudioController extends AbstractApplicationController
     }
 
     /**
-     * @Route("/text-to-speech", name="application_elevenlabs_textospeech", methods={"GET", "POST"})
+     * @Route("/text-to-speech", name="application_elevenlabs_audio_textospeech", methods={"GET", "POST"})
      *
      * @param Request $request
      * @return Response
@@ -94,8 +95,9 @@ class AudioController extends AbstractApplicationController
         }
 
         return $this->render(
-            'application/elevenlabs/text_to_speech.html.twig',
+            'application/elevenlabs/audio/text_to_speech.html.twig',
             [
+                'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,
                 'inputPrompt' => $inputPrompt,
                 'outputResponse' => $outputResponse,

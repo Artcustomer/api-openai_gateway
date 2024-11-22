@@ -7,6 +7,8 @@ use App\Form\Type\OpenAI\TextCorrectType;
 use App\Form\Type\OpenAI\TextTranslateType;
 use App\Service\OpenAIService;
 use Artcustomer\OpenAIClient\Enum\Model;
+use Artcustomer\OpenAIClient\Enum\Role;
+use Artcustomer\OpenAIClient\Utils\ApiInfos;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,7 +34,7 @@ class TextController extends AbstractApplicationController
     }
 
     /**
-     * @Route("/translate", name="application_text_translate", methods={"GET","POST"})
+     * @Route("/translate", name="application_openai_text_translate", methods={"GET","POST"})
      *
      * @param Request $request
      * @return Response
@@ -62,7 +64,7 @@ class TextController extends AbstractApplicationController
                 'model' => Model::GPT_4,
                 'messages' => [
                     [
-                        'role' => 'user',
+                        'role' => Role::USER,
                         'content' => $fullPrompt
                     ]
                 ],
@@ -97,8 +99,9 @@ class TextController extends AbstractApplicationController
         }
 
         return $this->render(
-            'application/text/translate.html.twig',
+            'application/openai/text/translate.html.twig',
             [
+                'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,
                 'inputPrompt' => $inputPrompt,
                 'outputResponse' => $outputResponse,
@@ -108,7 +111,7 @@ class TextController extends AbstractApplicationController
     }
 
     /**
-     * @Route("/correct", name="application_text_correct", methods={"GET","POST"})
+     * @Route("/correct", name="application_openai_text_correct", methods={"GET","POST"})
      *
      * @param Request $request
      * @return Response
@@ -147,7 +150,7 @@ class TextController extends AbstractApplicationController
                 'model' => Model::GPT_4_TURBO,
                 'messages' => [
                     [
-                        'role' => 'user',
+                        'role' => Role::USER,
                         'content' => $fullPrompt
                     ]
                 ],
@@ -197,8 +200,9 @@ class TextController extends AbstractApplicationController
         }
 
         return $this->render(
-            'application/text/correct.html.twig',
+            'application/openai/text/correct.html.twig',
             [
+                'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,
                 'inputPrompt' => $inputPrompt,
                 'outputResponse' => $outputResponse,

@@ -6,6 +6,7 @@ use App\Controller\Application\AbstractApplicationController;
 use App\Form\Type\Mistral\ChatCreateCompletionType;
 use App\Service\MistralAIService;
 use Artcustomer\MistralAIClient\Enum\Role;
+use Artcustomer\MistralAIClient\Utils\ApiInfos;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -83,6 +84,7 @@ class ChatController extends AbstractApplicationController
         return $this->render(
             'application/mistralai/chat/create_completion.html.twig',
             [
+                'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,
                 'inputPrompt' => $inputPrompt,
                 'outputResponse' => $outputResponse,

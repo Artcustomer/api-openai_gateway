@@ -5,6 +5,8 @@ namespace App\Controller\Application\OpenAI;
 use App\Controller\Application\AbstractApplicationController;
 use App\Form\Type\OpenAI\ChatCreateCompletionType;
 use App\Service\OpenAIService;
+use Artcustomer\OpenAIClient\Enum\Role;
+use Artcustomer\OpenAIClient\Utils\ApiInfos;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,7 +32,7 @@ class ChatController extends AbstractApplicationController
     }
 
     /**
-     * @Route("/completion/create", name="application_chat_create_completion", methods={"GET","POST"})
+     * @Route("/completion/create", name="application_openai_chat_create_completion", methods={"GET","POST"})
      *
      * @param Request $request
      * @return Response
@@ -57,7 +59,7 @@ class ChatController extends AbstractApplicationController
                 'model' => $data['model'],
                 'messages' => [
                     [
-                        'role' => 'user',
+                        'role' => Role::USER,
                         'content' => $inputPrompt
                     ]
                 ],
@@ -92,8 +94,9 @@ class ChatController extends AbstractApplicationController
         }
 
         return $this->render(
-            'application/chat/create_completion.html.twig',
+            'application/openai/chat/create_completion.html.twig',
             [
+                'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,
                 'inputPrompt' => $inputPrompt,
                 'outputResponse' => $outputResponse,
@@ -103,7 +106,7 @@ class ChatController extends AbstractApplicationController
     }
 
     /**
-     * @Route("/converse", name="application_chat_converse", methods={"GET"})
+     * @Route("/converse", name="application_openai_chat_converse", methods={"GET"})
      *
      * @param Request $request
      * @return Response
@@ -111,9 +114,9 @@ class ChatController extends AbstractApplicationController
     public function converse(Request $request): Response
     {
         return $this->render(
-            'application/chat/converse.html.twig',
+            'application/openai/chat/converse.html.twig',
             [
-
+                'gatewayName' => ApiInfos::API_NAME,
             ]
         );
     }

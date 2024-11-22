@@ -6,6 +6,7 @@ use App\Controller\Application\AbstractApplicationController;
 use App\Form\Type\OpenAI\ImageCreateType;
 use App\Service\OpenAIService;
 use Artcustomer\OpenAIClient\Enum\ResponseFormat;
+use Artcustomer\OpenAIClient\Utils\ApiInfos;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +32,7 @@ class ImageController extends AbstractApplicationController
     }
 
     /**
-     * @Route("/create", name="application_image_create", methods={"GET","POST"})
+     * @Route("/create", name="application_openai_image_create", methods={"GET","POST"})
      *
      * @param Request $request
      * @return Response
@@ -88,8 +89,9 @@ class ImageController extends AbstractApplicationController
         }
 
         return $this->render(
-            'application/image/create.html.twig',
+            'application/openai/image/create.html.twig',
             [
+                'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,
                 'imageUrl' => $imageUrl,
                 'imageUrls' => $imageUrls,
