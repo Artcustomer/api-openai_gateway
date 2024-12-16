@@ -25,6 +25,8 @@ At the root of the project, create a ".env.local" file from the ".env" file and 
 - OPENAI_ORGANISATION (from your OpenAI account)
 - EDENAI_API_KEY (from your EdenAI account)
 - ELEVENLABS_API_KEY (from your ElevenLabs account)
+- MISTRALAI_API_KEY (from your MistralAI account)
+- XAI_API_KEY (from your XAI account)
 - DATA_USER_JSON_FILE (ex: data/users_local.json)
 - DATA_API_TOKEN_JSON_FILE (ex: data/api_tokens_local.json)
 
