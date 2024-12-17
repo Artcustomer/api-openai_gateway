@@ -2,7 +2,7 @@
 
 namespace App\Controller\Application;
 
-use App\Service\MistralAIService;
+use App\Service\XAIService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,16 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class SandboxController extends AbstractApplicationController
 {
 
-    protected MistralAIService $mistralAIService;
+    protected XAIService $xAIService;
 
     /**
      * Constructor
      *
-     * @param MistralAIService $mistralAIService
+     * @param XAIService $xAIService
      */
-    public function __construct(MistralAIService $mistralAIService)
+    public function __construct(XAIService $xAIService)
     {
-        $this->mistralAIService = $mistralAIService;
+        $this->xAIService = $xAIService;
     }
 
     /**
@@ -34,7 +34,19 @@ class SandboxController extends AbstractApplicationController
      */
     public function testing(): Response
     {
-        $gateway = $this->mistralAIService->getApiGateway();
+        $gateway = $this->xAIService->getApiGateway();
+        $connector = $gateway->getChatCompletionsConnector();
+
+        $params = [
+            'model' => 'grok-beta',
+            'messages' => [
+                [
+                    'role' => 'user',
+                    'content' => 'Can you generate an image from a prompt ?',
+                ],
+            ]
+        ];
+        //$response = $connector->create($params);
 
         return $this->render(
             'application/sandbox/testing.html.twig',

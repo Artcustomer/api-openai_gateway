@@ -168,6 +168,10 @@ class NavigationService
             $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-chat-nav', 'main_menu.chat', 'bi-journal-text', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-create_completion', 'main_menu.chat.create_completion', null, 'application_mistralai_chat_create_completion')
             )),
+            $this->itemFactory(self::NAV_TYPE_HEADING, 'xai-heading', 'XAI'),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'xai-chat-nav', 'main_menu.chat', 'bi-journal-text', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'xai-create_chat_completion', 'main_menu.chat.create_completion', null, 'application_xai_chat_completion_create')
+            )),
             $this->itemFactory(self::NAV_TYPE_HEADING, 'toolbox-heading', 'main_menu.toolbox'),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-samples', 'main_menu.tools.prompt_samples', null, 'application_toolbox_tools_promptssamples')

@@ -46,6 +46,11 @@ services:
         arguments:
             - '%env(MISTRALAI_API_KEY)%'
 
+    App\Service\XAIService:
+        parent: App\Service\AbstractAPIClientService
+        arguments:
+            - '%env(XAI_API_KEY)%'
+
     App\Service\JsonUserService:
         $filePath: '%kernel.project_dir%/%env(DATA_USER_JSON_FILE)%'
 

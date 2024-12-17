@@ -5,18 +5,18 @@ namespace App\Service;
 use App\EventHandler\ApiEventHandler;
 use App\Utils\Consts\SessionConsts;
 use Artcustomer\ApiUnit\Enum\ClientConfig;
-use Artcustomer\MistralAIClient\Client\ApiClient;
-use Artcustomer\MistralAIClient\MistralAIApiGateway;
+use Artcustomer\XAIClient\Client\ApiClient;
+use Artcustomer\XAIClient\XAIApiGateway;
 
 /**
  * @author David
  *
- * https://docs.mistral.ai/api/
+ * https://docs.x.ai/api
  */
-class MistralAIService extends AbstractAPIClientService
+class XAIService extends AbstractAPIClientService
 {
 
-    private ?MistralAIApiGateway $apiGateway = null;
+    private ?XAIApiGateway $apiGateway = null;
 
     private string $apiKey = '';
 
@@ -39,7 +39,7 @@ class MistralAIService extends AbstractAPIClientService
     }
 
     /**
-     * Setup MistralAIApiGateway instance
+     * Setup XAIApiGateway instance
      *
      * @return void
      * @throws \ReflectionException
@@ -53,7 +53,7 @@ class MistralAIService extends AbstractAPIClientService
                 ClientConfig::DEBUG_MODE => false
             ];
 
-            $this->apiGateway = new MistralAIApiGateway($this->apiKey, true);
+            $this->apiGateway = new XAIApiGateway($this->apiKey, true);
             $this->apiGateway->setEventHandler(new ApiEventHandler($this->eventDispatcher));
             $this->apiGateway->setClientConfig($config);
             $this->apiGateway->initialize();
@@ -61,12 +61,12 @@ class MistralAIService extends AbstractAPIClientService
     }
 
     /**
-     * Get MistralAIApiGateway instance
+     * Get XAIApiGateway instance
      *
-     * @return MistralAIApiGateway
+     * @return XAIApiGateway
      * @throws \ReflectionException
      */
-    public function getApiGateway(): MistralAIApiGateway
+    public function getApiGateway(): XAIApiGateway
     {
         $this->setupApiGateway();
 
@@ -79,7 +79,7 @@ class MistralAIService extends AbstractAPIClientService
      */
     public function setApiKeyInSession(string $apiKey): void
     {
-        $this->sessionManager->set(SessionConsts::MISTRALAI_API_KEY, $apiKey);
+        $this->sessionManager->set(SessionConsts::XAI_API_KEY, $apiKey);
 
         $this->apiKey = $apiKey;
         $this->apiKeyInSession = true;
@@ -99,7 +99,7 @@ class MistralAIService extends AbstractAPIClientService
     private function defineApiKey(): void
     {
         if (empty($this->apiKey)) {
-            $this->apiKey = $this->sessionManager->get(SessionConsts::MISTRALAI_API_KEY, '');
+            $this->apiKey = $this->sessionManager->get(SessionConsts::XAI_API_KEY, '');
             $this->apiKeyInEnv = false;
             $this->apiKeyInSession = true;
         } else {

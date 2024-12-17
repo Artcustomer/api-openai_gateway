@@ -8,6 +8,7 @@ use App\Service\EdenAIService;
 use App\Service\ElevenLabsService;
 use App\Service\MistralAIService;
 use App\Service\OpenAIService;
+use App\Service\XAIService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,19 +42,32 @@ class UserController extends AbstractApplicationController
     protected MistralAIService $mistralAIService;
 
     /**
+     * @var XAIService
+     */
+    protected XAIService $xAIService;
+
+    /**
      * Constructor
      *
      * @param OpenAIService $openAIService
      * @param EdenAIService $edenAIService
      * @param ElevenLabsService $elevenLabsService
      * @param MistralAIService $mistralAIService
+     * @param XAIService $xAIService
      */
-    public function __construct(OpenAIService $openAIService, EdenAIService $edenAIService, ElevenLabsService $elevenLabsService, MistralAIService $mistralAIService)
+    public function __construct(
+        OpenAIService $openAIService,
+        EdenAIService $edenAIService,
+        ElevenLabsService $elevenLabsService,
+        MistralAIService $mistralAIService,
+        XAIService $xAIService
+    )
     {
         $this->openAIService = $openAIService;
         $this->edenAIService = $edenAIService;
         $this->elevenLabsService = $elevenLabsService;
         $this->mistralAIService = $mistralAIService;
+        $this->xAIService = $xAIService;
     }
 
     /**
@@ -108,6 +122,9 @@ class UserController extends AbstractApplicationController
             ],
             UserApiSettingsType::FIELD_MISTRALAI_API_TOKEN => [
                 'disabled' => $this->mistralAIService->isApiKeyAvailable()
+            ],
+            UserApiSettingsType::FIELD_XAI_API_TOKEN => [
+                'disabled' => $this->xAIService->isApiKeyAvailable()
             ]
         ];
 
@@ -124,11 +141,13 @@ class UserController extends AbstractApplicationController
             $edenAIApiToken = $data[UserApiSettingsType::FIELD_EDENAI_API_TOKEN];
             $elevenLabsApiToken = $data[UserApiSettingsType::FIELD_ELEVENLABS_API_TOKEN];
             $mistralAIApiToken = $data[UserApiSettingsType::FIELD_MISTRALAI_API_TOKEN];
+            $xAIApiToken = $data[UserApiSettingsType::FIELD_XAI_API_TOKEN];
 
             $this->openAIService->setApiKeyInSession($openAIApiToken);
             $this->edenAIService->setApiKeyInSession($edenAIApiToken);
             $this->elevenLabsService->setApiKeyInSession($elevenLabsApiToken);
             $this->mistralAIService->setApiKeyInSession($mistralAIApiToken);
+            $this->xAIService->setApiKeyInSession($xAIApiToken);
         }
 
         return $this->render(

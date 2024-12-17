@@ -251,12 +251,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/api-xai_client.git",
-                "reference": "3ed59c64fdbc20b81312ce81fa49d68f0555da2c"
+                "reference": "5834a439e5c49134481b65305c66ffecd73e6805"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/api-xai_client/zipball/3ed59c64fdbc20b81312ce81fa49d68f0555da2c",
-                "reference": "3ed59c64fdbc20b81312ce81fa49d68f0555da2c",
+                "url": "https://api.github.com/repos/Artcustomer/api-xai_client/zipball/5834a439e5c49134481b65305c66ffecd73e6805",
+                "reference": "5834a439e5c49134481b65305c66ffecd73e6805",
                 "shasum": ""
             },
             "require": {
@@ -291,7 +291,7 @@
                 "source": "https://github.com/Artcustomer/api-xai_client/tree/0.0.1",
                 "issues": "https://github.com/Artcustomer/api-xai_client/issues"
             },
-            "time": "2024-12-16T17:00:50+00:00"
+            "time": "2024-12-16T18:10:51+00:00"
         },
         {
             "name": "doctrine/annotations",
