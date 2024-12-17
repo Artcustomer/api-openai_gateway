@@ -34,20 +34,6 @@ class SandboxController extends AbstractApplicationController
      */
     public function testing(): Response
     {
-        $gateway = $this->xAIService->getApiGateway();
-        $connector = $gateway->getChatCompletionsConnector();
-
-        $params = [
-            'model' => 'grok-beta',
-            'messages' => [
-                [
-                    'role' => 'user',
-                    'content' => 'Can you generate an image from a prompt ?',
-                ],
-            ]
-        ];
-        //$response = $connector->create($params);
-
         return $this->render(
             'application/sandbox/testing.html.twig',
             [
