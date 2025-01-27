@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/api-deepseek_client.git",
-                "reference": "78ac32f1d87005cd4864a25a0ec8d454d6986adb"
+                "reference": "6cadd8eb89708b191a57f84cc685db49445639f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/api-deepseek_client/zipball/78ac32f1d87005cd4864a25a0ec8d454d6986adb",
-                "reference": "78ac32f1d87005cd4864a25a0ec8d454d6986adb",
+                "url": "https://api.github.com/repos/Artcustomer/api-deepseek_client/zipball/6cadd8eb89708b191a57f84cc685db49445639f2",
+                "reference": "6cadd8eb89708b191a57f84cc685db49445639f2",
                 "shasum": ""
             },
             "require": {
@@ -99,7 +99,7 @@
                 "source": "https://github.com/Artcustomer/api-deepseek_client/tree/0.0.1",
                 "issues": "https://github.com/Artcustomer/api-deepseek_client/issues"
             },
-            "time": "2025-01-27T16:03:22+00:00"
+            "time": "2025-01-27T17:49:39+00:00"
         },
         {
             "name": "artcustomer/edenai-api-client",

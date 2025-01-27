@@ -4,10 +4,13 @@ namespace App\EventSubscriber;
 
 use App\Controller\Application\AbstractApplicationController;
 use App\Service\CacheService;
+use App\Service\DeepSeekService;
 use App\Service\EdenAIService;
 use App\Service\ElevenLabsService;
 use App\Service\FlashMessageService;
+use App\Service\MistralAIService;
 use App\Service\OpenAIService;
+use App\Service\XAIService;
 use App\Utils\Consts\CacheConsts;
 use Artcustomer\ApiUnit\Utils\ApiMethodTypes;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -29,6 +32,9 @@ class ControllerSubscriber implements EventSubscriberInterface
     private OpenAIService $openAIService;
     private EdenAIService $edenAIService;
     private ElevenLabsService $elevenLabsService;
+    private MistralAIService $mistralAIService;
+    private XAIService $xAIService;
+    private DeepSeekService $deepSeekService;
     private ControllerEvent $event;
     private $controller;
 
@@ -42,6 +48,9 @@ class ControllerSubscriber implements EventSubscriberInterface
      * @param OpenAIService $openAIService
      * @param EdenAIService $edenAIService
      * @param ElevenLabsService $elevenLabsService
+     * @param MistralAIService $mistralAIService
+     * @param XAIService $xAIService
+     * @param DeepSeekService $deepSeekService
      */
     public function __construct(
         Security            $security,
@@ -50,7 +59,10 @@ class ControllerSubscriber implements EventSubscriberInterface
         TranslatorInterface $translator,
         OpenAIService       $openAIService,
         EdenAIService       $edenAIService,
-        ElevenLabsService   $elevenLabsService
+        ElevenLabsService   $elevenLabsService,
+        MistralAIService    $mistralAIService,
+        XAIService          $xAIService,
+        DeepSeekService     $deepSeekService
     )
     {
         $this->security = $security;
@@ -60,6 +72,9 @@ class ControllerSubscriber implements EventSubscriberInterface
         $this->openAIService = $openAIService;
         $this->edenAIService = $edenAIService;
         $this->elevenLabsService = $elevenLabsService;
+        $this->mistralAIService = $mistralAIService;
+        $this->xAIService = $xAIService;
+        $this->deepSeekService = $deepSeekService;
     }
 
     /**
@@ -124,6 +139,18 @@ class ControllerSubscriber implements EventSubscriberInterface
 
             if (!$this->elevenLabsService->isApiKeyAvailable()) {
                 $this->flashMessageService->addFlash(FlashMessageService::TYPE_NOTICE, $this->translator->trans('notice.no_elevenlabs_token_found'));
+            }
+
+            if (!$this->mistralAIService->isApiKeyAvailable()) {
+                $this->flashMessageService->addFlash(FlashMessageService::TYPE_NOTICE, $this->translator->trans('notice.no_mistralai_token_found'));
+            }
+
+            if (!$this->xAIService->isApiKeyAvailable()) {
+                $this->flashMessageService->addFlash(FlashMessageService::TYPE_NOTICE, $this->translator->trans('notice.no_xai_token_found'));
+            }
+
+            if (!$this->deepSeekService->isApiKeyAvailable()) {
+                $this->flashMessageService->addFlash(FlashMessageService::TYPE_NOTICE, $this->translator->trans('notice.no_deepseek_token_found'));
             }
         }
     }

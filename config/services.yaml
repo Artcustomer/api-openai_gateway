@@ -51,6 +51,11 @@ services:
         arguments:
             - '%env(XAI_API_KEY)%'
 
+    App\Service\DeepSeekService:
+        parent: App\Service\AbstractAPIClientService
+        arguments:
+            - '%env(DEEPSEEK_API_KEY)%'
+
     App\Service\JsonUserService:
         $filePath: '%kernel.project_dir%/%env(DATA_USER_JSON_FILE)%'
 

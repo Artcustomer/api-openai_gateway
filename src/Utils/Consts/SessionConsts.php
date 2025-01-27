@@ -13,5 +13,6 @@ class SessionConsts
     public const ELEVENLABS_API_KEY = '_elevenlabs_api_key';
     public const MISTRALAI_API_KEY = '_mistralai_api_key';
     public const XAI_API_KEY = '_xai_api_key';
+    public const DEEPSEEK_API_KEY = '_deepseek_api_key';
 
 }

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Application;
 
-use App\Service\XAIService;
+use App\Service\DeepSeekService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,16 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class SandboxController extends AbstractApplicationController
 {
 
-    protected XAIService $xAIService;
+    protected DeepSeekService $deepSeekService;
 
     /**
      * Constructor
      *
-     * @param XAIService $xAIService
+     * @param DeepSeekService $deepSeekService
      */
-    public function __construct(XAIService $xAIService)
+    public function __construct(DeepSeekService $deepSeekService)
     {
-        $this->xAIService = $xAIService;
+        $this->deepSeekService = $deepSeekService;
     }
 
     /**

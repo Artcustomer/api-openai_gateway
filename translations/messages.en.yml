@@ -39,6 +39,9 @@
 'notice.no_openai_token_found': 'No OpenAI API token found'
 'notice.no_edenai_token_found': 'No EdenAI API token found'
 'notice.no_elevenlabs_token_found': 'No ElevenLabs API token found'
+'notice.no_mistralai_token_found': 'No MistralAI API token found'
+'notice.no_xai_token_found': 'No XAI API token found'
+'notice.no_deepseek_token_found': 'No DeepSeek API token found'
 
 'error.occurred': 'An error occurred'
 'error.format.json.invalid': 'The object is not a valid JSON'

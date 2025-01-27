@@ -4,6 +4,7 @@ namespace App\Controller\Application;
 
 use App\Form\Type\AbstractExtendedType;
 use App\Form\Type\UserApiSettingsType;
+use App\Service\DeepSeekService;
 use App\Service\EdenAIService;
 use App\Service\ElevenLabsService;
 use App\Service\MistralAIService;
@@ -47,6 +48,11 @@ class UserController extends AbstractApplicationController
     protected XAIService $xAIService;
 
     /**
+     * @var DeepSeekService
+     */
+    protected DeepSeekService $deepSeekService;
+
+    /**
      * Constructor
      *
      * @param OpenAIService $openAIService
@@ -54,13 +60,15 @@ class UserController extends AbstractApplicationController
      * @param ElevenLabsService $elevenLabsService
      * @param MistralAIService $mistralAIService
      * @param XAIService $xAIService
+     * @param DeepSeekService $deepSeekService
      */
     public function __construct(
         OpenAIService $openAIService,
         EdenAIService $edenAIService,
         ElevenLabsService $elevenLabsService,
         MistralAIService $mistralAIService,
-        XAIService $xAIService
+        XAIService $xAIService,
+        DeepSeekService $deepSeekService
     )
     {
         $this->openAIService = $openAIService;
@@ -68,6 +76,7 @@ class UserController extends AbstractApplicationController
         $this->elevenLabsService = $elevenLabsService;
         $this->mistralAIService = $mistralAIService;
         $this->xAIService = $xAIService;
+        $this->deepSeekService = $deepSeekService;
     }
 
     /**
@@ -125,6 +134,9 @@ class UserController extends AbstractApplicationController
             ],
             UserApiSettingsType::FIELD_XAI_API_TOKEN => [
                 'disabled' => $this->xAIService->isApiKeyAvailable()
+            ],
+            UserApiSettingsType::FIELD_DEEPSEEK_API_TOKEN => [
+                'disabled' => $this->deepSeekService->isApiKeyAvailable()
             ]
         ];
 
@@ -142,12 +154,14 @@ class UserController extends AbstractApplicationController
             $elevenLabsApiToken = $data[UserApiSettingsType::FIELD_ELEVENLABS_API_TOKEN];
             $mistralAIApiToken = $data[UserApiSettingsType::FIELD_MISTRALAI_API_TOKEN];
             $xAIApiToken = $data[UserApiSettingsType::FIELD_XAI_API_TOKEN];
+            $deepSeekApiToken = $data[UserApiSettingsType::FIELD_DEEPSEEK_API_TOKEN];
 
             $this->openAIService->setApiKeyInSession($openAIApiToken);
             $this->edenAIService->setApiKeyInSession($edenAIApiToken);
             $this->elevenLabsService->setApiKeyInSession($elevenLabsApiToken);
             $this->mistralAIService->setApiKeyInSession($mistralAIApiToken);
             $this->xAIService->setApiKeyInSession($xAIApiToken);
+            $this->deepSeekService->setApiKeyInSession($deepSeekApiToken);
         }
 
         return $this->render(
