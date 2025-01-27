@@ -27,6 +27,7 @@ At the root of the project, create a ".env.local" file from the ".env" file and 
 - ELEVENLABS_API_KEY (from your ElevenLabs account)
 - MISTRALAI_API_KEY (from your MistralAI account)
 - XAI_API_KEY (from your XAI account)
+- DEEPSEEK_API_KEY (from your DeepSeek account)
 - DATA_USER_JSON_FILE (ex: data/users_local.json)
 - DATA_API_TOKEN_JSON_FILE (ex: data/api_tokens_local.json)
 
