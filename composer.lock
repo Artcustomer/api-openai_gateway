@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2c110989d2c63a3f0cf4f62e1c7c4e4",
+    "content-hash": "6c20438e7bc113380f01f403fde0a076",
     "packages": [
         {
             "name": "artcustomer/apiunit",
@@ -52,6 +52,54 @@
                 "issues": "https://github.com/Artcustomer/apiunit/issues"
             },
             "time": "2023-11-29T16:37:55+00:00"
+        },
+        {
+            "name": "artcustomer/deepseek-api-client",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Artcustomer/api-deepseek_client.git",
+                "reference": "78ac32f1d87005cd4864a25a0ec8d454d6986adb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Artcustomer/api-deepseek_client/zipball/78ac32f1d87005cd4864a25a0ec8d454d6986adb",
+                "reference": "78ac32f1d87005cd4864a25a0ec8d454d6986adb",
+                "shasum": ""
+            },
+            "require": {
+                "artcustomer/apiunit": "^1.0.0",
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Artcustomer\\DeepSeekClient\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Massenot",
+                    "email": "david@artcustomer.fr"
+                }
+            ],
+            "description": "DeepSeek Api client in PHP",
+            "keywords": [
+                "api"
+            ],
+            "support": {
+                "source": "https://github.com/Artcustomer/api-deepseek_client/tree/0.0.1",
+                "issues": "https://github.com/Artcustomer/api-deepseek_client/issues"
+            },
+            "time": "2025-01-27T16:03:22+00:00"
         },
         {
             "name": "artcustomer/edenai-api-client",

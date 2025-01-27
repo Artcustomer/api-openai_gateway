@@ -42,6 +42,7 @@
         "artcustomer/openai-api-client": "^1.1.0",
         "artcustomer/mistralai-api-client": "^0.0.1",
         "artcustomer/xai-api-client": "^0.0.1",
+        "artcustomer/deepseek-api-client": "^0.0.1",
         "doctrine/annotations": "^1.0",
         "friendsofsymfony/rest-bundle": "^3.4",
         "jms/serializer-bundle": "^5.0",
