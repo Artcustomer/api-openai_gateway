@@ -100,8 +100,6 @@ class JsonUserService implements IUserService
 
                 $fileContent = array_values($fileContent);
 
-                dump($index, $fileContent);
-
                 $this->writeFileContent($fileContent);
 
                 $status = true;
