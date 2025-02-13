@@ -1,0 +1,31 @@
+{% extends 'application/base_application.html.twig' %}
+
+{% block title %}{{ app_name }} | {{ 'user_menu.status'|trans }}{% endblock %}
+
+{% block applicationPageTitle %}{{ 'user_menu.status'|trans }}{% endblock %}
+
+{% block applicationSection %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">API Providers statuses</h5>
+                    {% if data %}
+                        {% set iconSuccess = 'bi bi-check-circle me-1 text-success' %}
+                        {% set iconFail = 'bi bi-exclamation-octagon me-1 text-warning' %}
+                        <ul class="list-group">
+                            {% for key,value in data %}
+                                <li class="list-group-item">
+                                    <i class="{{ value.status ? iconSuccess : iconFail }}"></i>
+                                    {{ value.name }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

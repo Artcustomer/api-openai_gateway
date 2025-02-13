@@ -22,6 +22,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractApplicationController
 {
 
+    private const PROVIDER_OPENAI = 'openai';
+    private const PROVIDER_EDENAI = 'edenai';
+    private const PROVIDER_ELEVENLABS = 'elevenlabs';
+    private const PROVIDER_MISTRALAI = 'mistralai';
+    private const PROVIDER_XAI = 'xai';
+    private const PROVIDER_DEEPSEEK = 'deepseek';
+
     /**
      * @var OpenAIService
      */
@@ -63,12 +70,12 @@ class UserController extends AbstractApplicationController
      * @param DeepSeekService $deepSeekService
      */
     public function __construct(
-        OpenAIService $openAIService,
-        EdenAIService $edenAIService,
+        OpenAIService     $openAIService,
+        EdenAIService     $edenAIService,
         ElevenLabsService $elevenLabsService,
-        MistralAIService $mistralAIService,
-        XAIService $xAIService,
-        DeepSeekService $deepSeekService
+        MistralAIService  $mistralAIService,
+        XAIService        $xAIService,
+        DeepSeekService   $deepSeekService
     )
     {
         $this->openAIService = $openAIService;
@@ -101,11 +108,64 @@ class UserController extends AbstractApplicationController
     public function usage(): Response
     {
         $dateTime = \DateTime::createFromFormat('d/m/Y', '01/01/2022');
-        $response = $this->openAIService->getApiGateway()->getUsageConnector()->get($dateTime);
+        $enabled = false;
+
+        if ($enabled) {
+            $response = $this->openAIService->getApiGateway()->getUsageConnector()->get($dateTime);
+        }
 
         return $this->render(
             'application/user/usage.html.twig',
             []
+        );
+    }
+
+    /**
+     * @Route("/status", name="application_user_status", methods={"GET"})
+     *
+     * @return Response
+     * @throws \ReflectionException
+     */
+    public function status(): Response
+    {
+        $data = [
+            self::PROVIDER_OPENAI => ['name' => \Artcustomer\OpenAIClient\Utils\ApiInfos::API_NAME, 'status' => false],
+            self::PROVIDER_EDENAI => ['name' => \Artcustomer\EdenAIClient\Utils\ApiInfos::API_NAME, 'status' => false],
+            self::PROVIDER_ELEVENLABS => ['name' => \Artcustomer\ElevenLabsClient\Utils\ApiInfos::API_NAME, 'status' => false],
+            self::PROVIDER_MISTRALAI => ['name' => \Artcustomer\MistralAIClient\Utils\ApiInfos::API_NAME, 'status' => false],
+            self::PROVIDER_XAI => ['name' => \Artcustomer\XAIClient\Utils\ApiInfos::API_NAME, 'status' => false],
+            self::PROVIDER_DEEPSEEK => ['name' => \Artcustomer\DeepSeekClient\Utils\ApiInfos::API_NAME, 'status' => false]
+        ];
+
+        if ($this->openAIService->getApiGateway()->test()->getStatusCode() === Response::HTTP_OK) {
+            $data[self::PROVIDER_OPENAI]['status'] = true;
+        }
+
+        if ($this->edenAIService->getApiGateway()->test()->getStatusCode() === Response::HTTP_OK) {
+            $data[self::PROVIDER_EDENAI]['status'] = true;
+        }
+
+        if ($this->elevenLabsService->getApiGateway()->test()->getStatusCode() === Response::HTTP_OK) {
+            $data[self::PROVIDER_ELEVENLABS]['status'] = true;
+        }
+
+        if ($this->mistralAIService->getApiGateway()->test()->getStatusCode() === Response::HTTP_OK) {
+            $data[self::PROVIDER_MISTRALAI]['status'] = true;
+        }
+
+        if ($this->xAIService->getApiGateway()->test()->getStatusCode() === Response::HTTP_OK) {
+            $data[self::PROVIDER_XAI]['status'] = true;
+        }
+
+        if ($this->deepSeekService->getApiGateway()->test()->getStatusCode() === Response::HTTP_OK) {
+            $data[self::PROVIDER_DEEPSEEK]['status'] = true;
+        }
+
+        return $this->render(
+            'application/user/status.html.twig',
+            [
+                'data' => $data
+            ]
         );
     }
 

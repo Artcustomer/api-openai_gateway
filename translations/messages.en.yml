@@ -36,6 +36,7 @@
 'user_menu.profile': 'Profile'
 'user_menu.api_settings': 'API Settings'
 'user_menu.usage': 'Usage'
+'user_menu.status': 'Status'
 'user_menu.sign_out': 'Sign out'
 
 'footer.copyright': '© Copyright'

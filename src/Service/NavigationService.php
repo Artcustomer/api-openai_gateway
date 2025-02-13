@@ -200,6 +200,7 @@ class NavigationService
             $this->itemFactory(self::NAV_TYPE_ITEM, 'profile', 'user_menu.profile', 'bi-person-fill', 'application_user_index', []),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'api-settings', 'user_menu.api_settings', 'bi-toggles', 'application_user_apisettings', []),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'usage', 'user_menu.usage', 'bi-graph-up', 'application_user_usage', []),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'status', 'user_menu.status', 'bi-shield-check', 'application_user_status', []),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'log-out', 'user_menu.sign_out', 'bi-box-arrow-right', 'app_logout', []),
         );
     }
