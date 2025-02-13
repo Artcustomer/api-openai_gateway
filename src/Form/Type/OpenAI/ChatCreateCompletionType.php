@@ -73,6 +73,9 @@ class ChatCreateCompletionType extends AbstractExtendedType
                     'GPT-4 0613' => Model::GPT_4_0613,
                     'GPT-4 32k' => Model::GPT_4_32K,
                     'GPT-4 32k 0613' => Model::GPT_4_32K_0613,
+                    'GPT-4o' => Model::GPT_4O,
+                    'GPT-4o Mini' => Model::GPT_4O_MINI,
+                    'GPT-4o Latest' => Model::CHATGPT_4O_LATEST,
                 ],
                 'attr' => [
                     'class' => 'form-control mt-1'
