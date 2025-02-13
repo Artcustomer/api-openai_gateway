@@ -182,7 +182,9 @@ class NavigationService
             $this->itemFactory(self::NAV_TYPE_ITEM, 'deepseek-chat-nav', 'main_menu.chat', 'bi-journal-text', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'deepseek-create_chat_completion', 'main_menu.chat.create_completion', null, 'application_deepseek_chat_completion_create')
             )),
-
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'deepseek-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'deepseek-list_models', 'main_menu.list_models', null, 'application_deepseek_tools_models_list')
+            )),
             $this->itemFactory(self::NAV_TYPE_HEADING, 'toolbox-heading', 'main_menu.toolbox'),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-samples', 'main_menu.tools.prompt_samples', null, 'application_toolbox_tools_promptssamples')
