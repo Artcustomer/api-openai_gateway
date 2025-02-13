@@ -171,11 +171,13 @@ class NavigationService
             $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-chat-nav', 'main_menu.chat', 'bi-journal-text', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-create_completion', 'main_menu.chat.create_completion', null, 'application_mistralai_chat_create_completion')
             )),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-list_models', 'main_menu.list_models', null, 'application_mistralai_tools_models_list')
+            )),
             $this->itemFactory(self::NAV_TYPE_HEADING, 'xai-heading', 'main_menu.xai'),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'xai-chat-nav', 'main_menu.chat', 'bi-journal-text', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'xai-create_chat_completion', 'main_menu.chat.create_completion', null, 'application_xai_chat_completion_create')
             )),
-
             $this->itemFactory(self::NAV_TYPE_HEADING, 'deepseek-heading', 'main_menu.deepseek'),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'deepseek-chat-nav', 'main_menu.chat', 'bi-journal-text', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'deepseek-create_chat_completion', 'main_menu.chat.create_completion', null, 'application_deepseek_chat_completion_create')
