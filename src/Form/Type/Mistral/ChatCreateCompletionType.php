@@ -51,6 +51,11 @@ class ChatCreateCompletionType extends AbstractExtendedType
         self::FIELD_TOOL_CHOICES
     ];
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return array
+     */
     protected function buildFields(FormBuilderInterface $builder, array $options): array
     {
         $fields = [];

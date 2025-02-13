@@ -174,6 +174,9 @@ class NavigationService
             $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-chat-nav', 'main_menu.chat', 'bi-journal-text', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-create_completion', 'main_menu.chat.create_completion', null, 'application_mistralai_chat_create_completion')
             )),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-images-nav', 'main_menu.images', 'bi-journal-text', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-analyze_image', 'main_menu.images.analyze', null, 'application_mistralai_image_analyze')
+            )),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-list_models', 'main_menu.list_models', null, 'application_mistralai_tools_models_list')
             )),

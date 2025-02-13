@@ -38,6 +38,7 @@ class ChatController extends AbstractApplicationController
      * @return Response
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
      */
     public function createCompletion(Request $request): Response
     {

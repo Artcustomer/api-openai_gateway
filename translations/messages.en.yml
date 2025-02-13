@@ -13,6 +13,7 @@
 'main_menu.text.correct': 'Correct'
 'main_menu.images': 'Images'
 'main_menu.images.create': 'Create'
+'main_menu.images.analyze': 'Analyze'
 'main_menu.audio': 'Audio'
 'main_menu.audio.create_transcription': 'Create transcription'
 'main_menu.audio.create_translation': 'Create translation'
@@ -53,6 +54,7 @@
 'error.occurred': 'An error occurred'
 'error.format.json.invalid': 'The object is not a valid JSON'
 'error.format.json.invalid_structure': 'The JSON object is not well structured'
+'error.form.images.not_defined': 'At least one image has to be defined'
 
 'login.form.sign_in': 'Sign in'
 'login.form.error.invalid_username': 'Please enter your username.'
