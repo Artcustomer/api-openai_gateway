@@ -167,6 +167,9 @@ class NavigationService
             $this->itemFactory(self::NAV_TYPE_ITEM, 'elevenlabs-audio-nav', 'main_menu.audio', 'bi-speaker', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'elevenlabs-text_to_speech', 'main_menu.elevenlabs.text_to_speech', null, 'application_elevenlabs_audio_textospeech')
             )),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'elevenlabs-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'elevenlabs-list_models', 'main_menu.list_models', null, 'application_elevenlabs_tools_models_list')
+            )),
             $this->itemFactory(self::NAV_TYPE_HEADING, 'mistralai-heading', 'main_menu.mistralai'),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-chat-nav', 'main_menu.chat', 'bi-journal-text', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-create_completion', 'main_menu.chat.create_completion', null, 'application_mistralai_chat_create_completion')

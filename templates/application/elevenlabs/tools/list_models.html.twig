@@ -1,0 +1,41 @@
+{% extends 'application/base_application.html.twig' %}
+
+{% block title %}{{ app_name }} | {{ gatewayName }} - {{ 'main_menu.list_models'|trans }}{% endblock %}
+
+{% block applicationPageTitle %}{{ gatewayName }} - {{ 'main_menu.list_models'|trans }}{% endblock %}
+
+{% block applicationSection %}
+    {% if errorMessage %}
+        <div class="alert alert-dismissible alert-danger">
+            <strong>{{ errorMessage }}</strong>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Models</h5>
+                    <table class="table datatable">
+                        <thead>
+                        <th>ID</th>
+                        <th>Concurrency group</th>
+                        <th>Description</th>
+                        </thead>
+                        <tbody>
+                        {% if data %}
+                            {% for index,value in data %}
+                                <tr>
+                                    <td>{{ value.model_id }}</td>
+                                    <td>{{ value.concurrency_group }}</td>
+                                    <td>{{ value.description }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
