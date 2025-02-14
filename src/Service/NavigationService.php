@@ -149,7 +149,8 @@ class NavigationService
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-correct', 'main_menu.text.correct', null, 'application_openai_text_correct'),
             )),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-images-nav', 'main_menu.images', 'bi-gem', null, array_merge(
-                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-create', 'main_menu.images.create', null, 'application_openai_image_create')
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-create', 'main_menu.images.create', null, 'application_openai_image_create'),
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-analyze_image', 'main_menu.images.analyze', null, 'application_openai_image_analyze')
             )),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-audio-nav', 'main_menu.audio', 'bi-speaker', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-create_transcription', 'main_menu.audio.create_transcription', null, 'application_openai_audio_create_transcription'),
