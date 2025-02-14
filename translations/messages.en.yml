@@ -57,6 +57,7 @@
 'error.format.json.invalid': 'The object is not a valid JSON'
 'error.format.json.invalid_structure': 'The JSON object is not well structured'
 'error.form.images.not_defined': 'At least one image has to be defined'
+'error.form.audio.not_defined': 'The audio content is not defined'
 
 'login.form.sign_in': 'Sign in'
 'login.form.error.invalid_username': 'Please enter your username.'

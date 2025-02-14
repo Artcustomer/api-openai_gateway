@@ -29,35 +29,47 @@
                             rec.ondataavailable = e => {
                                 audioChunks.push(e.data);
 
-                                if (rec.state === "inactive") {
+                                if (rec.state === 'inactive') {
                                     let blob = new Blob(audioChunks, {type: 'audio/mp3'});
+                                    let url = URL.createObjectURL(blob);
 
-                                    audio_speak_to_text_input_audio.src = URL.createObjectURL(blob);
+                                    audio_speak_to_text_input_audio.src = url;
                                     audio_speak_to_text_input_audio.controls = true;
                                     audio_speak_to_text_input_audio.autoplay = false;
 
-                                    sendData(blob)
+                                    sendData(blob, url)
                                 }
                             }
                         }
 
-                        function sendData(data) {
-                            console.log(data);
-                            audio_speak_to_text_input_audio.value = data;
+                        function sendData(data, url) {
+                            const extension = data.type.split(/[\/]+/).pop();
+                            const name = url.split(/[\/]+/).pop();
+                            const file = new File([data], name + '.' + extension);
+                            const dataTransfer = new DataTransfer();
+
+                            dataTransfer.items.add(file);
+
+                            audio_speak_to_text_file.files = dataTransfer.files;
                         }
 
                         audio_speak_to_text_button_start.onclick = e => {
                             audio_speak_to_text_button_start.disabled = true;
-                            audio_speak_to_text_button_start.style.backgroundColor = "blue"
+                            audio_speak_to_text_button_start.style.backgroundColor = 'red'
                             audio_speak_to_text_button_stop.disabled = false;
+
                             audioChunks = [];
+
                             rec.start();
                         }
 
                         audio_speak_to_text_button_stop.onclick = e => {
                             audio_speak_to_text_button_start.disabled = false;
+
                             stop.disabled = true;
-                            audio_speak_to_text_button_start.style.backgroundColor = "red"
+
+                            audio_speak_to_text_button_start.style.backgroundColor = 'white'
+
                             rec.stop();
                         }
                     </script>
@@ -66,4 +78,15 @@
             </div>
         </div>
     </div>
+
+    {% if outputResponse %}
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Transcript</h5>
+                    <p>{{ outputResponse }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

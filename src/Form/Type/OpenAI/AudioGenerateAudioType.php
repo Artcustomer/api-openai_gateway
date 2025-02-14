@@ -4,6 +4,7 @@ namespace App\Form\Type\OpenAI;
 
 use App\Form\Type\AbstractExtendedType;
 use Artcustomer\OpenAIClient\Enum\AudioFormat;
+use Artcustomer\OpenAIClient\Enum\AudioVoice;
 use Artcustomer\OpenAIClient\Enum\Model;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -32,15 +33,15 @@ class AudioGenerateAudioType extends AbstractExtendedType
     ];
 
     public const VOICES = [
-        'Alloy' => 'alloy',
-        'Ash' => 'ash',
-        'Coral' => 'coral',
-        'Echo' => 'echo',
-        'Fable' => 'fable',
-        'Onyx' => 'onyx',
-        'Nova' => 'nova',
-        'Sage' => 'sage',
-        'Shimmer' => 'shimmer',
+        'Alloy' => AudioVoice::ALLOW,
+        'Ash' => AudioVoice::ASH,
+        'Coral' => AudioVoice::CORAL,
+        'Echo' => AudioVoice::ECHO,
+        'Fable' => AudioVoice::FABLE,
+        'Onyx' => AudioVoice::ONYX,
+        'Nova' => AudioVoice::NOVA,
+        'Sage' => AudioVoice::SAGE,
+        'Shimmer' => AudioVoice::SHIMMER
     ];
 
     public const RESPONSE_FORMATS = [

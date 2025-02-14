@@ -157,7 +157,7 @@ class NavigationService
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-create_translation', 'main_menu.audio.create_translation', null, 'application_openai_audio_create_translation'),
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-generate_audio', 'main_menu.audio.generate_audio', null, 'application_openai_audio_generate_audio'),
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-text_to_speech', 'main_menu.audio.text_to_speech', null, 'application_openai_audio_text_to_speech'),
-                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-speak_to_text', 'main_menu.audio.speak_to_text', null, 'application_openai_audio_speak_to_text', [], true)
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-speak_to_text', 'main_menu.audio.speak_to_text', null, 'application_openai_audio_speak_to_text')
             )),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-list_models', 'main_menu.list_models', null, 'application_openai_tools_models_list')

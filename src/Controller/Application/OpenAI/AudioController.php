@@ -9,6 +9,8 @@ use App\Form\Type\OpenAI\AudioGenerateAudioType;
 use App\Form\Type\OpenAI\AudioSpeakToTextType;
 use App\Form\Type\OpenAI\AudioTextToSpeechType;
 use App\Service\OpenAIService;
+use Artcustomer\OpenAIClient\Enum\Model;
+use Artcustomer\OpenAIClient\Enum\ResponseFormat;
 use Artcustomer\OpenAIClient\Enum\Role;
 use Artcustomer\OpenAIClient\Utils\ApiInfos;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -60,18 +62,18 @@ class AudioController extends AbstractApplicationController
             $data = $form->getData();
 
             /** @var UploadedFile $file */
-            $file = $data['file'];
+            $file = $data[AudioCreateTranscriptionType::FIELD_FILE];
             $params = [
                 'file' => [
                     'pathName' => $file->getPathname(),
                     'mimeType' => $file->getClientMimeType(),
                     'originalName' => $file->getClientOriginalName(),
                 ],
-                'model' => $data['model'],
-                'prompt' => $data['prompt'],
-                'response_format' => 'json',
-                'temperature' => $data['temperature'],
-                'language' => $data['language']
+                'model' => $data[AudioCreateTranscriptionType::FIELD_MODEL],
+                'prompt' => $data[AudioCreateTranscriptionType::FIELD_PROMPT],
+                'response_format' => ResponseFormat::JSON,
+                'temperature' => $data[AudioCreateTranscriptionType::FIELD_TEMPERATURE],
+                'language' => $data[AudioCreateTranscriptionType::FIELD_LANGUAGE]
             ];
             $response = $this->openAIService->getApiGateway()->getAudioConnector()->createTranscription($params);
             $content = $response->getContent();
@@ -126,20 +128,20 @@ class AudioController extends AbstractApplicationController
             $data = $form->getData();
 
             /** @var UploadedFile $file */
-            $file = $data['file'];
+            $file = $data[AudioCreateTranslationType::FIELD_FILE];
             $params = [
                 'file' => [
                     'pathName' => $file->getPathname(),
                     'mimeType' => $file->getClientMimeType(),
                     'originalName' => $file->getClientOriginalName(),
                 ],
-                'model' => $data['model'],
-                'prompt' => $data['prompt'],
-                'response_format' => 'json',
-                'temperature' => $data['temperature'],
-                'language' => $data['language']
+                'model' => $data[AudioCreateTranslationType::FIELD_MODEL],
+                'prompt' => $data[AudioCreateTranslationType::FIELD_PROMPT],
+                'response_format' => ResponseFormat::JSON,
+                'temperature' => $data[AudioCreateTranslationType::FIELD_TEMPERATURE],
+                'language' => $data[AudioCreateTranslationType::FIELD_LANGUAGE]
             ];
-            $response = $this->openAIService->getApiGateway()->getAudioConnector()->createTranscription($params);
+            $response = $this->openAIService->getApiGateway()->getAudioConnector()->createTranslation($params);
             $content = $response->getContent();
 
             if ($response->getStatusCode() === 200) {
@@ -328,33 +330,60 @@ class AudioController extends AbstractApplicationController
         $form = $this->createForm(AudioSpeakToTextType::class, null, $options);
         $form->handleRequest($request);
 
+        $outputResponse = '';
         $errorMessage = '';
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $params = [
-                'file' => '',
-                'model' => '',
-                'prompt' => '',
-                'response_format' => 'json',
-                'temperature' => 0,
-                'language' => ''
-            ];
-            $response = $this->openAIService->getApiGateway()->getAudioConnector()->createTranscription($params);
-            $content = $response->getContent();
+            $execute = true;
 
-            if ($response->getStatusCode() === 200) {
+            /** @var ?UploadedFile $file */
+            $file = $data[AudioSpeakToTextType::FIELD_FILE];
 
-            } else {
-                $errorMessage = $response->getMessage();
+            if (is_null($file)) {
+                $errorMessage = $this->trans('error.form.audio.not_defined');
+                $execute = false;
+            }
 
-                if (empty($errorMessage)) {
-                    if (!empty($content)) {
-                        $errorMessage = $content->error->message ?? '';
-                    }
+            if ($execute) {
+                $inputPrompt = $data[AudioSpeakToTextType::FIELD_PROMPT];
+                $inputLanguage = $data[AudioSpeakToTextType::FIELD_LANGUAGE];
+
+                $params = [
+                    'model' => Model::WHISPER_1,
+                    'file' => [
+                        'pathName' => $file->getPathname(),
+                        'mimeType' => $file->getClientMimeType(),
+                        'originalName' => $file->getClientOriginalName(),
+                    ],
+                    'response_format' => ResponseFormat::JSON,
+                    'temperature' => 0
+                ];
+
+                if (!empty($inputPrompt)) {
+                    $params['prompt'] = $inputPrompt;
                 }
 
-                $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
+                if (!empty($inputLanguage)) {
+                    $params['language'] = $inputLanguage;
+                }
+
+                $response = $this->openAIService->getApiGateway()->getAudioConnector()->createTranscription($params);
+                $content = $response->getContent();
+
+                if ($response->getStatusCode() === 200) {
+                    $outputResponse = $content->text;
+                } else {
+                    $errorMessage = $response->getMessage();
+
+                    if (empty($errorMessage)) {
+                        if (!empty($content)) {
+                            $errorMessage = $content->error->message ?? '';
+                        }
+                    }
+
+                    $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
+                }
             }
         }
 
@@ -363,6 +392,7 @@ class AudioController extends AbstractApplicationController
             [
                 'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,
+                'outputResponse' => $outputResponse,
                 'errorMessage' => $errorMessage
             ]
         );

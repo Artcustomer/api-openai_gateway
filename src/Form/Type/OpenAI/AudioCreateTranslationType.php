@@ -24,13 +24,6 @@ class AudioCreateTranslationType extends AbstractExtendedType
     public const FIELD_LANGUAGE = 'language';
 
     public const LANGUAGE_ENGLISH = 'English';
-    public const LANGUAGE_FRENCH = 'French';
-    public const LANGUAGE_GERMAN = 'German';
-    public const LANGUAGE_ITALIAN = 'Italian';
-    public const LANGUAGE_SPANISH = 'Spanish';
-    public const LANGUAGE_PORTUGUESE = 'Portuguese';
-    public const LANGUAGE_RUSSIAN = 'Russian';
-    public const LANGUAGE_CHINESE = 'Chinese';
 
     public const FIELD_NAMES = [
         self::FIELD_FILE,
@@ -42,13 +35,6 @@ class AudioCreateTranslationType extends AbstractExtendedType
 
     public const LANGUAGES = [
         self::LANGUAGE_ENGLISH => 'en',
-        self::LANGUAGE_FRENCH => 'fr',
-        self::LANGUAGE_GERMAN => 'de',
-        self::LANGUAGE_ITALIAN => 'it',
-        self::LANGUAGE_SPANISH => 'es',
-        self::LANGUAGE_PORTUGUESE => 'pt',
-        self::LANGUAGE_RUSSIAN => 'ru',
-        self::LANGUAGE_CHINESE => 'zh'
     ];
 
     /**
@@ -131,7 +117,8 @@ class AudioCreateTranslationType extends AbstractExtendedType
                 ],
                 'row_attr' => [
                     'class' => 'mb-3'
-                ]
+                ],
+                'data' => 'en'
             ]
         ];
         $fields[self::FIELD_SAVE] = [
