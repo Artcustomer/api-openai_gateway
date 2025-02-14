@@ -28,6 +28,7 @@ services:
         parent: App\Service\AbstractAPIClientService
         arguments:
             - '%env(OPENAI_API_KEY)%'
+            - '%env(OPENAI_ADMIN_API_KEY)%'
             - '%env(OPENAI_ORGANISATION)%'
             - '%env(API_AVAILABILITY)%'
 

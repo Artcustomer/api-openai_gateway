@@ -20,6 +20,7 @@ class OpenAIService extends AbstractAPIClientService
     private ?OpenAIApiGateway $apiGateway = null;
 
     private string $apiKey = '';
+    private string $adminApiKey = '';
     private string $organisation;
     private bool $availability;
 
@@ -27,12 +28,14 @@ class OpenAIService extends AbstractAPIClientService
      * Constructor
      *
      * @param string $apiKey
+     * @param string $adminApiKey
      * @param string $organisation
      * @param bool $availability
      */
-    public function __construct(string $apiKey, string $organisation, bool $availability)
+    public function __construct(string $apiKey, string $adminApiKey = '', string $organisation = '', bool $availability = true)
     {
         $this->apiKey = $apiKey;
+        $this->adminApiKey = $adminApiKey;
         $this->organisation = $organisation;
         $this->availability = $availability;
     }
@@ -60,7 +63,7 @@ class OpenAIService extends AbstractAPIClientService
                 ClientConfig::DEBUG_MODE => false
             ];
 
-            $this->apiGateway = new OpenAIApiGateway($this->apiKey, $this->organisation, $this->availability);
+            $this->apiGateway = new OpenAIApiGateway($this->apiKey, $this->adminApiKey, $this->organisation, $this->availability);
             $this->apiGateway->setEventHandler(new ApiEventHandler($this->eventDispatcher));
             $this->apiGateway->setClientConfig($config);
             $this->apiGateway->initialize();

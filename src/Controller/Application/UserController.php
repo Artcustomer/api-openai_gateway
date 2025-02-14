@@ -111,7 +111,7 @@ class UserController extends AbstractApplicationController
         $enabled = false;
 
         if ($enabled) {
-            $response = $this->openAIService->getApiGateway()->getUsageConnector()->get($dateTime);
+            $response = $this->openAIService->getApiGateway()->getUsageConnector()->getCosts($dateTime);
         }
 
         return $this->render(

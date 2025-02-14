@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "artcustomer/apiunit",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/apiunit.git",
-                "reference": "3888c0bc56e22944ccda3370852e0a98925b6cca"
+                "reference": "1afa55e4b393674f447823b7fb6206dea36b1346"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/apiunit/zipball/3888c0bc56e22944ccda3370852e0a98925b6cca",
-                "reference": "3888c0bc56e22944ccda3370852e0a98925b6cca",
+                "url": "https://api.github.com/repos/Artcustomer/apiunit/zipball/1afa55e4b393674f447823b7fb6206dea36b1346",
+                "reference": "1afa55e4b393674f447823b7fb6206dea36b1346",
                 "shasum": ""
             },
             "require": {
@@ -48,10 +48,10 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/apiunit/tree/1.0.2",
+                "source": "https://github.com/Artcustomer/apiunit/tree/1.0.3",
                 "issues": "https://github.com/Artcustomer/apiunit/issues"
             },
-            "time": "2023-11-29T16:37:55+00:00"
+            "time": "2025-02-14T08:42:27+00:00"
         },
         {
             "name": "artcustomer/deepseek-api-client",
@@ -247,16 +247,16 @@
         },
         {
             "name": "artcustomer/openai-api-client",
-            "version": "1.1.1",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/api-openai_client.git",
-                "reference": "a959074a5480b414fc688cdf81358410beb2fedb"
+                "reference": "40e1296087b825e46f172940cbdd14d91477e755"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/api-openai_client/zipball/a959074a5480b414fc688cdf81358410beb2fedb",
-                "reference": "a959074a5480b414fc688cdf81358410beb2fedb",
+                "url": "https://api.github.com/repos/Artcustomer/api-openai_client/zipball/40e1296087b825e46f172940cbdd14d91477e755",
+                "reference": "40e1296087b825e46f172940cbdd14d91477e755",
                 "shasum": ""
             },
             "require": {
@@ -288,10 +288,10 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/api-openai_client/tree/1.1.1",
+                "source": "https://github.com/Artcustomer/api-openai_client/tree/1.2.0",
                 "issues": "https://github.com/Artcustomer/api-openai_client/issues"
             },
-            "time": "2024-08-29T14:41:56+00:00"
+            "time": "2025-02-14T10:10:01+00:00"
         },
         {
             "name": "artcustomer/xai-api-client",
