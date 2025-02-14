@@ -40,7 +40,7 @@
         "artcustomer/edenai-api-client": "^0.0.3",
         "artcustomer/elevenlabs-api-client": "^0.0.2",
         "artcustomer/openai-api-client": "^1.1.0",
-        "artcustomer/mistralai-api-client": "^0.0.1",
+        "artcustomer/mistralai-api-client": "^0.1.0",
         "artcustomer/xai-api-client": "^0.0.1",
         "artcustomer/deepseek-api-client": "^0.0.1",
         "doctrine/annotations": "^1.0",

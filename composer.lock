@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd1e530d7e3bae33f67ad973451a96a6",
+    "content-hash": "dca965a93ee5d6c27599040e2e8cdef8",
     "packages": [
         {
             "name": "artcustomer/apiunit",
@@ -199,16 +199,16 @@
         },
         {
             "name": "artcustomer/mistralai-api-client",
-            "version": "0.0.1",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/api-mistralai_client.git",
-                "reference": "46d282923720d33052018cfe902e8b23214ad481"
+                "reference": "c1c5c2860857ca4c3599f65d01ffdef8bc8bd336"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/api-mistralai_client/zipball/46d282923720d33052018cfe902e8b23214ad481",
-                "reference": "46d282923720d33052018cfe902e8b23214ad481",
+                "url": "https://api.github.com/repos/Artcustomer/api-mistralai_client/zipball/c1c5c2860857ca4c3599f65d01ffdef8bc8bd336",
+                "reference": "c1c5c2860857ca4c3599f65d01ffdef8bc8bd336",
                 "shasum": ""
             },
             "require": {
@@ -240,10 +240,10 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/api-mistralai_client/tree/0.0.1",
+                "source": "https://github.com/Artcustomer/api-mistralai_client/tree/0.1.0",
                 "issues": "https://github.com/Artcustomer/api-mistralai_client/issues"
             },
-            "time": "2024-11-22T20:48:27+00:00"
+            "time": "2025-02-14T10:51:35+00:00"
         },
         {
             "name": "artcustomer/openai-api-client",
