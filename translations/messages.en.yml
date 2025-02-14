@@ -17,6 +17,8 @@
 'main_menu.audio': 'Audio'
 'main_menu.audio.create_transcription': 'Create transcription'
 'main_menu.audio.create_translation': 'Create translation'
+'main_menu.audio.generate_audio': 'Generate audio'
+'main_menu.audio.text_to_speech': 'Text to speech'
 'main_menu.audio.speak_to_text': 'Speak to text'
 'main_menu.toolbox': 'Toolbox'
 'main_menu.tools': 'Tools'

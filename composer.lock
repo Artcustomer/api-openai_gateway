@@ -247,16 +247,16 @@
         },
         {
             "name": "artcustomer/openai-api-client",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/api-openai_client.git",
-                "reference": "40e1296087b825e46f172940cbdd14d91477e755"
+                "reference": "7660b0f32eb7d55619b5c7dc4a0d5662489abcfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/api-openai_client/zipball/40e1296087b825e46f172940cbdd14d91477e755",
-                "reference": "40e1296087b825e46f172940cbdd14d91477e755",
+                "url": "https://api.github.com/repos/Artcustomer/api-openai_client/zipball/7660b0f32eb7d55619b5c7dc4a0d5662489abcfa",
+                "reference": "7660b0f32eb7d55619b5c7dc4a0d5662489abcfa",
                 "shasum": ""
             },
             "require": {
@@ -288,10 +288,10 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/api-openai_client/tree/1.2.0",
+                "source": "https://github.com/Artcustomer/api-openai_client/tree/1.2.1",
                 "issues": "https://github.com/Artcustomer/api-openai_client/issues"
             },
-            "time": "2025-02-14T10:10:01+00:00"
+            "time": "2025-02-14T13:26:12+00:00"
         },
         {
             "name": "artcustomer/xai-api-client",
@@ -969,16 +969,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.36.2",
+            "version": "v4.37.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "a482abdcac37d6238819a99dd84250963f0cb442"
+                "reference": "1497977f82d396f1dda8120434c6d29f3de683e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/a482abdcac37d6238819a99dd84250963f0cb442",
-                "reference": "a482abdcac37d6238819a99dd84250963f0cb442",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/1497977f82d396f1dda8120434c6d29f3de683e6",
+                "reference": "1497977f82d396f1dda8120434c6d29f3de683e6",
                 "shasum": ""
             },
             "require": {
@@ -1079,7 +1079,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.36.2"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.37.1"
             },
             "funding": [
                 {
@@ -1087,7 +1087,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-13T12:07:27+00:00"
+            "time": "2025-02-14T12:47:20+00:00"
         },
         {
             "name": "nikic/php-parser",

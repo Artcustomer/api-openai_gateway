@@ -22,32 +22,32 @@
     </div>
 
     {% if output %}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Output</h5>
-                    <div class="accordion accordion-flush" id="accordionFlushOutput">
-                        {% for key,outputItem in output %}
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-heading-{{ key }}">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#flush-collapse-{{ key }}" aria-expanded="false"
-                                            aria-controls="flush-collapse-{{ key }}">
-                                        {{ key }}
-                                    </button>
-                                </h2>
-                                <div id="flush-collapse-{{ key }}" class="accordion-collapse collapse"
-                                     aria-labelledby="flush-heading-{{ key }}" data-bs-parent="#accordionFlushOutput" style="">
-                                    <div class="accordion-body">
-                                        {% if outputItem.status == 'success' %}
-                                            {% include 'application/ui/components/media/audio_player.html.twig' with {'src': outputItem.url, 'controls':'controls'} %}
-                                        {% else %}
-                                            An error occured
-                                        {% endif %}
-                                    </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Output</h5>
+                <div class="accordion accordion-flush" id="accordionFlushOutput">
+                    {% for key,outputItem in output %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-heading-{{ key }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapse-{{ key }}" aria-expanded="false"
+                                        aria-controls="flush-collapse-{{ key }}">
+                                    {{ key }}
+                                </button>
+                            </h2>
+                            <div id="flush-collapse-{{ key }}" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-heading-{{ key }}" data-bs-parent="#accordionFlushOutput"
+                                 style="">
+                                <div class="accordion-body">
+                                    {% if outputItem.status == 'success' %}
+                                        {% include 'application/ui/components/media/audio_player.html.twig' with {'src': outputItem.url, 'controls':'controls'} %}
+                                    {% else %}
+                                        An error occured
+                                    {% endif %}
                                 </div>
                             </div>
-                        {% endfor %}
-                    </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
