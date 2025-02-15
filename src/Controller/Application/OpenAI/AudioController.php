@@ -50,7 +50,6 @@ class AudioController extends AbstractApplicationController
      * @return Response
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \ReflectionException
      */
     public function createCompletion(Request $request): Response
     {
@@ -60,11 +59,12 @@ class AudioController extends AbstractApplicationController
         $form = $this->createForm(AudioCreateCompletionType::class, null, $options);
         $form->handleRequest($request);
 
-        $errorMessage = '';
         $audioData = '';
         $audioTranscription = '';
         $userPrompt = '';
+        $outputFormat = AudioFormat::MP3;
         $output = null;
+        $errors = [];
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
@@ -74,18 +74,15 @@ class AudioController extends AbstractApplicationController
             $file = $data[AudioCreateCompletionType::FIELD_FILE];
 
             if (is_null($file)) {
-                $errorMessage = $this->trans('error.form.audio.not_defined');
+                $errors[] = $this->trans('error.form.audio.not_defined');
                 $execute = false;
             }
 
             if ($execute) {
                 $scope = $this;
-                $errors = [];
                 $inputPrompt = $data[AudioSpeakToTextType::FIELD_PROMPT];
                 $inputLanguage = $data[AudioSpeakToTextType::FIELD_LANGUAGE];
-                $outputFormat = AudioFormat::MP3;
-
-                $params = [
+                $transcriptionParams = [
                     'model' => Model::WHISPER_1,
                     'file' => [
                         'pathName' => $file->getPathname(),
@@ -95,20 +92,27 @@ class AudioController extends AbstractApplicationController
                     'response_format' => ResponseFormat::JSON,
                     'temperature' => 0
                 ];
+                $completionParams = [
+                    'model' => Model::GPT_4_O_AUDIO_PREVIEW,
+                    'modalities' => ['text', 'audio'],
+                    'audio' => [
+                        'voice' => AudioVoice::ECHO,
+                        'format' => $outputFormat
+                    ]
+                ];
 
                 if (!empty($inputPrompt)) {
-                    $params['prompt'] = $inputPrompt;
+                    $transcriptionParams['prompt'] = $inputPrompt;
                 }
 
                 if (!empty($inputLanguage)) {
-                    $params['language'] = $inputLanguage;
+                    $transcriptionParams['language'] = $inputLanguage;
                 }
 
-                $promise = Coroutine::of(function () use ($scope, &$errors, $params, $outputFormat, &$userPrompt) {
+                $promise = Coroutine::of(function () use ($scope, &$errors, &$userPrompt, $transcriptionParams, $completionParams) {
                     $continue = true;
                     $result = null;
-
-                    $response = $scope->openAIService->getApiGateway()->getAudioConnector()->createTranscription($params);
+                    $response = $scope->openAIService->getApiGateway()->getAudioConnector()->createTranscription($transcriptionParams);
                     $content = $response->getContent();
 
                     if ($response->getStatusCode() === 200) {
@@ -121,28 +125,17 @@ class AudioController extends AbstractApplicationController
                             empty($errorMessage) &&
                             !empty($content)
                         ) {
-                            $errorMessage = $content->error->message ?? '';
+                            $errorMessage = $content->error->message ?? $scope->trans('error.occurred');
                         }
 
-                        $errors[] = $errorMessage;
+                        $errors[] = sprintf('An error occurred while performing audio transcription. %s', $errorMessage);
                     }
 
                     if ($continue) {
-                        $completionParams = [
-                            'model' => Model::GPT_4_O_AUDIO_PREVIEW,
-                            'modalities' => [
-                                'text',
-                                'audio'
-                            ],
-                            'audio' => [
-                                'voice' => AudioVoice::ALLOW,
-                                'format' => $outputFormat
-                            ],
-                            'messages' => [
-                                [
-                                    'role' => Role::USER,
-                                    'content' => $userPrompt
-                                ]
+                        $completionParams['messages'] = [
+                            [
+                                'role' => Role::USER,
+                                'content' => $userPrompt
                             ]
                         ];
                         $lastResponse = $this->openAIService->getApiGateway()->getChatConnector()->createCompletion($completionParams);
@@ -155,26 +148,16 @@ class AudioController extends AbstractApplicationController
 
                             if (empty($errorMessage)) {
                                 if (!empty($content)) {
-                                    $errorMessage = $content->error->message ?? '';
+                                    $errorMessage = $content->error->message ?? $scope->trans('error.occurred');
                                 }
                             }
 
-                            $errors[] = $errorMessage;
+                            $errors[] = sprintf('An error occurred while performing chat completion. %s', $errorMessage);
                         }
                     }
 
                     yield $result;
                 });
-
-                $promise
-                    ->then(
-                        function ($value) {
-
-                        },
-                        function ($reason) {
-
-                        }
-                    );
 
                 $output = $promise->wait();
             }
@@ -184,10 +167,9 @@ class AudioController extends AbstractApplicationController
             $mimeType = sprintf('audio/%s', $outputFormat);
             $audioData = sprintf('data:%s;base64, %s', $mimeType, $output->data);
             $audioTranscription = $output->transcript;
-        } else {
-            // ERROR
-            //$errorMessage = !empty($errorMessage) ? $errorMessage : $scope->trans('error.occurred');
         }
+
+        $errorMessage = !empty($errors) ? implode(' | ', $errors) : '';
 
         return $this->render(
             'application/openai/audio/create_completion.html.twig',
