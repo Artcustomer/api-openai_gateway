@@ -15,6 +15,7 @@
 'main_menu.images.create': 'Create'
 'main_menu.images.analyze': 'Analyze'
 'main_menu.audio': 'Audio'
+'main_menu.audio.create_completion': 'Create completion'
 'main_menu.audio.create_transcription': 'Create transcription'
 'main_menu.audio.create_translation': 'Create translation'
 'main_menu.audio.generate_audio': 'Generate audio'

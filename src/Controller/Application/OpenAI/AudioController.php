@@ -3,12 +3,15 @@
 namespace App\Controller\Application\OpenAI;
 
 use App\Controller\Application\AbstractApplicationController;
+use App\Form\Type\OpenAI\AudioCreateCompletionType;
 use App\Form\Type\OpenAI\AudioCreateTranscriptionType;
 use App\Form\Type\OpenAI\AudioCreateTranslationType;
 use App\Form\Type\OpenAI\AudioGenerateAudioType;
 use App\Form\Type\OpenAI\AudioSpeakToTextType;
 use App\Form\Type\OpenAI\AudioTextToSpeechType;
 use App\Service\OpenAIService;
+use Artcustomer\OpenAIClient\Enum\AudioFormat;
+use Artcustomer\OpenAIClient\Enum\AudioVoice;
 use Artcustomer\OpenAIClient\Enum\Model;
 use Artcustomer\OpenAIClient\Enum\ResponseFormat;
 use Artcustomer\OpenAIClient\Enum\Role;
@@ -17,6 +20,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\Coroutine;
 
 /**
  * @Route("/openai/audio")
@@ -36,6 +41,165 @@ class AudioController extends AbstractApplicationController
     public function __construct(OpenAIService $openAIService)
     {
         $this->openAIService = $openAIService;
+    }
+
+    /**
+     * @Route("/completion/create", name="application_openai_audio_create_completion", methods={"GET","POST"})
+     *
+     * @param Request $request
+     * @return Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
+     */
+    public function createCompletion(Request $request): Response
+    {
+        $formData = $this->cleanQueryParameters($request, AudioCreateCompletionType::FIELD_NAMES);
+        $options = ['data' => $formData];
+
+        $form = $this->createForm(AudioCreateCompletionType::class, null, $options);
+        $form->handleRequest($request);
+
+        $errorMessage = '';
+        $audioData = '';
+        $audioTranscription = '';
+        $userPrompt = '';
+        $output = null;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $execute = true;
+
+            /** @var ?UploadedFile $file */
+            $file = $data[AudioCreateCompletionType::FIELD_FILE];
+
+            if (is_null($file)) {
+                $errorMessage = $this->trans('error.form.audio.not_defined');
+                $execute = false;
+            }
+
+            if ($execute) {
+                $scope = $this;
+                $errors = [];
+                $inputPrompt = $data[AudioSpeakToTextType::FIELD_PROMPT];
+                $inputLanguage = $data[AudioSpeakToTextType::FIELD_LANGUAGE];
+                $outputFormat = AudioFormat::MP3;
+
+                $params = [
+                    'model' => Model::WHISPER_1,
+                    'file' => [
+                        'pathName' => $file->getPathname(),
+                        'mimeType' => $file->getClientMimeType(),
+                        'originalName' => $file->getClientOriginalName(),
+                    ],
+                    'response_format' => ResponseFormat::JSON,
+                    'temperature' => 0
+                ];
+
+                if (!empty($inputPrompt)) {
+                    $params['prompt'] = $inputPrompt;
+                }
+
+                if (!empty($inputLanguage)) {
+                    $params['language'] = $inputLanguage;
+                }
+
+                $promise = Coroutine::of(function () use ($scope, &$errors, $params, $outputFormat, &$userPrompt) {
+                    $continue = true;
+                    $result = null;
+
+                    $response = $scope->openAIService->getApiGateway()->getAudioConnector()->createTranscription($params);
+                    $content = $response->getContent();
+
+                    if ($response->getStatusCode() === 200) {
+                        $userPrompt = $content->text;
+                    } else {
+                        $continue = false;
+                        $errorMessage = $response->getMessage();
+
+                        if (
+                            empty($errorMessage) &&
+                            !empty($content)
+                        ) {
+                            $errorMessage = $content->error->message ?? '';
+                        }
+
+                        $errors[] = $errorMessage;
+                    }
+
+                    if ($continue) {
+                        $completionParams = [
+                            'model' => Model::GPT_4_O_AUDIO_PREVIEW,
+                            'modalities' => [
+                                'text',
+                                'audio'
+                            ],
+                            'audio' => [
+                                'voice' => AudioVoice::ALLOW,
+                                'format' => $outputFormat
+                            ],
+                            'messages' => [
+                                [
+                                    'role' => Role::USER,
+                                    'content' => $userPrompt
+                                ]
+                            ]
+                        ];
+                        $lastResponse = $this->openAIService->getApiGateway()->getChatConnector()->createCompletion($completionParams);
+                        $content = $response->getContent();
+
+                        if ($lastResponse->getStatusCode() === 200) {
+                            $result = $content->choices[0]->message->audio;
+                        } else {
+                            $errorMessage = $response->getMessage();
+
+                            if (empty($errorMessage)) {
+                                if (!empty($content)) {
+                                    $errorMessage = $content->error->message ?? '';
+                                }
+                            }
+
+                            $errors[] = $errorMessage;
+                        }
+                    }
+
+                    yield $result;
+                });
+
+                $promise
+                    ->then(
+                        function ($value) {
+
+                        },
+                        function ($reason) {
+
+                        }
+                    );
+
+                $output = $promise->wait();
+            }
+        }
+
+        if (is_object($output)) {
+            $mimeType = sprintf('audio/%s', $outputFormat);
+            $audioData = sprintf('data:%s;base64, %s', $mimeType, $output->data);
+            $audioTranscription = $output->transcript;
+        } else {
+            // ERROR
+            //$errorMessage = !empty($errorMessage) ? $errorMessage : $scope->trans('error.occurred');
+        }
+
+        return $this->render(
+            'application/openai/audio/create_completion.html.twig',
+            [
+                'gatewayName' => ApiInfos::API_NAME,
+                'form' => $form,
+                'errorMessage' => $errorMessage,
+                'audioData' => $audioData,
+                'audioTranscription' => $audioTranscription,
+                'userPrompt' => $userPrompt,
+            ]
+        );
     }
 
     /**

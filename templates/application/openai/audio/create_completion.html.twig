@@ -1,0 +1,112 @@
+{% extends 'application/base_application.html.twig' %}
+
+{% block title %}{{ app_name }} | {{ gatewayName }} - {{ 'main_menu.audio.create_completion'|trans }}{% endblock %}
+
+{% block applicationPageTitle %}{{ gatewayName }} - {{ 'main_menu.audio.create_completion'|trans }}{% endblock %}
+
+{% block applicationSection %}
+    {% if errorMessage %}
+        <div class="alert alert-dismissible alert-danger">
+            <strong>{{ errorMessage }}</strong>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+
+                    {{ form(form) }}
+
+                    <script>
+                        navigator.mediaDevices.getUserMedia({audio: true})
+                            .then(stream => {
+                                handlerFunction(stream)
+                            })
+
+                        function handlerFunction(stream) {
+                            rec = new MediaRecorder(stream);
+                            rec.ondataavailable = e => {
+                                audioChunks.push(e.data);
+
+                                if (rec.state === 'inactive') {
+                                    let blob = new Blob(audioChunks, {type: 'audio/mp3'});
+                                    let url = URL.createObjectURL(blob);
+
+                                    audio_create_completion_input_audio.src = url;
+                                    audio_create_completion_input_audio.controls = true;
+                                    audio_create_completion_input_audio.autoplay = false;
+
+                                    sendData(blob, url)
+                                }
+                            }
+                        }
+
+                        function sendData(data, url) {
+                            const extension = data.type.split(/[\/]+/).pop();
+                            const name = url.split(/[\/]+/).pop();
+                            const file = new File([data], name + '.' + extension);
+                            const dataTransfer = new DataTransfer();
+
+                            dataTransfer.items.add(file);
+
+                            audio_create_completion_file.files = dataTransfer.files;
+                        }
+
+                        audio_create_completion_button_start.onclick = e => {
+                            audio_create_completion_button_start.disabled = true;
+                            audio_create_completion_button_start.style.backgroundColor = 'red'
+                            audio_create_completion_button_stop.disabled = false;
+
+                            audioChunks = [];
+
+                            rec.start();
+                        }
+
+                        audio_create_completion_button_stop.onclick = e => {
+                            audio_create_completion_button_start.disabled = false;
+
+                            stop.disabled = true;
+
+                            audio_create_completion_button_start.style.backgroundColor = 'white'
+
+                            rec.stop();
+                        }
+                    </script>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if audioData %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Output</h5>
+                {% include 'application/ui/components/media/audio_player.html.twig' with {'src': audioData, 'controls':'controls'} %}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if audioTranscription %}
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Transcript</h5>
+                    <p>{{ audioTranscription }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if userPrompt %}
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Prompt</h5>
+                    <p>{{ userPrompt }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
