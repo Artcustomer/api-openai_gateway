@@ -36,6 +36,10 @@
     <!-- Custom CSS -->
     {% block stylesheets %}{% endblock %}
 
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+
     <!-- Custom header JS -->
     {% block headerJavascript %}{% endblock %}
 </head>
@@ -60,5 +64,6 @@
 
 <!-- Custom body JS -->
 {% block bodyJavascript %}{% endblock %}
+
 </body>
 </html>
