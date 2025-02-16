@@ -1,8 +1,6 @@
 twig:
   default_path: '%kernel.project_dir%/templates'
   file_name_pattern: '*.twig'
-  #auto_reload: '%kernel.debug%'
-  #cache: false
 
   globals:
     app_name: '%env(APP_NAME)%'
