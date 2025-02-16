@@ -19,6 +19,9 @@
 ###< symfony/framework-bundle ###
 
 ###> symfony/asset-mapper ###
-/public/assets/
+/public/assets/*
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+!/public/assets/theme
+!/public/assets/theme/*
