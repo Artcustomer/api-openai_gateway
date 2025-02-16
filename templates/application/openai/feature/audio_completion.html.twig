@@ -21,7 +21,7 @@
                              style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
 
-                    {{ component('FeatureAudioCompletion', {form: form}) }}
+                    {{ component('OpenAI:FeatureAudioCompletion') }}
 
                 </div>
             </div>
@@ -30,5 +30,5 @@
 {% endblock %}
 
 {% block bodyJavascript %}
-    <script src="{{ asset('assets/js/application/openai_feature_audio_completion.js') }}"></script>
+    <script src="{{ asset('assets/app/application/openai_feature_audio_completion.js') }}"></script>
 {% endblock %}

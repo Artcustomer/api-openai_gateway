@@ -16,12 +16,10 @@ class FeatureAudioCompletionType extends AbstractExtendedType
 {
 
     public const FIELD_BUTTON_RECORD = 'button_record';
-    public const FIELD_INPUT_AUDIO = 'input_audio';
     public const FIELD_FILE = 'file';
 
     public const FIELD_NAMES = [
         self::FIELD_BUTTON_RECORD,
-        self::FIELD_INPUT_AUDIO,
         self::FIELD_FILE
     ];
 
@@ -40,19 +38,6 @@ class FeatureAudioCompletionType extends AbstractExtendedType
                 'label' => '<i class="bx bxs-microphone"></i>',
                 'attr' => [
                     'class' => 'btn btn-outline-primary'
-                ],
-                'row_attr' => [
-                    'class' => 'mb-3'
-                ]
-            ],
-        ];
-        $fields[self::FIELD_INPUT_AUDIO] = [
-            'type' => AudioType::class,
-            'options' => [
-                'label' => false,
-                'attr' => [
-                    'controls' => true,
-                    'class' => 'form-control mt-1'
                 ],
                 'row_attr' => [
                     'class' => 'mb-3'
