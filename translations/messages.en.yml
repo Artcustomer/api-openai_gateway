@@ -6,6 +6,7 @@
 
 'main_menu.home': 'Home'
 'main_menu.chat': 'Chat'
+'main_menu.feature.audio_completion': 'Audio completion'
 'main_menu.chat.create_completion': 'Create completion'
 'main_menu.chat.converse': 'Converse'
 'main_menu.text': 'Text'

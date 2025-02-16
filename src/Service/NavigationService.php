@@ -140,6 +140,7 @@ class NavigationService
         return array_merge(
             $this->itemFactory(self::NAV_TYPE_ITEM, 'home', 'main_menu.home', 'bi-grid', 'application_home_index'),
             $this->itemFactory(self::NAV_TYPE_HEADING, 'openai-heading', 'main_menu.openai'),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-audio-completion', 'main_menu.feature.audio_completion', 'bi-soundwave', 'application_openai_feature_audio_completion'),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-chat-nav', 'main_menu.chat', 'bi-journal-text', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-create_completion', 'main_menu.chat.create_completion', null, 'application_openai_chat_create_completion'),
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-converse', 'main_menu.chat.converse', null, 'application_openai_chat_converse', [], true)
