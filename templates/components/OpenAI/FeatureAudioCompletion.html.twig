@@ -1,12 +1,41 @@
-<div {{ attributes }}>
+<div {{ attributes.defaults(stimulus_controller('openai-feature-audio-completion')) }}>
     {{ form(
         form,
         {
             attr: {
-            novalidate: true,
+            'novalidate': true,
             'data-action': 'live#action:prevent',
-            'data-live-action-param': 'save'
+            'data-live-action-param': 'files|submit'
         }
         }
     ) }}
+
+    <div class="mt-3" data-loading="action(submit)|show">
+        <button class="btn btn-primary" type="button" disabled="">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span class="visually-hidden">Loading...</span>
+        </button>
+    </div>
+
+    {% if this.responseData %}
+        {% set alertType = this.responseData.success == true ? 'secondary' : 'danger' %}
+        {% set titleStatus = this.responseData.success == true ? 'OK' : 'ERROR' %}
+        <div id="feature_audio_completion_response_alert">
+            <div class="mt-3 alert alert-{{ alertType }}" role="alert">
+                <h4 class="alert-heading">{{ titleStatus }}</h4>
+                {% if this.responseData.messages %}
+                    {% set responseMessages = this.responseData.messages %}
+                    {% for index,value in responseMessages %}
+                        <p>{{ value }}</p>
+                        {% if loop.last == false %}
+                            <hr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {% if this.responseData.data.audio is defined %}
+                {% include 'application/ui/components/media/audio_player.html.twig' with {'src': this.responseData.data.audio, 'controls':'', 'autoplay':'autoplay'} %}
+            {% endif %}
+        </div>
+    {% endif %}
 </div>

@@ -9,9 +9,9 @@ use App\Form\Type\OpenAI\AudioCreateTranslationType;
 use App\Form\Type\OpenAI\AudioGenerateAudioType;
 use App\Form\Type\OpenAI\AudioSpeakToTextType;
 use App\Form\Type\OpenAI\AudioTextToSpeechType;
+use App\Service\OpenAIFeatureService;
 use App\Service\OpenAIService;
 use Artcustomer\OpenAIClient\Enum\AudioFormat;
-use Artcustomer\OpenAIClient\Enum\AudioVoice;
 use Artcustomer\OpenAIClient\Enum\Model;
 use Artcustomer\OpenAIClient\Enum\ResponseFormat;
 use Artcustomer\OpenAIClient\Enum\Role;
@@ -20,8 +20,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use GuzzleHttp\Promise;
-use GuzzleHttp\Promise\Coroutine;
 
 /**
  * @Route("/openai/audio")
@@ -32,15 +30,18 @@ class AudioController extends AbstractApplicationController
 {
 
     protected OpenAIService $openAIService;
+    protected OpenAIFeatureService $openAIFeatureService;
 
     /**
      * Constructor
      *
      * @param OpenAIService $openAIService
+     * @param OpenAIFeatureService $openAIFeatureService
      */
-    public function __construct(OpenAIService $openAIService)
+    public function __construct(OpenAIService $openAIService, OpenAIFeatureService $openAIFeatureService)
     {
         $this->openAIService = $openAIService;
+        $this->openAIFeatureService = $openAIFeatureService;
     }
 
     /**
@@ -63,7 +64,7 @@ class AudioController extends AbstractApplicationController
         $audioTranscription = '';
         $userPrompt = '';
         $outputFormat = AudioFormat::MP3;
-        $output = null;
+        $output = [];
         $errors = [];
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -79,27 +80,9 @@ class AudioController extends AbstractApplicationController
             }
 
             if ($execute) {
-                $scope = $this;
                 $inputPrompt = $data[AudioSpeakToTextType::FIELD_PROMPT];
                 $inputLanguage = $data[AudioSpeakToTextType::FIELD_LANGUAGE];
-                $transcriptionParams = [
-                    'model' => Model::WHISPER_1,
-                    'file' => [
-                        'pathName' => $file->getPathname(),
-                        'mimeType' => $file->getClientMimeType(),
-                        'originalName' => $file->getClientOriginalName(),
-                    ],
-                    'response_format' => ResponseFormat::JSON,
-                    'temperature' => 0
-                ];
-                $completionParams = [
-                    'model' => Model::GPT_4_O_AUDIO_PREVIEW,
-                    'modalities' => ['text', 'audio'],
-                    'audio' => [
-                        'voice' => AudioVoice::ECHO,
-                        'format' => $outputFormat
-                    ]
-                ];
+                $transcriptionParams = [];
 
                 if (!empty($inputPrompt)) {
                     $transcriptionParams['prompt'] = $inputPrompt;
@@ -109,64 +92,19 @@ class AudioController extends AbstractApplicationController
                     $transcriptionParams['language'] = $inputLanguage;
                 }
 
-                $promise = Coroutine::of(function () use ($scope, &$errors, &$userPrompt, $transcriptionParams, $completionParams) {
-                    $continue = true;
-                    $result = null;
-                    $response = $scope->openAIService->getApiGateway()->getAudioConnector()->createTranscription($transcriptionParams);
-                    $content = $response->getContent();
-
-                    if ($response->getStatusCode() === 200) {
-                        $userPrompt = $content->text;
-                    } else {
-                        $continue = false;
-                        $errorMessage = $response->getMessage();
-
-                        if (
-                            empty($errorMessage) &&
-                            !empty($content)
-                        ) {
-                            $errorMessage = $content->error->message ?? $scope->trans('error.occurred');
-                        }
-
-                        $errors[] = sprintf('An error occurred while performing audio transcription. %s', $errorMessage);
-                    }
-
-                    if ($continue) {
-                        $completionParams['messages'] = [
-                            [
-                                'role' => Role::USER,
-                                'content' => $userPrompt
-                            ]
-                        ];
-                        $lastResponse = $this->openAIService->getApiGateway()->getChatConnector()->createCompletion($completionParams);
-                        $content = $response->getContent();
-
-                        if ($lastResponse->getStatusCode() === 200) {
-                            $result = $content->choices[0]->message->audio;
-                        } else {
-                            $errorMessage = $response->getMessage();
-
-                            if (empty($errorMessage)) {
-                                if (!empty($content)) {
-                                    $errorMessage = $content->error->message ?? $scope->trans('error.occurred');
-                                }
-                            }
-
-                            $errors[] = sprintf('An error occurred while performing chat completion. %s', $errorMessage);
-                        }
-                    }
-
-                    yield $result;
-                });
-
-                $output = $promise->wait();
+                $output = $this->openAIFeatureService->completionAudioInAudioOut($file, $transcriptionParams, [], $outputFormat);
             }
         }
 
-        if (is_object($output)) {
-            $mimeType = sprintf('audio/%s', $outputFormat);
-            $audioData = sprintf('data:%s;base64, %s', $mimeType, $output->data);
-            $audioTranscription = $output->transcript;
+        if (!empty($output)) {
+            if ($output['success'] === true) {
+                $data = $output['data'];
+                $audioData = $data['audio'];
+                $audioTranscription = $data['transcript'];
+                $userPrompt = $data['userPrompt'];
+            } else {
+                $errors = $output['errors'];
+            }
         }
 
         $errorMessage = !empty($errors) ? implode(' | ', $errors) : '';

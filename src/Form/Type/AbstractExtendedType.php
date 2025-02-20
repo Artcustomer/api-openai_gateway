@@ -15,7 +15,6 @@ abstract class AbstractExtendedType extends AbstractType
     public const OPT_CUSTOM_FIELD_OPTIONS = '_custom_field_options';
     public const FIELD_SAVE = 'save';
 
-
     /**
      * Override it.
      *
@@ -58,7 +57,7 @@ abstract class AbstractExtendedType extends AbstractType
      * @param OptionsResolver $resolver
      * @return void
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             self::OPT_CUSTOM_FIELD_OPTIONS => []
