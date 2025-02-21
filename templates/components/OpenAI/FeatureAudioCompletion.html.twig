@@ -19,8 +19,18 @@
 
     {% if this.responseData %}
         {% set alertType = this.responseData.success == true ? 'secondary' : 'danger' %}
-        {% set titleStatus = this.responseData.success == true ? 'OK' : 'ERROR' %}
+        {% set titleStatus = this.responseData.success == true ? '' : 'ERROR' %}
         <div id="feature_audio_completion_response_alert">
+            {% if this.responseData.data.audio is defined %}
+                <div class="mt-3">
+                    <div id="motion_analyzer_container">
+                        <button id="feature_audio_completion_audio_control" type="button" class="btn btn-sm btn-primary rounded-pill" data-action="click->openai-feature-audio-completion#onClickAudioControl"><i class="bi bi-play pointer-events-none"></i></button>
+                    </div>
+                    <div>
+                        {% include 'application/ui/components/media/audio_player.html.twig' with {'src': this.responseData.data.audio, 'controls':'', 'autoplay':'autoplay'} %}
+                    </div>
+                </div>
+            {% endif %}
             <div class="mt-3 alert alert-{{ alertType }}" role="alert">
                 <h4 class="alert-heading">{{ titleStatus }}</h4>
                 {% if this.responseData.messages %}
@@ -33,9 +43,6 @@
                     {% endfor %}
                 {% endif %}
             </div>
-            {% if this.responseData.data.audio is defined %}
-                {% include 'application/ui/components/media/audio_player.html.twig' with {'src': this.responseData.data.audio, 'controls':'', 'autoplay':'autoplay'} %}
-            {% endif %}
         </div>
     {% endif %}
 </div>

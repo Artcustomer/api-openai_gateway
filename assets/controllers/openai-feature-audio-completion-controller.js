@@ -1,5 +1,6 @@
 import {Controller} from '@hotwired/stimulus';
 import {getComponent} from '@symfony/ux-live-component';
+import AudioMotionAnalyzer from 'audiomotion-analyzer';
 
 export default class extends Controller {
     mediaRecorder = null;
@@ -8,8 +9,8 @@ export default class extends Controller {
     audioChunks = [];
     isRecording = false;
     formElement = null;
-    alertElement = null;
     recordButton = null;
+    audioMotionAnalyzer = null;
 
     static values = {
         isLoading: Boolean
@@ -52,7 +53,7 @@ export default class extends Controller {
     }
 
     connect() {
-
+        this.element.classList.add('openai-feature-audio-completion');
     }
 
     disconnect() {
@@ -73,7 +74,6 @@ export default class extends Controller {
 
     initUi() {
         this.formElement = document.querySelector('#feature_audio_completion_form');
-        this.alertElement = document.querySelector('#feature_audio_completion_response_alert');
         this.recordButton = document.querySelector('#feature_audio_completion_button_record');
 
         this.formElement.addEventListener('submit', this.onSubmitForm.bind(this), false);
@@ -81,27 +81,90 @@ export default class extends Controller {
     }
 
     resetUi() {
-        this.alertElement = document.querySelector('#feature_audio_completion_response_alert');
+        const selectors = [
+            '#feature_audio_completion_response_alert',
+            '#motion_analyzer_container'
+        ];
 
-        if (this.alertElement) {
-            this.alertElement.remove();
+        if (this.audioMotionAnalyzer) {
+            this.audioMotionAnalyzer.destroy();
+            this.audioMotionAnalyzer = null;
+        }
+
+        selectors.forEach(function (value, index) {
+            let element = document.querySelector(value);
+
+            if (element) {
+                element.remove();
+            }
+        });
+    }
+
+    setAudioRecordButtonState(state) {
+        const audioButton = document.querySelector('#feature_audio_completion_audio_control');
+
+        if (audioButton) {
+            switch (state) {
+                case 'play':
+                    audioButton.getElementsByTagName('i')[0].classList.add('bi-play');
+                    audioButton.getElementsByTagName('i')[0].classList.remove('bi-stop');
+                    break;
+
+                case 'stop':
+                    audioButton.getElementsByTagName('i')[0].classList.add('bi-stop');
+                    audioButton.getElementsByTagName('i')[0].classList.remove('bi-play');
+                    break;
+            }
         }
     }
 
+    initMotionAnalyzer(audioElement) {
+        const container = document.getElementById('motion_analyzer_container');
+        const options = {
+            mode: 3,
+            barSpace: .6,
+            overlay: true,
+            showBgColor: true,
+            bgAlpha: 0,
+            fillAlpha: 0,
+            ledBars: false,
+            trueLeds: true,
+            radial: true,
+            splitGradient: true,
+            lumiBars: true,
+            showPeaks: false,
+            outlineBars: false,
+            showScaleX: false,
+            gradient: 'steelblue',
+            colorMode: 'gradient',
+        };
+
+        this.audioMotionAnalyzer = new AudioMotionAnalyzer(
+            container,
+            {
+                source: audioElement,
+                height: 200,
+            }
+        );
+        this.audioMotionAnalyzer.setOptions(options);
+    }
+
     handleAudio() {
-        let audioElement = this.element.querySelector('audio');
+        const audioElement = this.element.querySelector('audio');
 
         if (audioElement) {
             audioElement.addEventListener('play', this.onPlayAudio.bind(this));
             audioElement.addEventListener('pause', this.onPauseAudio.bind(this));
+
+            this.initMotionAnalyzer(audioElement);
         }
     }
 
     stopAudio() {
-        let audioElements = this.element.querySelectorAll('audio');
+        const audioElements = this.element.querySelectorAll('audio');
 
         if (audioElements.length > 0) {
-            let callback = function (element, index) {
+            const callback = function (element, index) {
                 element.removeEventListener('play', this.onPlayAudio.bind(this));
                 element.removeEventListener('pause', this.onPauseAudio.bind(this));
                 element.pause();
@@ -111,6 +174,20 @@ export default class extends Controller {
             }
 
             audioElements.forEach(callback.bind(this));
+        }
+    }
+
+    toggleAudio() {
+        const audioElement = this.element.querySelector('audio');
+
+        if (audioElement) {
+            if (!audioElement.paused) {
+                audioElement.pause();
+                audioElement.currentTime = 0;
+            } else {
+                audioElement.currentTime = 0;
+                audioElement.play();
+            }
         }
     }
 
@@ -194,11 +271,11 @@ export default class extends Controller {
     }
 
     onPlayAudio(e) {
-
+        this.setAudioRecordButtonState('stop');
     }
 
     onPauseAudio(e) {
-
+        this.setAudioRecordButtonState('play');
     }
 
     onClickRecordButton(e) {
@@ -221,5 +298,9 @@ export default class extends Controller {
                 this.setRecordToFile(blob, url)
             }
         }
+    }
+
+    onClickAudioControl(e) {
+        this.toggleAudio();
     }
 }

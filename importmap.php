@@ -25,4 +25,7 @@ return [
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
+    'audiomotion-analyzer' => [
+        'version' => '4.5.0',
+    ],
 ];

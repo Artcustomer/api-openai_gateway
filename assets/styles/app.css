@@ -1,3 +1,26 @@
 /**
 * Custom CSS
 */
+
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+.pointer-events-none {
+    pointer-events: none;
+}
+
+/*--------------------------------------------------------------
+# COMPONENT openai-feature-audio-completion
+--------------------------------------------------------------*/
+.openai-feature-audio-completion {
+
+}
+#feature_audio_completion_audio_control {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    width: fit-content;
+    margin-top: 85px;
+}
