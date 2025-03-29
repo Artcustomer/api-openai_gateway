@@ -3,7 +3,9 @@
 namespace App\Form\Type\OpenAI;
 
 use App\Form\Type\AbstractExtendedType;
+use Artcustomer\OpenAIClient\Enum\ImageQuality;
 use Artcustomer\OpenAIClient\Enum\ImageSize;
+use Artcustomer\OpenAIClient\Enum\ImageStyle;
 use Artcustomer\OpenAIClient\Enum\Model;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -20,12 +22,16 @@ class ImageCreateType extends AbstractExtendedType
     public const FIELD_PROMPT = 'prompt';
     public const FIELD_MODEL = 'model';
     public const FIELD_SIZE = 'size';
+    public const FIELD_QUALITY = 'quality';
+    public const FIELD_STYLE = 'style';
     public const FIELD_NUMBER = 'number';
 
     public const FIELD_NAMES = [
         self::FIELD_PROMPT,
         self::FIELD_MODEL,
         self::FIELD_SIZE,
+        self::FIELD_QUALITY,
+        self::FIELD_STYLE,
         self::FIELD_NUMBER
     ];
 
@@ -40,6 +46,16 @@ class ImageCreateType extends AbstractExtendedType
         ImageSize::SQUARE_1024 => ImageSize::SQUARE_1024,
         ImageSize::PORTRAIT_1024 => ImageSize::PORTRAIT_1024,
         ImageSize::LANDSCAPE_1024 => ImageSize::LANDSCAPE_1024
+    ];
+
+    public const IMAGE_QUALITIES = [
+        'Standard' => ImageQuality::STANDARD,
+        'HD' => ImageQuality::HD,
+    ];
+
+    public const IMAGE_STYLES = [
+        'Natural' => ImageStyle::NATURAL,
+        'Vivid' => ImageStyle::VIVID,
     ];
 
     /**
@@ -80,6 +96,32 @@ class ImageCreateType extends AbstractExtendedType
             'options' => [
                 'label' => 'Size',
                 'choices' => self::IMAGE_SIZES,
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ]
+            ]
+        ];
+        $fields[self::FIELD_QUALITY] = [
+            'type' => ChoiceType::class,
+            'options' => [
+                'label' => 'Quality',
+                'choices' => self::IMAGE_QUALITIES,
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ]
+            ]
+        ];
+        $fields[self::FIELD_STYLE] = [
+            'type' => ChoiceType::class,
+            'options' => [
+                'label' => 'Style',
+                'choices' => self::IMAGE_STYLES,
                 'attr' => [
                     'class' => 'form-control mt-1'
                 ],

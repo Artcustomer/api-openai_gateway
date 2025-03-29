@@ -65,6 +65,8 @@ class ImageController extends AbstractApplicationController
                 'prompt' => $inputPrompt,
                 'n' => $inputNumber,
                 'size' => $data[ImageCreateType::FIELD_SIZE],
+                'quality' => $data[ImageCreateType::FIELD_QUALITY],
+                'style' => $data[ImageCreateType::FIELD_STYLE],
                 'response_format' => ResponseFormat::URL
             ];
             $response = $this->openAIService->getApiGateway()->getImageConnector()->create($params);
