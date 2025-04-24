@@ -6,8 +6,9 @@ use App\Controller\Application\AbstractApplicationController;
 use App\Form\Type\OpenAI\ImageAnalyzeCompletionType;
 use App\Form\Type\OpenAI\ImageCreateType;
 use App\Service\OpenAIService;
+use Artcustomer\OpenAIClient\Enum\Model;
+use Artcustomer\OpenAIClient\Enum\OutputFormat;
 use Artcustomer\OpenAIClient\Enum\Role;
-use Artcustomer\OpenAIClient\Enum\ResponseFormat;
 use Artcustomer\OpenAIClient\Utils\ApiInfos;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,34 +53,66 @@ class ImageController extends AbstractApplicationController
         $form->handleRequest($request);
 
         $inputPrompt = '';
-        $imageUrl = '';
         $imageUrls = [];
         $errorMessage = '';
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $inputPrompt = $data[ImageCreateType::FIELD_PROMPT];
-            $inputNumber = $data[ImageCreateType::FIELD_NUMBER];
+            $inputModel = $data[ImageCreateType::FIELD_MODEL];
+            $inputPrompt = trim($data[ImageCreateType::FIELD_PROMPT]);
             $params = [
-                'model' => $data[ImageCreateType::FIELD_MODEL],
+                'model' => $inputModel,
                 'prompt' => $inputPrompt,
-                'n' => $inputNumber,
+                'n' => $data[ImageCreateType::FIELD_NUMBER],
                 'size' => $data[ImageCreateType::FIELD_SIZE],
                 'quality' => $data[ImageCreateType::FIELD_QUALITY],
                 'style' => $data[ImageCreateType::FIELD_STYLE],
-                'response_format' => ResponseFormat::URL
+                'background' => $data[ImageCreateType::FIELD_BACKGROUND],
+                'moderation' => $data[ImageCreateType::FIELD_MODERATION],
+                'output_compression' => $data[ImageCreateType::FIELD_OUTPUT_COMPRESSION],
+                'output_format' => $data[ImageCreateType::FIELD_OUTPUT_FORMAT],
+                'response_format' => $data[ImageCreateType::FIELD_RESPONSE_FORMAT]
             ];
+
+            if ($inputModel === Model::GPT_IMAGE_1) {
+                unset($params['response_format']);
+            } else {
+                unset($params['background']);
+                unset($params['moderation']);
+                unset($params['output_compression']);
+                unset($params['output_format']);
+            }
+
+            if ($inputModel !== Model::DALL_E_3) {
+                unset($params['style']);
+            }
+
             $response = $this->openAIService->getApiGateway()->getImageConnector()->create($params);
             $content = $response->getContent();
 
             if ($response->getStatusCode() === 200) {
                 $contentData = $content->data;
-                $imageUrls = array_map(
-                    function ($item) {
-                        return $item->url;
-                    },
-                    $contentData
-                );
+                $imageFormat = $params['output_format'] ?? OutputFormat::JPEG;
+
+                foreach ($contentData as $item) {
+                    $url = '';
+
+                    if (isset($item->url)) {
+                        $url = $item->url;
+                    }
+
+                    if (isset($item->b64_json)) {
+                        $url = sprintf(
+                            'data:image/%s;base64, %s',
+                            $imageFormat,
+                            $item->b64_json
+                        );
+                    }
+
+                    if (!empty($url)) {
+                        $imageUrls[] = $url;
+                    }
+                }
             } else {
                 $errorMessage = $response->getMessage();
 
@@ -98,7 +131,6 @@ class ImageController extends AbstractApplicationController
             [
                 'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,
-                'imageUrl' => $imageUrl,
                 'imageUrls' => $imageUrls,
                 'inputPrompt' => $inputPrompt,
                 'errorMessage' => $errorMessage,
