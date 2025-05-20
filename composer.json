@@ -31,6 +31,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/Artcustomer/api-deepseek_client"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/Artcustomer/api-gemini_client"
         }
     ],
     "require": {
@@ -43,6 +47,7 @@
         "artcustomer/mistralai-api-client": "^0.1.0",
         "artcustomer/openai-api-client": "^1.1.0",
         "artcustomer/xai-api-client": "^0.0.1",
+        "artcustomer/gemini-api-client": "^0.0.1",
         "doctrine/annotations": "^1.0",
         "friendsofsymfony/rest-bundle": "^3.4",
         "guzzlehttp/guzzle": "^7.9",
