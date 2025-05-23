@@ -63,3 +63,11 @@ symfony server:start
 - Dockerize the project
 - Add an external database
 - Drupalize the project in order to get benefit of the security layer
+
+### Commands
+```bash
+composer update && composer clear-cache && composer dump-autoload --optimize
+```
+```bash
+php .\bin\console cache:clear
+```
