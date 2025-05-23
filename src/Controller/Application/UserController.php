@@ -2,11 +2,20 @@
 
 namespace App\Controller\Application;
 
+use Artcustomer\OpenAIClient\Utils\ApiInfos as OpenAIApiInfos;
+use Artcustomer\EdenAIClient\Utils\ApiInfos as EdenAIApiInfos;
+use Artcustomer\ElevenLabsClient\Utils\ApiInfos as ElevenLabsApiInfos;
+use Artcustomer\MistralAIClient\Utils\ApiInfos as MistralAIApiInfos;
+use Artcustomer\XAIClient\Utils\ApiInfos as XAIApiInfos;
+use Artcustomer\DeepSeekClient\Utils\ApiInfos as DeepSeekApiInfos;
+use Artcustomer\GeminiClient\Utils\ApiInfos as GeminiApiInfos;
+
 use App\Form\Type\AbstractExtendedType;
 use App\Form\Type\UserApiSettingsType;
 use App\Service\DeepSeekService;
 use App\Service\EdenAIService;
 use App\Service\ElevenLabsService;
+use App\Service\GeminiService;
 use App\Service\MistralAIService;
 use App\Service\OpenAIService;
 use App\Service\XAIService;
@@ -28,6 +37,7 @@ class UserController extends AbstractApplicationController
     private const PROVIDER_MISTRALAI = 'mistralai';
     private const PROVIDER_XAI = 'xai';
     private const PROVIDER_DEEPSEEK = 'deepseek';
+    private const PROVIDER_GEMINI = 'gemini';
 
     /**
      * @var OpenAIService
@@ -60,6 +70,11 @@ class UserController extends AbstractApplicationController
     protected DeepSeekService $deepSeekService;
 
     /**
+     * @var GeminiService
+     */
+    protected GeminiService $geminiService;
+
+    /**
      * Constructor
      *
      * @param OpenAIService $openAIService
@@ -68,6 +83,7 @@ class UserController extends AbstractApplicationController
      * @param MistralAIService $mistralAIService
      * @param XAIService $xAIService
      * @param DeepSeekService $deepSeekService
+     * @param GeminiService $geminiService
      */
     public function __construct(
         OpenAIService     $openAIService,
@@ -75,7 +91,8 @@ class UserController extends AbstractApplicationController
         ElevenLabsService $elevenLabsService,
         MistralAIService  $mistralAIService,
         XAIService        $xAIService,
-        DeepSeekService   $deepSeekService
+        DeepSeekService   $deepSeekService,
+        GeminiService     $geminiService
     )
     {
         $this->openAIService = $openAIService;
@@ -84,6 +101,7 @@ class UserController extends AbstractApplicationController
         $this->mistralAIService = $mistralAIService;
         $this->xAIService = $xAIService;
         $this->deepSeekService = $deepSeekService;
+        $this->geminiService = $geminiService;
     }
 
     /**
@@ -129,12 +147,13 @@ class UserController extends AbstractApplicationController
     public function status(): Response
     {
         $data = [
-            self::PROVIDER_OPENAI => ['name' => \Artcustomer\OpenAIClient\Utils\ApiInfos::API_NAME, 'status' => false],
-            self::PROVIDER_EDENAI => ['name' => \Artcustomer\EdenAIClient\Utils\ApiInfos::API_NAME, 'status' => false],
-            self::PROVIDER_ELEVENLABS => ['name' => \Artcustomer\ElevenLabsClient\Utils\ApiInfos::API_NAME, 'status' => false],
-            self::PROVIDER_MISTRALAI => ['name' => \Artcustomer\MistralAIClient\Utils\ApiInfos::API_NAME, 'status' => false],
-            self::PROVIDER_XAI => ['name' => \Artcustomer\XAIClient\Utils\ApiInfos::API_NAME, 'status' => false],
-            self::PROVIDER_DEEPSEEK => ['name' => \Artcustomer\DeepSeekClient\Utils\ApiInfos::API_NAME, 'status' => false]
+            self::PROVIDER_OPENAI => ['name' => OpenAIApiInfos::API_NAME, 'status' => false],
+            self::PROVIDER_EDENAI => ['name' => EdenAIApiInfos::API_NAME, 'status' => false],
+            self::PROVIDER_ELEVENLABS => ['name' => ElevenLabsApiInfos::API_NAME, 'status' => false],
+            self::PROVIDER_MISTRALAI => ['name' => MistralAIApiInfos::API_NAME, 'status' => false],
+            self::PROVIDER_XAI => ['name' => XAIApiInfos::API_NAME, 'status' => false],
+            self::PROVIDER_DEEPSEEK => ['name' => DeepSeekApiInfos::API_NAME, 'status' => false],
+            self::PROVIDER_GEMINI => ['name' => GeminiApiInfos::API_NAME, 'status' => false]
         ];
 
         if ($this->openAIService->getApiGateway()->test()->getStatusCode() === Response::HTTP_OK) {
@@ -159,6 +178,10 @@ class UserController extends AbstractApplicationController
 
         if ($this->deepSeekService->getApiGateway()->test()->getStatusCode() === Response::HTTP_OK) {
             $data[self::PROVIDER_DEEPSEEK]['status'] = true;
+        }
+
+        if ($this->geminiService->getApiGateway()->test()->getStatusCode() === Response::HTTP_OK) {
+            $data[self::PROVIDER_GEMINI]['status'] = true;
         }
 
         return $this->render(
@@ -197,6 +220,9 @@ class UserController extends AbstractApplicationController
             ],
             UserApiSettingsType::FIELD_DEEPSEEK_API_TOKEN => [
                 'disabled' => $this->deepSeekService->isApiKeyAvailable()
+            ],
+            UserApiSettingsType::FIELD_GEMINI_API_TOKEN => [
+                'disabled' => $this->geminiService->isApiKeyAvailable()
             ]
         ];
 
@@ -215,6 +241,7 @@ class UserController extends AbstractApplicationController
             $mistralAIApiToken = $data[UserApiSettingsType::FIELD_MISTRALAI_API_TOKEN];
             $xAIApiToken = $data[UserApiSettingsType::FIELD_XAI_API_TOKEN];
             $deepSeekApiToken = $data[UserApiSettingsType::FIELD_DEEPSEEK_API_TOKEN];
+            $geminiApiToken = $data[UserApiSettingsType::FIELD_GEMINI_API_TOKEN];
 
             $this->openAIService->setApiKeyInSession($openAIApiToken);
             $this->edenAIService->setApiKeyInSession($edenAIApiToken);
@@ -222,6 +249,7 @@ class UserController extends AbstractApplicationController
             $this->mistralAIService->setApiKeyInSession($mistralAIApiToken);
             $this->xAIService->setApiKeyInSession($xAIApiToken);
             $this->deepSeekService->setApiKeyInSession($deepSeekApiToken);
+            $this->geminiService->setApiKeyInSession($geminiApiToken);
         }
 
         return $this->render(

@@ -199,6 +199,10 @@ class NavigationService
             $this->itemFactory(self::NAV_TYPE_ITEM, 'deepseek-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'deepseek-list_models', 'main_menu.list_models', null, 'application_deepseek_tools_models_list')
             )),
+            $this->itemFactory(self::NAV_TYPE_HEADING, 'gemini-heading', 'main_menu.gemini'),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-list_models', 'main_menu.list_models', null, 'application_gemini_tools_models_list')
+            )),
             $this->itemFactory(self::NAV_TYPE_HEADING, 'toolbox-heading', 'main_menu.toolbox'),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-samples', 'main_menu.tools.prompt_samples', null, 'application_toolbox_tools_promptssamples')

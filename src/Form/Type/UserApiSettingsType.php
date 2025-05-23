@@ -19,6 +19,7 @@ class UserApiSettingsType extends AbstractExtendedType
     public const FIELD_MISTRALAI_API_TOKEN = 'mistralai_api_token';
     public const FIELD_XAI_API_TOKEN = 'xai_api_token';
     public const FIELD_DEEPSEEK_API_TOKEN = 'deepseek_api_token';
+    public const FIELD_GEMINI_API_TOKEN = 'gemini_api_token';
 
     public const FIELD_NAMES = [
         self::FIELD_OPENAI_API_TOKEN,
@@ -26,7 +27,8 @@ class UserApiSettingsType extends AbstractExtendedType
         self::FIELD_ELEVENLABS_API_TOKEN,
         self::FIELD_MISTRALAI_API_TOKEN,
         self::FIELD_XAI_API_TOKEN,
-        self::FIELD_DEEPSEEK_API_TOKEN
+        self::FIELD_DEEPSEEK_API_TOKEN,
+        self::FIELD_GEMINI_API_TOKEN
     ];
 
     /**
@@ -121,6 +123,22 @@ class UserApiSettingsType extends AbstractExtendedType
             'type' => PasswordType::class,
             'options' => [
                 'label' => 'DeepSeek API Token',
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => '',
+                'empty_data' => '',
+                'required' => false,
+                'disabled' => false
+            ]
+        ];
+        $fields[self::FIELD_GEMINI_API_TOKEN] = [
+            'type' => PasswordType::class,
+            'options' => [
+                'label' => 'Gemini API Token',
                 'attr' => [
                     'class' => 'form-control mt-1'
                 ],

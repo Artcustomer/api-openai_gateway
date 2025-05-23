@@ -52,6 +52,11 @@ services:
         arguments:
             - '%env(DEEPSEEK_API_KEY)%'
 
+    App\Service\GeminiService:
+        parent: App\Service\AbstractAPIClientService
+        arguments:
+            - '%env(GEMINI_API_KEY)%'
+
     App\Service\JsonUserService:
         $filePath: '%kernel.project_dir%/%env(DATA_USER_JSON_FILE)%'
 
