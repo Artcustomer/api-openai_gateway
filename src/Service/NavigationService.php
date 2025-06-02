@@ -149,7 +149,7 @@ class NavigationService
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-translate', 'main_menu.text.translate', null, 'application_openai_text_translate'),
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-correct', 'main_menu.text.correct', null, 'application_openai_text_correct'),
             )),
-            $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-images-nav', 'main_menu.images', 'bi-gem', null, array_merge(
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-images-nav', 'main_menu.images', 'bi-card-image', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-create', 'main_menu.images.create', null, 'application_openai_image_create'),
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'openai-analyze_image', 'main_menu.images.analyze', null, 'application_openai_image_analyze')
             )),
@@ -179,7 +179,7 @@ class NavigationService
             $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-chat-nav', 'main_menu.chat', 'bi-journal-text', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-create_completion', 'main_menu.chat.create_completion', null, 'application_mistralai_chat_create_completion')
             )),
-            $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-images-nav', 'main_menu.images', 'bi-journal-text', null, array_merge(
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-images-nav', 'main_menu.images', 'bi-card-image', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-analyze_image', 'main_menu.images.analyze', null, 'application_mistralai_image_analyze')
             )),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'mistralai-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
@@ -200,6 +200,19 @@ class NavigationService
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'deepseek-list_models', 'main_menu.list_models', null, 'application_deepseek_tools_models_list')
             )),
             $this->itemFactory(self::NAV_TYPE_HEADING, 'gemini-heading', 'main_menu.gemini'),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-text-nav', 'main_menu.text', 'bi-journal-text', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-text_generate', 'main_menu.text.generate', null, 'application_gemini_text_generate')
+            )),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-image-nav', 'main_menu.images', 'bi-card-image', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-image_generate', 'main_menu.images.generate', null, 'application_gemini_image_generate')
+            )),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-video-nav', 'main_menu.video', 'bi-camera-video', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-video_generate', 'main_menu.video.generate', null, 'application_gemini_video_generate')
+            )),
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-audio-nav', 'main_menu.audio', 'bi-speaker', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-audio_generate_speech', 'main_menu.audio.generate_speech', null, 'application_gemini_audio_generate_speech', [], true),
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-audio_generate_music', 'main_menu.audio.generate_music', null, 'application_gemini_audio_generate_music', [], true)
+            )),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-list_models', 'main_menu.list_models', null, 'application_gemini_tools_models_list')
             )),
