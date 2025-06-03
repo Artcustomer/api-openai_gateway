@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f693c82c3f662032e1f7697d1b36c16",
+    "content-hash": "e7107f565b9ee59ab0fee6f485c511b3",
     "packages": [
         {
             "name": "artcustomer/apiunit",
@@ -199,16 +199,16 @@
         },
         {
             "name": "artcustomer/gemini-api-client",
-            "version": "0.0.1",
+            "version": "0.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/api-gemini_client.git",
-                "reference": "0d593c29968b9d0e9189778836703a9096dfad19"
+                "reference": "e981614aa5911eacef09e7db3030d065fcb841a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/api-gemini_client/zipball/0d593c29968b9d0e9189778836703a9096dfad19",
-                "reference": "0d593c29968b9d0e9189778836703a9096dfad19",
+                "url": "https://api.github.com/repos/Artcustomer/api-gemini_client/zipball/e981614aa5911eacef09e7db3030d065fcb841a0",
+                "reference": "e981614aa5911eacef09e7db3030d065fcb841a0",
                 "shasum": ""
             },
             "require": {
@@ -240,10 +240,10 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/api-gemini_client/tree/0.0.1",
+                "source": "https://github.com/Artcustomer/api-gemini_client/tree/0.0.2",
                 "issues": "https://github.com/Artcustomer/api-gemini_client/issues"
             },
-            "time": "2025-05-20T08:25:15+00:00"
+            "time": "2025-06-02T12:49:38+00:00"
         },
         {
             "name": "artcustomer/mistralai-api-client",
@@ -7395,7 +7395,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -7403,6 +7403,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
