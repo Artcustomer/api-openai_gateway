@@ -4,6 +4,7 @@ namespace App\Service;
 
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Component\Cache\Adapter\TraceableAdapter;
 use Symfony\Component\Cache\CacheItem;
 use Symfony\Contracts\Cache\CacheInterface;
 
@@ -15,7 +16,7 @@ class CacheService
 
     protected CacheInterface $cache;
     protected ?AdapterInterface $adapter = null;
-    protected $isCacheAvailable = false;
+    protected bool $isCacheAvailable = false;
 
     /**
      * Constructor
@@ -24,13 +25,16 @@ class CacheService
      */
     public function __construct(CacheInterface $cache)
     {
+        $this->isCacheAvailable = true;
         $this->cache = $cache;
 
         if ($this->cache instanceof AbstractAdapter) {
             $this->adapter = $this->cache;
-            $this->isCacheAvailable = true;
+        } elseif ($this->cache instanceof TraceableAdapter) {
+            $this->adapter = $this->cache->getPool();
         } else {
             // Warning : Cache is not well configured
+            $this->isCacheAvailable = false;
         }
     }
 
@@ -100,5 +104,13 @@ class CacheService
         }
 
         return $this->adapter->getItem($key);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCacheAvailable(): bool
+    {
+        return $this->isCacheAvailable;
     }
 }

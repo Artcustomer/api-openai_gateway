@@ -9,6 +9,10 @@
     pointer-events: none;
 }
 
+.bg-none {
+    background: none;
+}
+
 /*--------------------------------------------------------------
 # COMPONENT openai-feature-audio-completion
 --------------------------------------------------------------*/
