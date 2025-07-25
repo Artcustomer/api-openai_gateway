@@ -1,4 +1,4 @@
-{% extends 'application/base_application.html.twig' %}
+{% extends 'application/layout/controller_layout.html.twig' %}
 
 {% block title %}{{ app_name }} | {{ gatewayName }} - {{ 'main_menu.images.generate'|trans }}{% endblock %}
 
@@ -19,5 +19,34 @@
                 </div>
             </div>
         </div>
+
+        {% if imageUrls %}
+            <div id="carouselIndicators" class="carousel carousel-dark  slide">
+                <div class="carousel-indicators">
+                    {% for index,value in imageUrls %}
+                        <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="{{ index }}"
+                                aria-label="Image {{ index + 1 }}" class="{{ (index == 0) ? 'active' : '' }}"
+                                aria-current="{{ (index == 0) ? 'true' : 'false' }}"></button>
+                    {% endfor %}
+                </div>
+                <div class="carousel-inner">
+                    {% for index,value in imageUrls %}
+                        <div class="carousel-item text-center {{ (index == 0) ? 'active' : '' }}">
+                            <img src="{{ value }}" class="img-fluid" alt="{{ inputPrompt }}">
+                        </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

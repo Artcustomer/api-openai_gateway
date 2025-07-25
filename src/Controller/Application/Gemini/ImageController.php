@@ -5,6 +5,8 @@ namespace App\Controller\Application\Gemini;
 use App\Controller\Application\AbstractApplicationController;
 use App\Form\Type\Gemini\ImageGenerateType;
 use App\Service\GeminiService;
+use App\Utils\FileUtils;
+use Artcustomer\GeminiClient\Enum\ResponseModalities;
 use Artcustomer\GeminiClient\Utils\ApiEndpoints;
 use Artcustomer\GeminiClient\Utils\ApiInfos;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,8 +69,8 @@ class ImageController extends AbstractApplicationController
                     ],
                     'generationConfig' => [
                         'responseModalities' => [
-                            'TEXT',
-                            'IMAGE'
+                            ResponseModalities::TEXT,
+                            ResponseModalities::IMAGE
                         ]
                     ]
                 ];
@@ -80,6 +82,8 @@ class ImageController extends AbstractApplicationController
                     ],
                     'parameters' => [
                         'sampleCount' => $data[ImageGenerateType::FIELD_NUMBER_OF_IMAGES],
+                        'aspectRatio' => $data[ImageGenerateType::FIELD_ASPECT_RATIO],
+                        'personGeneration ' => $data[ImageGenerateType::FIELD_PERSON_GENERATION]
                     ]
                 ];
             } else {
@@ -91,7 +95,28 @@ class ImageController extends AbstractApplicationController
             $content = $response->getContent();
 
             if ($response->getStatusCode() === 200) {
-                // TODO
+                $predictions = $content->predictions;
+
+                foreach ($predictions as $item) {
+                    $url = '';
+
+                    if (
+                        isset($item->bytesBase64Encoded) &&
+                        isset($item->mimeType)
+                    ) {
+                        $imageFormat = FileUtils::mimeTypeToExtension($item->mimeType);
+
+                        $url = sprintf(
+                            'data:image/%s;base64, %s',
+                            $imageFormat,
+                            $item->bytesBase64Encoded
+                        );
+                    }
+
+                    if (!empty($url)) {
+                        $imageUrls[] = $url;
+                    }
+                }
             } else {
                 $errorMessage = $response->getMessage();
 

@@ -33,8 +33,9 @@ class ImageGenerateType extends AbstractExtendedType
     ];
 
     public const MODELS = [
-        'Gemini 2.5' => Model::GEMINI_2_0_FLASH_PREVIEW_IMAGE_GENERATION,
-        'Imagen 3.0' => Model::IMAGEN_3_0_GENERATE_002
+        'Imagen 3.0' => Model::IMAGEN_3_0_GENERATE_002,
+        'Imagen 4.0' => Model::IMAGEN_4_0_GENERATE_PREVIEW_06_06,
+        'Imagen 4.0 Ultra' => Model::IMAGEN_4_0_ULTRA_GENERATE_PREVIEW_06_06,
     ];
 
     public const ASPECT_RATIOS = [
