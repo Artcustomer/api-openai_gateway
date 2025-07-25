@@ -71,8 +71,9 @@ class TextController extends AbstractApplicationController
 
             $response = $this->geminiService->getApiGateway()->getTextConnector()->generate($inputModel, $params);
             $content = $response->getContent();
+            $statusCode = $response->getStatusCode();
 
-            if ($response->getStatusCode() === 200) {
+            if ($statusCode === 200) {
                 $outputResponse = $content->candidates[0]->content->parts[0]->text;
             } else {
                 $errorMessage = $response->getMessage();

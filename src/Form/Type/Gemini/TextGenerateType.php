@@ -64,7 +64,9 @@ class TextGenerateType extends AbstractExtendedType
             'options' => [
                 'label' => 'Model',
                 'choices' => [
-                    'Gemini 2.0 Flash' => Model::GEMINI_2_0_FLASH
+                    'Gemini 2.0 Flash' => Model::GEMINI_2_0_FLASH,
+                    'Gemini 2.5 Flash' => Model::GEMINI_2_5_FLASH,
+                    'Gemini 2.5 Pro' => Model::GEMINI_2_5_PRO
                 ],
                 'attr' => [
                     'class' => 'form-control mt-1'
@@ -149,14 +151,14 @@ class TextGenerateType extends AbstractExtendedType
                 'attr' => [
                     'class' => 'form-control mt-1',
                     'min' => 1,
-                    'max' => 1024,
+                    'max' => 65536,
                     'step' => 1,
                     'pattern' => "\d*"
                 ],
                 'row_attr' => [
                     'class' => 'mb-3'
                 ],
-                'data' => 800
+                'data' => 65536
             ]
         ];
         $fields[self::FIELD_PRESENCE_PENALTY] = [
