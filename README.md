@@ -9,14 +9,36 @@ https://getcomposer.org/download/
 https://symfony.com/doc/current/setup/symfony_server.html
 
 ### OpenAI account
-https://platform.openai.com/docs/introduction
+https://platform.openai.com/docs/overview
+
+### EdenAI account
+https://docs.edenai.co/docs/quickstart-ai-apis
+
+### ElevenLabs account
+https://elevenlabs.io/docs/overview
+
+### MistralAI account
+https://docs.mistral.ai/
+
+### XAI account
+https://docs.x.ai/docs/overview
+
+### DeepSeek account
+https://platform.deepseek.com/docs
+
+### Gemini account
+https://ai.google.dev/gemini-api/docs
+
 
 ## Components versions
 ### PHP 8.1
 https://www.php.net/releases/8.1/en.php
 
-### Symfony 6.3
-https://symfony.com/doc/6.3/index.html
+### Symfony 6.4
+https://symfony.com/doc/6.4/index.html
+
+### AssetMapper 6.4
+https://symfony.com/doc/6.4/frontend/asset_mapper.html
 
 ## Installation
 ### Environment variables
@@ -28,6 +50,7 @@ At the root of the project, create a ".env.local" file from the ".env" file and 
 - MISTRALAI_API_KEY (from your MistralAI account)
 - XAI_API_KEY (from your XAI account)
 - DEEPSEEK_API_KEY (from your DeepSeek account)
+- GEMINI_API_KEY (from your Gemini account)
 - DATA_USER_JSON_FILE (ex: data/users_local.json)
 - DATA_API_TOKEN_JSON_FILE (ex: data/api_tokens_local.json)
 
@@ -70,4 +93,7 @@ composer update && composer clear-cache && composer dump-autoload --optimize
 ```
 ```bash
 php .\bin\console cache:clear
+```
+```bash
+php bin/console asset-map:compile
 ```
