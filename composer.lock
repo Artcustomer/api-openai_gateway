@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e7107f565b9ee59ab0fee6f485c511b3",
+    "content-hash": "20ad759c9852b8671f9d97ce3d5e5c29",
     "packages": [
         {
             "name": "artcustomer/apiunit",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/apiunit.git",
-                "reference": "1afa55e4b393674f447823b7fb6206dea36b1346"
+                "reference": "c107ffad44b4aa04b0d1aaeafdbdc678d58704dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/apiunit/zipball/1afa55e4b393674f447823b7fb6206dea36b1346",
-                "reference": "1afa55e4b393674f447823b7fb6206dea36b1346",
+                "url": "https://api.github.com/repos/Artcustomer/apiunit/zipball/c107ffad44b4aa04b0d1aaeafdbdc678d58704dc",
+                "reference": "c107ffad44b4aa04b0d1aaeafdbdc678d58704dc",
                 "shasum": ""
             },
             "require": {
@@ -48,10 +48,10 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/apiunit/tree/1.0.3",
+                "source": "https://github.com/Artcustomer/apiunit/tree/1.0.4",
                 "issues": "https://github.com/Artcustomer/apiunit/issues"
             },
-            "time": "2025-02-14T08:42:27+00:00"
+            "time": "2025-07-25T19:46:14+00:00"
         },
         {
             "name": "artcustomer/deepseek-api-client",
@@ -199,16 +199,16 @@
         },
         {
             "name": "artcustomer/gemini-api-client",
-            "version": "0.0.2",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Artcustomer/api-gemini_client.git",
-                "reference": "e981614aa5911eacef09e7db3030d065fcb841a0"
+                "reference": "33cda31b252d616307505eb564557d84cf1fb654"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Artcustomer/api-gemini_client/zipball/e981614aa5911eacef09e7db3030d065fcb841a0",
-                "reference": "e981614aa5911eacef09e7db3030d065fcb841a0",
+                "url": "https://api.github.com/repos/Artcustomer/api-gemini_client/zipball/33cda31b252d616307505eb564557d84cf1fb654",
+                "reference": "33cda31b252d616307505eb564557d84cf1fb654",
                 "shasum": ""
             },
             "require": {
@@ -240,10 +240,10 @@
                 "api"
             ],
             "support": {
-                "source": "https://github.com/Artcustomer/api-gemini_client/tree/0.0.2",
+                "source": "https://github.com/Artcustomer/api-gemini_client/tree/0.1.0",
                 "issues": "https://github.com/Artcustomer/api-gemini_client/issues"
             },
-            "time": "2025-06-02T12:49:38+00:00"
+            "time": "2025-07-26T17:07:00+00:00"
         },
         {
             "name": "artcustomer/mistralai-api-client",
