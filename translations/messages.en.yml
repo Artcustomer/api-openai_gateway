@@ -29,6 +29,7 @@
 'main_menu.video': 'Video'
 'main_menu.video.generate': 'Generate video'
 'main_menu.video.retrieve': 'Retrieve video'
+'main_menu.video.summarize_youtube': 'Summarize Youtube'
 'main_menu.toolbox': 'Toolbox'
 'main_menu.tools': 'Tools'
 'main_menu.tools.prompt_samples': 'Prompt samples'

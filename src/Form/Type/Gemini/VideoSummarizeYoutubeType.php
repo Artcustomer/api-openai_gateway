@@ -10,13 +10,15 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * @author David
  */
-class VideoRetrieveType extends AbstractExtendedType
+class VideoSummarizeYoutubeType extends AbstractExtendedType
 {
 
-    public const FIELD_OPERATION_NAME = 'operation_name';
+    public const FIELD_PROMPT = 'prompt';
+    public const FIELD_YOUTUBE_URL = 'youtube_url';
 
     public const FIELD_NAMES = [
-        self::FIELD_OPERATION_NAME
+        self::FIELD_PROMPT,
+        self::FIELD_YOUTUBE_URL
     ];
 
     /**
@@ -27,14 +29,27 @@ class VideoRetrieveType extends AbstractExtendedType
     protected function buildFields(FormBuilderInterface $builder, array $options): array
     {
         $fields = [];
-        $fields[self::FIELD_OPERATION_NAME] = [
+        $fields[self::FIELD_PROMPT] = [
             'type' => TextType::class,
             'options' => [
-                'label' => 'Operation name',
+                'label' => 'Prompt',
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => 'Please summarize the video in 3 sentences.'
+            ]
+        ];
+        $fields[self::FIELD_YOUTUBE_URL] = [
+            'type' => TextType::class,
+            'options' => [
+                'label' => 'Youtube URL',
                 'attr' => [
                     'class' => 'form-control mt-1',
-                    'placeholder' => 'models/{modelName}/operations/{id}',
-                    'pattern' => '(models\/)([a-z0-9\-\.]*)(\/operations\/)([a-z0-9]{12})',
+                    'placeholder' => 'https://www.youtube.com/watch?v={id}',
+                    'pattern' => '(https:\/\/www.youtube.com\/watch\?v=)([a-zA-Z0-9\-]{10,})',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3'

@@ -61,7 +61,37 @@ class DisplayOperationVideo
             'messages' => []
         ];
 
+        // > TEST
+        $test = false;
+        if ($test) {
+            $this->operationName = 'models/veo-3.0-generate-preview/operations/i9ihxo3ozxrp';
+            $this->isOperationDone = true;
+            $this->isOperationFailed = false;
+            $data = [
+                'videos' => [
+                    [
+                        'uri' => 'https://generativelanguage.googleapis.com/v1beta/files/000:download?alt=media',
+                        'url' => 'http://127.0.0.1:8000/uploads/6883dd95771b4.mp4',
+                        'status' => true
+                    ],
+                    [
+                        'uri' => 'https://generativelanguage.googleapis.com/v1beta/files/111:download?alt=media',
+                        'url' => 'http://127.0.0.1:8000/uploads/6883e0fa9d4b0.mp4',
+                        'status' => true
+                    ],
+                    [
+                        'uri' => 'https://generativelanguage.googleapis.com/v1beta/files/222:download?alt=media',
+                        'url' => 'http://127.0.0.1:8000/uploads/6884f42f7f04a.mp4',
+                        'status' => true
+                    ]
+                ]
+            ];
+            sleep(1);
+        }
+        // < TEST
+
         if (
+            !$test &&
             !is_null($this->operationName) &&
             !$this->isLoading
         ) {

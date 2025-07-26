@@ -3,9 +3,12 @@
 namespace App\Controller\Application\Gemini;
 
 use App\Controller\Application\AbstractApplicationController;
+use App\Form\Type\Gemini\TextGenerateType;
 use App\Form\Type\Gemini\VideoGenerateType;
 use App\Form\Type\Gemini\VideoRetrieveType;
+use App\Form\Type\Gemini\VideoSummarizeYoutubeType;
 use App\Service\GeminiService;
+use Artcustomer\GeminiClient\Enum\Model;
 use Artcustomer\GeminiClient\Utils\ApiInfos;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -128,6 +131,78 @@ class VideoController extends AbstractApplicationController
                 'operationName' => $operationName,
                 'inputPrompt' => $inputPrompt,
                 'errorMessage' => $errorMessage,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/summarize-youtube", name="application_gemini_video_summarize_youtube", methods={"GET","POST"})
+     *
+     * @param Request $request
+     * @return Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
+     */
+    public function summarizeYoutube(Request $request): Response
+    {
+        $formData = $this->cleanQueryParameters($request, VideoSummarizeYoutubeType::FIELD_NAMES);
+        $options = ['data' => $formData];
+
+        $form = $this->createForm(VideoSummarizeYoutubeType::class, null, $options);
+        $form->handleRequest($request);
+
+        $inputPrompt = '';
+        $outputResponse = '';
+        $errorMessage = '';
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $inputPrompt = $data[VideoSummarizeYoutubeType::FIELD_PROMPT];
+            $params = [
+                'contents' => [
+                    [
+                        'parts' => [
+                            [
+                                'text' => $inputPrompt
+                            ],
+                            [
+                                'file_data' => [
+                                    'file_uri' => $data[VideoSummarizeYoutubeType::FIELD_YOUTUBE_URL]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+
+            $response = $this->geminiService->getApiGateway()->getTextConnector()->generate(Model::GEMINI_2_5_FLASH, $params);
+            $content = $response->getContent();
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode === 200) {
+                $outputResponse = $content->candidates[0]->content->parts[0]->text;
+            } else {
+                $errorMessage = $response->getMessage();
+
+                if (empty($errorMessage)) {
+                    if (!empty($content)) {
+                        $errorMessage = $content->error->message ?? '';
+                    }
+                }
+
+                $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
+            }
+        }
+
+        return $this->render(
+            'application/gemini/video/summarize_youtube.html.twig',
+            [
+                'gatewayName' => ApiInfos::API_NAME,
+                'form' => $form,
+                'inputPrompt' => $inputPrompt,
+                'outputResponse' => $outputResponse,
+                'errorMessage' => $errorMessage
             ]
         );
     }
