@@ -207,7 +207,8 @@ class NavigationService
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-image_generate', 'main_menu.images.generate', null, 'application_gemini_image_generate')
             )),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-video-nav', 'main_menu.video', 'bi-camera-video', null, array_merge(
-                $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-video_generate', 'main_menu.video.generate', null, 'application_gemini_video_generate')
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-video_generate', 'main_menu.video.generate', null, 'application_gemini_video_generate'),
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-video_retrieve', 'main_menu.video.retrieve', null, 'application_gemini_video_retrieve')
             )),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-audio-nav', 'main_menu.audio', 'bi-speaker', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-audio_generate_speech', 'main_menu.audio.generate_speech', null, 'application_gemini_audio_generate_speech', [], true),

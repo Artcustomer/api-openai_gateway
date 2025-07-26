@@ -122,6 +122,8 @@ class DisplayOperationVideo
                         }
                     }
 
+                    $data = ['videos' => $videos];
+
                     $this->isOperationDone = true;
                 }
             } else {
@@ -138,8 +140,6 @@ class DisplayOperationVideo
 
                 $this->isOperationFailed = true;
             }
-
-            $data = ['videos' => $videos];
         }
 
         $this->isDone = $this->isOperationDone || $this->isOperationFailed;

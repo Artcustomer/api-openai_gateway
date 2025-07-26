@@ -4,6 +4,7 @@ namespace App\Controller\Application\Gemini;
 
 use App\Controller\Application\AbstractApplicationController;
 use App\Form\Type\Gemini\VideoGenerateType;
+use App\Form\Type\Gemini\VideoRetrieveType;
 use App\Service\GeminiService;
 use Artcustomer\GeminiClient\Utils\ApiInfos;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,6 +87,41 @@ class VideoController extends AbstractApplicationController
 
         return $this->render(
             'application/gemini/video/generate.html.twig',
+            [
+                'gatewayName' => ApiInfos::API_NAME,
+                'form' => $form,
+                'operationName' => $operationName,
+                'inputPrompt' => $inputPrompt,
+                'errorMessage' => $errorMessage,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/retrieve", name="application_gemini_video_retrieve", methods={"GET","POST"})
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function retrieve(Request $request): Response
+    {
+        $formData = $this->cleanQueryParameters($request, VideoRetrieveType::FIELD_NAMES);
+        $options = ['data' => $formData];
+
+        $form = $this->createForm(VideoRetrieveType::class, null, $options);
+        $form->handleRequest($request);
+
+        $inputPrompt = '';
+        $operationName = '';
+        $errorMessage = '';
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $operationName = $data[VideoRetrieveType::FIELD_OPERATION_NAME];
+        }
+
+        return $this->render(
+            'application/gemini/video/retrieve.html.twig',
             [
                 'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,

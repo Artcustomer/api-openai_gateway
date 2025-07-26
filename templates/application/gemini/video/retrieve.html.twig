@@ -1,0 +1,33 @@
+{% extends 'application/layout/controller_layout.html.twig' %}
+
+{% block title %}{{ app_name }} | {{ gatewayName }} - {{ 'main_menu.video.retrieve'|trans }}{% endblock %}
+
+{% block applicationPageTitle %}{{ gatewayName }} - {{ 'main_menu.video.retrieve'|trans }}{% endblock %}
+
+{% block applicationSection %}
+    {% if errorMessage %}
+        <div class="alert alert-dismissible alert-danger">
+            <strong>{{ errorMessage }}</strong>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+
+        {% if operationName %}
+            <div class="col-lg-12">
+                <div class="card text-center">
+                    <div class="card-body">
+                        {{ component('Gemini:DisplayOperationVideo', { operationName: operationName, inputPrompt: inputPrompt }) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
