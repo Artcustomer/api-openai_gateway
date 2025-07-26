@@ -18,6 +18,7 @@ class VideoGenerateType extends AbstractExtendedType
 {
 
     public const FIELD_PROMPT = 'prompt';
+    public const FIELD_NEGATIVE_PROMPT = 'negative_prompt';
     public const FIELD_MODEL = 'model';
     public const FIELD_ASPECT_RATIO = 'aspect_ratio';
     public const FIELD_PERSON_GENERATION = 'person_generation';
@@ -30,16 +31,13 @@ class VideoGenerateType extends AbstractExtendedType
     ];
 
     public const ASPECT_RATIOS = [
-        AspectRatio::SQUARE_1_1 => AspectRatio::SQUARE_1_1,
-        AspectRatio::LANDSCAPE_4_3 => AspectRatio::LANDSCAPE_4_3,
-        AspectRatio::PORTRAIT_3_4 => AspectRatio::PORTRAIT_3_4,
         AspectRatio::LANDSCAPE_16_9 => AspectRatio::LANDSCAPE_16_9,
         AspectRatio::PORTRAIT_9_16 => AspectRatio::PORTRAIT_9_16
     ];
 
     public const PERSON_GENERATIONS = [
-        'Allow adult' => PersonGeneration::ALLOW_ADULT,
         'Allow all' => PersonGeneration::ALLOW_ALL,
+        'Allow adult' => PersonGeneration::ALLOW_ADULT,
         'Don\'t allow' => PersonGeneration::DONT_ALLOW
     ];
 
@@ -63,12 +61,28 @@ class VideoGenerateType extends AbstractExtendedType
                 ]
             ]
         ];
+        $fields[self::FIELD_NEGATIVE_PROMPT] = [
+            'type' => TextareaType::class,
+            'options' => [
+                'label' => 'Negative prompt',
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+                'data' => '',
+                'empty_data' => '',
+                'required' => false,
+            ]
+        ];
         $fields[self::FIELD_MODEL] = [
             'type' => ChoiceType::class,
             'options' => [
                 'label' => 'Model',
                 'choices' => [
-                    'VEO 2.0 Generate 001' => Model::VEO_2_0_GENERATE_001
+                    'VEO 3.0' => Model::VEO_3_0_GENERATE_PREVIEW,
+                    'VEO 2.0' => Model::VEO_2_0_GENERATE_001
                 ],
                 'attr' => [
                     'class' => 'form-control mt-1'

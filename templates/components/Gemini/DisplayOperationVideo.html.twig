@@ -1,0 +1,59 @@
+<div {{ attributes.defaults(stimulus_controller('gemini-display-operation-video')) }}>
+
+    <div class="mb-3">
+        <h6>{{ this.operationName }}</h6>
+    </div>
+
+    <div id="display_operation_video_loader">
+        <button class="btn btn-primary" type="button" disabled="">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span data-loading="action(load)|show">Refreshing...</span>
+        </button>
+    </div>
+
+    {% if this.responseData %}
+        {% if this.responseData.data.videos is defined %}
+            {% set videos = this.responseData.data.videos %}
+            <div id="accordionVideos" class="accordion">
+                {% for index,item in videos %}
+                    {% set videoId = 'mediaVideo' ~ index %}
+                    <div class="accordion-item">
+                        <h2 id="heading-{{ index }}" class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse-{{ index }}" aria-expanded="false"
+                                    aria-controls="collapse-{{ index }}">
+                                {% if item.status %}
+                                    <i class="bi bi-download me-1"
+                                       data-action="click->gemini-display-operation-video#onClickDownloadVideo"
+                                       data-gemini-display-operation-video-id-param="{{ videoId }}"></i>
+                                {% endif %}
+                                {{ item.uri }}
+                            </button>
+                        </h2>
+                        <div id="collapse-{{ index }}" class="accordion-collapse collapse"
+                             aria-labelledby="heading-{{ index }}" data-bs-parent="#accordionVideos" style="">
+                            <div class="accordion-body">
+                                {% if item.status %}
+                                    <div class="object-fit-contain">
+                                        {% include 'application/ui/components/media/video_player.html.twig' with {'src': item.url, 'type': 'video/mp4', 'controls':'controls', 'class':'w-100', 'id': videoId } %}
+                                    </div>
+                                {% else %}
+                                    Download failure
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% elseif this.responseData.messages is defined %}
+            {% set messages = this.responseData.messages %}
+            {% for index,value in messages %}
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{ value }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+
+</div>

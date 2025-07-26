@@ -4,9 +4,10 @@
 /.settings/
 /nbproject/
 
-
 /data/users_local.json
 /data/api_tokens_local.json
+/data/dumps/
+/public/uploads/
 
 ###> symfony/framework-bundle ###
 /.env.local

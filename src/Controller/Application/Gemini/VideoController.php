@@ -48,7 +48,7 @@ class VideoController extends AbstractApplicationController
         $form->handleRequest($request);
 
         $inputPrompt = '';
-        $videoUrls = [];
+        $operationName = '';
         $errorMessage = '';
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,6 +61,7 @@ class VideoController extends AbstractApplicationController
                 ],
                 'parameters' => [
                     'aspectRatio' => $data[VideoGenerateType::FIELD_ASPECT_RATIO],
+                    'negativePrompt' => $data[VideoGenerateType::FIELD_NEGATIVE_PROMPT],
                     'personGeneration' => $data[VideoGenerateType::FIELD_PERSON_GENERATION]
                 ]
             ];
@@ -69,7 +70,7 @@ class VideoController extends AbstractApplicationController
             $content = $response->getContent();
 
             if ($response->getStatusCode() === 200) {
-                // TODO
+                $operationName = $content->name;
             } else {
                 $errorMessage = $response->getMessage();
 
@@ -88,7 +89,7 @@ class VideoController extends AbstractApplicationController
             [
                 'gatewayName' => ApiInfos::API_NAME,
                 'form' => $form,
-                'videoUrls' => $videoUrls,
+                'operationName' => $operationName,
                 'inputPrompt' => $inputPrompt,
                 'errorMessage' => $errorMessage,
             ]

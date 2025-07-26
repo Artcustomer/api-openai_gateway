@@ -63,6 +63,10 @@ services:
     App\Service\JsonApiTokenService:
         $filePath: '%kernel.project_dir%/%env(DATA_API_TOKEN_JSON_FILE)%'
 
+    App\Service\FileService:
+        $privateFolder: '%kernel.project_dir%/%env(PRIVATE_FOLDER)%'
+        $publicFolder: '%kernel.project_dir%/%env(PUBLIC_FOLDER)%'
+
     App\EventListener\ApiCallListener:
         tags:
             - { name: kernel.event_listener, event: 'api.call.post_execute', method: 'onApiCallPostExecuteHandler' }
