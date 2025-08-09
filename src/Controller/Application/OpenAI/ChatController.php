@@ -5,6 +5,7 @@ namespace App\Controller\Application\OpenAI;
 use App\Controller\Application\AbstractApplicationController;
 use App\Form\Type\OpenAI\ChatCreateCompletionType;
 use App\Service\OpenAIService;
+use Artcustomer\OpenAIClient\Enum\Model;
 use Artcustomer\OpenAIClient\Enum\Role;
 use Artcustomer\OpenAIClient\Utils\ApiInfos;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,9 +55,10 @@ class ChatController extends AbstractApplicationController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $inputModel = $data[ChatCreateCompletionType::FIELD_MODEL];
             $inputPrompt = $data['prompt'];
             $params = [
-                'model' => $data['model'],
+                'model' => $inputModel,
                 'messages' => [
                     [
                         'role' => Role::USER,
@@ -75,6 +77,21 @@ class ChatController extends AbstractApplicationController
                 'logprobs' => false,
                 'top_logprobs' => null
             ];
+
+            // Custom behavior depending on the model used
+            if (in_array(
+                $inputModel,
+                [
+                    Model::GPT_5_CHAT_LATEST,
+                    Model::GPT_5_MINI,
+                    Model::GPT_5_NANO
+                ]
+            )) {
+                $params['max_completion_tokens'] = $params['max_tokens'];
+
+                unset($params['max_tokens']);
+            }
+
             $response = $this->openAIService->getApiGateway()->getChatConnector()->createCompletion($params);
             $content = $response->getContent();
 
