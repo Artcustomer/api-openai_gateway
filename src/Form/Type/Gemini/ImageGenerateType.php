@@ -7,6 +7,7 @@ use Artcustomer\GeminiClient\Enum\AspectRatio;
 use Artcustomer\GeminiClient\Enum\Model;
 use Artcustomer\GeminiClient\Enum\PersonGeneration;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -20,6 +21,7 @@ class ImageGenerateType extends AbstractExtendedType
 
     public const FIELD_PROMPT = 'prompt';
     public const FIELD_MODEL = 'model';
+    public const FIELD_IMAGE = 'image';
     public const FIELD_ASPECT_RATIO = 'aspect_ratio';
     public const FIELD_PERSON_GENERATION = 'person_generation';
     public const FIELD_NUMBER_OF_IMAGES = 'number_of_images';
@@ -27,12 +29,14 @@ class ImageGenerateType extends AbstractExtendedType
     public const FIELD_NAMES = [
         self::FIELD_PROMPT,
         self::FIELD_MODEL,
+        self::FIELD_IMAGE,
         self::FIELD_ASPECT_RATIO,
         self::FIELD_PERSON_GENERATION,
         self::FIELD_NUMBER_OF_IMAGES
     ];
 
     public const MODELS = [
+        'Gemini 2.5 Flash Image' => Model::GEMINI_2_5_FLASH_IMAGE,
         'Imagen 3.0' => Model::IMAGEN_3_0_GENERATE_002,
         'Imagen 4.0' => Model::IMAGEN_4_0_GENERATE_PREVIEW_06_06,
         'Imagen 4.0 Ultra' => Model::IMAGEN_4_0_ULTRA_GENERATE_PREVIEW_06_06,
@@ -83,6 +87,20 @@ class ImageGenerateType extends AbstractExtendedType
                 'row_attr' => [
                     'class' => 'mb-3'
                 ]
+            ]
+        ];
+        $fields[self::FIELD_IMAGE] = [
+            'type' => FileType::class,
+            'options' => [
+                'required' => false,
+                'label' => 'Image file',
+                'attr' => [
+                    'class' => 'form-control mt-1',
+                    'accept' => '.jpg,.jpeg,.png',
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
             ]
         ];
         $fields[self::FIELD_ASPECT_RATIO] = [
