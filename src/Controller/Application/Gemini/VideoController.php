@@ -3,13 +3,14 @@
 namespace App\Controller\Application\Gemini;
 
 use App\Controller\Application\AbstractApplicationController;
-use App\Form\Type\Gemini\TextGenerateType;
 use App\Form\Type\Gemini\VideoGenerateType;
 use App\Form\Type\Gemini\VideoRetrieveType;
 use App\Form\Type\Gemini\VideoSummarizeYoutubeType;
+use App\Form\Type\OpenAI\ImageAnalyzeCompletionType;
 use App\Service\GeminiService;
 use Artcustomer\GeminiClient\Enum\Model;
 use Artcustomer\GeminiClient\Utils\ApiInfos;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,18 +60,10 @@ class VideoController extends AbstractApplicationController
             $data = $form->getData();
             $inputPrompt = $data[VideoGenerateType::FIELD_PROMPT];
             $inputModel = $data[VideoGenerateType::FIELD_MODEL];
-            $params = [
-                'instances' => [
-                    'prompt' => $inputPrompt
-                ],
-                'parameters' => [
-                    'aspectRatio' => $data[VideoGenerateType::FIELD_ASPECT_RATIO],
-                    'negativePrompt' => $data[VideoGenerateType::FIELD_NEGATIVE_PROMPT],
-                    'personGeneration' => $data[VideoGenerateType::FIELD_PERSON_GENERATION]
-                ]
-            ];
-
-            $response = $this->geminiService->getApiGateway()->getVideoConnector()->generate($inputModel, $params);
+            $response = $this->geminiService->getApiGateway()->getVideoConnector()->generate(
+                $inputModel,
+                $this->buildGenerateParameters($data)
+            );
             $content = $response->getContent();
 
             if ($response->getStatusCode() === 200) {
@@ -205,5 +198,53 @@ class VideoController extends AbstractApplicationController
                 'errorMessage' => $errorMessage
             ]
         );
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    private function buildGenerateParameters(array $data): array
+    {
+        $inputPrompt = $data[VideoGenerateType::FIELD_PROMPT];
+        $inputModel = $data[VideoGenerateType::FIELD_MODEL];
+
+        /** @var ?UploadedFile $imageFile */
+        $imageFile = $data[ImageAnalyzeCompletionType::FIELD_IMAGE];
+
+        $instances = [
+            'prompt' => $inputPrompt
+        ];
+        $parameters = [
+            'aspectRatio' => $data[VideoGenerateType::FIELD_ASPECT_RATIO],
+            'negativePrompt' => $data[VideoGenerateType::FIELD_NEGATIVE_PROMPT],
+            'personGeneration' => $data[VideoGenerateType::FIELD_PERSON_GENERATION],
+        ];
+
+        if (!is_null($imageFile)) {
+            $instances['image'] = [
+                'bytesBase64Encoded' => base64_encode($imageFile->getContent()),
+                'mimeType' => $imageFile->getMimeType(),
+            ];
+        }
+
+        if (str_contains($inputModel, '3.')) {
+            switch (true) {
+                case str_contains($inputModel, '1'):
+                    $resolution = '720p'; // 1080p
+                    break;
+                case str_contains($inputModel, '0'):
+                default:
+                    $resolution = '720p';
+                    break;
+            }
+
+            $parameters['resolution'] = $resolution;
+        }
+
+        return [
+            'instances' => $instances,
+            'parameters' => $parameters
+        ];
     }
 }

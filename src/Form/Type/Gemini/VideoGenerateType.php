@@ -7,6 +7,7 @@ use Artcustomer\GeminiClient\Enum\AspectRatio;
 use Artcustomer\GeminiClient\Enum\Model;
 use Artcustomer\GeminiClient\Enum\PersonGeneration;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,15 +20,25 @@ class VideoGenerateType extends AbstractExtendedType
 
     public const FIELD_PROMPT = 'prompt';
     public const FIELD_NEGATIVE_PROMPT = 'negative_prompt';
+    public const FIELD_IMAGE = 'image';
     public const FIELD_MODEL = 'model';
     public const FIELD_ASPECT_RATIO = 'aspect_ratio';
     public const FIELD_PERSON_GENERATION = 'person_generation';
 
     public const FIELD_NAMES = [
         self::FIELD_PROMPT,
+        self::FIELD_NEGATIVE_PROMPT,
+        self::FIELD_IMAGE,
         self::FIELD_MODEL,
         self::FIELD_ASPECT_RATIO,
         self::FIELD_PERSON_GENERATION
+    ];
+
+    public const MODELS = [
+        'VEO 3.1 Preview' => Model::VEO_3_1_GENERATE_PREVIEW,
+        'VEO 3.0' => Model::VEO_3_0_GENERATE_001,
+        'VEO 3.0 Preview' => Model::VEO_3_0_GENERATE_PREVIEW,
+        'VEO 2.0' => Model::VEO_2_0_GENERATE_001,
     ];
 
     public const ASPECT_RATIOS = [
@@ -76,14 +87,25 @@ class VideoGenerateType extends AbstractExtendedType
                 'required' => false,
             ]
         ];
+        $fields[self::FIELD_IMAGE] = [
+            'type' => FileType::class,
+            'options' => [
+                'required' => false,
+                'label' => 'Image file',
+                'attr' => [
+                    'class' => 'form-control mt-1',
+                    'accept' => '.jpg,.jpeg,.png',
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+            ]
+        ];
         $fields[self::FIELD_MODEL] = [
             'type' => ChoiceType::class,
             'options' => [
                 'label' => 'Model',
-                'choices' => [
-                    'VEO 3.0' => Model::VEO_3_0_GENERATE_PREVIEW,
-                    'VEO 2.0' => Model::VEO_2_0_GENERATE_001
-                ],
+                'choices' => self::MODELS,
                 'attr' => [
                     'class' => 'form-control mt-1'
                 ],
