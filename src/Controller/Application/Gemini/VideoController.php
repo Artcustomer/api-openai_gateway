@@ -6,7 +6,6 @@ use App\Controller\Application\AbstractApplicationController;
 use App\Form\Type\Gemini\VideoGenerateType;
 use App\Form\Type\Gemini\VideoRetrieveType;
 use App\Form\Type\Gemini\VideoSummarizeYoutubeType;
-use App\Form\Type\OpenAI\ImageAnalyzeCompletionType;
 use App\Service\GeminiService;
 use Artcustomer\GeminiClient\Enum\Model;
 use Artcustomer\GeminiClient\Utils\ApiInfos;
@@ -57,27 +56,31 @@ class VideoController extends AbstractApplicationController
         $errorMessage = '';
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $inputPrompt = $data[VideoGenerateType::FIELD_PROMPT];
-            $inputModel = $data[VideoGenerateType::FIELD_MODEL];
-            $response = $this->geminiService->getApiGateway()->getVideoConnector()->generate(
-                $inputModel,
-                $this->buildGenerateParameters($data)
-            );
-            $content = $response->getContent();
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $inputPrompt = $data[VideoGenerateType::FIELD_PROMPT];
+                $inputModel = $data[VideoGenerateType::FIELD_MODEL];
+                $response = $this->geminiService->getApiGateway()->getVideoConnector()->generate(
+                    $inputModel,
+                    $this->buildGenerateParameters($data)
+                );
+                $content = $response->getContent();
 
-            if ($response->getStatusCode() === 200) {
-                $operationName = $content->name;
-            } else {
-                $errorMessage = $response->getMessage();
+                if ($response->getStatusCode() === 200) {
+                    $operationName = $content->name;
+                } else {
+                    $errorMessage = $response->getMessage();
 
-                if (empty($errorMessage)) {
-                    if (!empty($content)) {
-                        $errorMessage = $content->error->message ?? '';
+                    if (empty($errorMessage)) {
+                        if (!empty($content)) {
+                            $errorMessage = $content->error->message ?? '';
+                        }
                     }
-                }
 
-                $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
+                    $errorMessage = !empty($errorMessage) ? $errorMessage : $this->trans('error.occurred');
+                }
+            } else {
+                $errorMessage = $this->trans('error.form.not_valid');
             }
         }
 
@@ -208,9 +211,13 @@ class VideoController extends AbstractApplicationController
     {
         $inputPrompt = $data[VideoGenerateType::FIELD_PROMPT];
         $inputModel = $data[VideoGenerateType::FIELD_MODEL];
+        $inputReferenceImages = $data[VideoGenerateType::FIELD_REFERENCE_IMAGES];
 
         /** @var ?UploadedFile $imageFile */
-        $imageFile = $data[ImageAnalyzeCompletionType::FIELD_IMAGE];
+        $imageFile = $data[VideoGenerateType::FIELD_IMAGE];
+
+        /** @var ?UploadedFile $lastFrameFile */
+        $lastFrameFile = $data[VideoGenerateType::FIELD_LAST_FRAME];
 
         $instances = [
             'prompt' => $inputPrompt
@@ -228,18 +235,44 @@ class VideoController extends AbstractApplicationController
             ];
         }
 
+        if (!is_null($lastFrameFile)) {
+            $instances['lastFrame'] = [
+                'bytesBase64Encoded' => base64_encode($lastFrameFile->getContent()),
+                'mimeType' => $lastFrameFile->getMimeType(),
+            ];
+        }
+
+        if (!empty($inputReferenceImages)) {
+            $referenceImages = [];
+
+            /** @var ?UploadedFile $inputReferenceImage */
+            foreach ($inputReferenceImages as $inputReferenceImage) {
+                if (!is_null($inputReferenceImage)) {
+                    $referenceImages[]['image'] = [
+                        'bytesBase64Encoded' => base64_encode($inputReferenceImage->getContent()),
+                        'mimeType' => $inputReferenceImage->getMimeType(),
+                    ];
+                }
+            }
+
+            if (!empty($referenceImages)) {
+                $instances['referenceImages'] = $referenceImages;
+            }
+        }
+
         if (str_contains($inputModel, '3.')) {
+            // For VEO 3.^
             switch (true) {
                 case str_contains($inputModel, '1'):
-                    $resolution = '720p'; // 1080p
+                    // For VEO 3.1
                     break;
                 case str_contains($inputModel, '0'):
                 default:
-                    $resolution = '720p';
+                    // For VEO 3.0
                     break;
             }
 
-            $parameters['resolution'] = $resolution;
+            $parameters['resolution'] = $data[VideoGenerateType::FIELD_RESOLUTION];
         }
 
         return [

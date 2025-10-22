@@ -67,6 +67,7 @@
 'error.occurred': 'An error occurred'
 'error.format.json.invalid': 'The object is not a valid JSON'
 'error.format.json.invalid_structure': 'The JSON object is not well structured'
+'error.form.not_valid': 'Form is not valid'
 'error.form.images.not_defined': 'At least one image has to be defined'
 'error.form.audio.not_defined': 'The audio content is not defined'
 

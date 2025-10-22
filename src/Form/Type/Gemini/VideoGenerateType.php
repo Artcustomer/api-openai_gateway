@@ -3,6 +3,7 @@
 namespace App\Form\Type\Gemini;
 
 use App\Form\Type\AbstractExtendedType;
+use App\Form\Type\Gemini\Partials\ReferenceImagesType;
 use Artcustomer\GeminiClient\Enum\AspectRatio;
 use Artcustomer\GeminiClient\Enum\Model;
 use Artcustomer\GeminiClient\Enum\PersonGeneration;
@@ -21,17 +22,24 @@ class VideoGenerateType extends AbstractExtendedType
     public const FIELD_PROMPT = 'prompt';
     public const FIELD_NEGATIVE_PROMPT = 'negative_prompt';
     public const FIELD_IMAGE = 'image';
+    public const FIELD_LAST_FRAME = 'last_frame';
+    public const FIELD_VIDEO = 'video';
     public const FIELD_MODEL = 'model';
     public const FIELD_ASPECT_RATIO = 'aspect_ratio';
     public const FIELD_PERSON_GENERATION = 'person_generation';
+    public const FIELD_RESOLUTION = 'resolution';
+    public const FIELD_REFERENCE_IMAGES = 'reference_images';
 
     public const FIELD_NAMES = [
         self::FIELD_PROMPT,
         self::FIELD_NEGATIVE_PROMPT,
         self::FIELD_IMAGE,
+        self::FIELD_LAST_FRAME,
+        self::FIELD_VIDEO,
         self::FIELD_MODEL,
         self::FIELD_ASPECT_RATIO,
-        self::FIELD_PERSON_GENERATION
+        self::FIELD_PERSON_GENERATION,
+        self::FIELD_RESOLUTION,
     ];
 
     public const MODELS = [
@@ -47,9 +55,14 @@ class VideoGenerateType extends AbstractExtendedType
     ];
 
     public const PERSON_GENERATIONS = [
-        'Allow all' => PersonGeneration::ALLOW_ALL,
         'Allow adult' => PersonGeneration::ALLOW_ADULT,
+        'Allow all' => PersonGeneration::ALLOW_ALL,
         'Don\'t allow' => PersonGeneration::DONT_ALLOW
+    ];
+
+    public const RESOLUTIONS = [
+        '720' => '720p',
+        '1080' => '1080p',
     ];
 
     /**
@@ -91,7 +104,7 @@ class VideoGenerateType extends AbstractExtendedType
             'type' => FileType::class,
             'options' => [
                 'required' => false,
-                'label' => 'Image file',
+                'label' => 'Image file (to guide video generation)',
                 'attr' => [
                     'class' => 'form-control mt-1',
                     'accept' => '.jpg,.jpeg,.png',
@@ -99,6 +112,27 @@ class VideoGenerateType extends AbstractExtendedType
                 'row_attr' => [
                     'class' => 'mb-3'
                 ],
+            ]
+        ];
+        $fields[self::FIELD_LAST_FRAME] = [
+            'type' => FileType::class,
+            'options' => [
+                'required' => false,
+                'label' => 'Image of the last (to fill the space between)',
+                'attr' => [
+                    'class' => 'form-control mt-1',
+                    'accept' => '.jpg,.jpeg,.png',
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
+            ]
+        ];
+        $fields[self::FIELD_REFERENCE_IMAGES] = [
+            'type' => ReferenceImagesType::class,
+            'options' => [
+                'required' => false,
+                'label' => sprintf('Style and content references (up to %s images)', ReferenceImagesType::NUM_FIELDS),
             ]
         ];
         $fields[self::FIELD_MODEL] = [
@@ -132,6 +166,19 @@ class VideoGenerateType extends AbstractExtendedType
             'options' => [
                 'label' => 'Person generation',
                 'choices' => self::PERSON_GENERATIONS,
+                'attr' => [
+                    'class' => 'form-control mt-1'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ]
+            ]
+        ];
+        $fields[self::FIELD_RESOLUTION] = [
+            'type' => ChoiceType::class,
+            'options' => [
+                'label' => 'Resolution',
+                'choices' => self::RESOLUTIONS,
                 'attr' => [
                     'class' => 'form-control mt-1'
                 ],
