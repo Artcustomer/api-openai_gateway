@@ -14,6 +14,45 @@
 }
 
 /*--------------------------------------------------------------
+# Resources > Links
+--------------------------------------------------------------*/
+.template-links .links-list .post-item {
+    display: table;
+}
+
+.template-links .links-list .post-item+.post-item {
+    margin-top: 15px;
+}
+
+.template-links .links-list img {
+    width: 80px;
+    float: left;
+    border-radius: 5px;
+}
+
+.template-links .links-list h4 {
+    font-size: 15px;
+    margin-left: 95px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.template-links .links-list h4 a {
+    color: #012970;
+    transition: 0.3s;
+}
+
+.template-links .links-list h4 a:hover {
+    color: #4154f1;
+}
+
+.template-links .links-list p {
+    font-size: 14px;
+    color: #777777;
+    margin-left: 95px;
+}
+
+/*--------------------------------------------------------------
 # COMPONENT openai-feature-audio-completion
 --------------------------------------------------------------*/
 .openai-feature-audio-completion {

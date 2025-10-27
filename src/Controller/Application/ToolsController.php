@@ -57,4 +57,21 @@ class ToolsController extends AbstractApplicationController
             ]
         );
     }
+
+    /**
+     * @Route("/links", name="application_toolbox_tools_links", methods={"GET"})
+     *
+     * @return Response
+     */
+    public function links(): Response
+    {
+        $data = $this->promptService->getLinks();
+
+        return $this->render(
+            'application/tools/links.html.twig',
+            [
+                'data' => $data,
+            ]
+        );
+    }
 }

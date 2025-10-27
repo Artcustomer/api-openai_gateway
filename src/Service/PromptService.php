@@ -98,6 +98,18 @@ class PromptService
     }
 
     /**
+     * @return array
+     */
+    public function getLinks(): array
+    {
+        return [
+            $this->linkFactory('OpenAI Cookbook', 'Explore practical guides and recipes for using OpenAI models effectively.', 'https://cookbook.openai.com/'),
+            $this->linkFactory('prompts.chat', 'World\'s First & Most Famous Prompts Directory.', 'https://prompts.chat/'),
+            $this->linkFactory('200 advanced prompts', 'Free prompts provided by Jerome Dron.', 'https://docs.google.com/spreadsheets/d/1PEO7t06UzSjtG_QgbqYp22YpVnyseYM0Fxv2sVb0Mj8/edit?pli=1&gid=1135004812#gid=1135004812')
+        ];
+    }
+
+    /**
      * Sample factory
      *
      * @param string $title
@@ -126,6 +138,21 @@ class PromptService
         }
 
         return $data;
+    }
+
+    /**
+     * @param string $title
+     * @param string $description
+     * @param string $link
+     * @return string[]
+     */
+    private function linkFactory(string $title, string $description, string $link): array
+    {
+        return [
+            'title' => $title,
+            'description' => $description,
+            'link' => $link,
+        ];
     }
 }
 

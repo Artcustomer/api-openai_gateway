@@ -219,8 +219,9 @@ class NavigationService
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'gemini-list_models', 'main_menu.list_models', null, 'application_gemini_tools_models_list')
             )),
             $this->itemFactory(self::NAV_TYPE_HEADING, 'toolbox-heading', 'main_menu.toolbox'),
-            $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-tools-nav', 'main_menu.tools', 'bi-tools', null, array_merge(
-                $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-samples', 'main_menu.tools.prompt_samples', null, 'application_toolbox_tools_promptssamples')
+            $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-tools-nav', 'main_menu.resources', 'bi-tools', null, array_merge(
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-samples', 'main_menu.tools.prompt_samples', null, 'application_toolbox_tools_promptssamples'),
+                $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-links', 'main_menu.tools.links', null, 'application_toolbox_tools_links'),
             )),
             $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-sandbox-nav', 'main_menu.sandbox', 'bi-tools', null, array_merge(
                 $this->itemFactory(self::NAV_TYPE_ITEM, 'toolbox-testing', 'main_menu.sandbox.testing', null, 'application_toolbox_sandbox_testing')
